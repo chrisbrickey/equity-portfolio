@@ -8,4 +8,4 @@ env/
 *.pyc
 
 # environment variables
-app-env
+secrets.py
