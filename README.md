@@ -13,11 +13,14 @@ Xyzzzzzzzzzzzzzz
 
 ## Future Development
 
-#### A
-Xyzzzzzzzzzzzzzz
+#### Up/Down Indicator
+Alongside the last trade price show, user sees a green up arrow or red down arrow depending on whether it's gone up or down since the last quote
 
-#### B
-Xyzzzzzzzzzzzzzz
+#### Currency Conversion
+User can view values in currencies other than USD
+
+#### Multiple Markets
+User can access other securities markets
 
 
 ## Technology
