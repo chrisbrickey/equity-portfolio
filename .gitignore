@@ -6,3 +6,6 @@ env/
 
 # python source files
 *.pyc
+
+# environment variables
+app-env
