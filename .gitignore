@@ -3,3 +3,6 @@
 
 # virtual environment
 env/
+
+# python source files
+*.pyc
