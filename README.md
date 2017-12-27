@@ -1,4 +1,4 @@
-# stock-trading
+# Stock Tracker
 Xyzzzzzzzzzzzzzz
 
 
@@ -24,16 +24,17 @@ User can access other securities markets
 
 
 ## Technology
-Stock-trading is a single-page web application that utilizes a Django backend and *tbd* frontend.
-- python x.x.x
-- Django x.x.x
-- Django Rest Framework x.x.x
+Stock Tracker is a single-page web application that utilizes a Django backend and *tbd* frontend.
+- python 2.7.10
+- django 1.11 (latest version using python 2.7)
+- django Rest Framework 3.7.7
+- psycopg2 2.7.3.2 (package for working with Postgres)
 
 *See requirements.txt and requirements-dev.txt for full list of dependencies.*
 
 
 ## Run the Program
-- Open virtual environment: `. venv/bin/activate`
+- Open virtual environment: `. env/bin/activate`
 - Install dependencies: `pip install -r requirements.txt`
 - Migrate the database: `./manage.py makemigrations` then `./manage.py migrate`
 - Load data from seed: `./manage.py loaddata initdata.json`
