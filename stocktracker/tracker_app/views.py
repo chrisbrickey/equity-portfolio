@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from rest_framework import generics, renderers
+from django.template import loader
 
 from .models import Stock
 from .serializers import StockSerializer
@@ -37,13 +38,17 @@ def api_root(request, format=None):
 #playing around with frontend
 def index(request):
     stock_list = Stock.objects.order_by('symbol')[:100] #pulls first 100 stocks based on symbol ABC order
-    stock_string = ', '.join([stock.symbol for stock in stock_list])
-    response = "Here is a list of all stocks in our database:\n" + stock_string
-    return HttpResponse(response)
+    context = {'stock_list': stock_list}
+    # template = loader.get_template('stocks/index.html')
+    # return HttpResponse(template.render(context, request))
+    #arguments required for render: input request, path to template you want to render, context=variables you need to pass to template
+    return render(request, 'stocks/index.html', context)
+
 
 def custom_method_test(request, query_string):
     response = "custom method received: {0}"
     return HttpResponse(response.format(query_string))
+
 
 def retrieve_stock_detail(request, stock_sym):
     try:
@@ -53,6 +58,7 @@ def retrieve_stock_detail(request, stock_sym):
 
     response = "Symbol: {0}, Name: {1}, Price: {2}, Shares Owned: {3}"
     return HttpResponse(response.format(s.symbol, s.company_name, s.last_trade_price, s.shares_owned))
+
 
 def alpha_vantage_demo(request, time_frequency): #5min
     api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval={0}&apikey=Z8GRK4D67R58DDGC".format(time_frequency)
