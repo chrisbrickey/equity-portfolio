@@ -1,4 +1,4 @@
-#
+#Browsable API URLs
 from django.conf.urls import url, include
 from . import views
 from rest_framework.urlpatterns import format_suffix_patterns
