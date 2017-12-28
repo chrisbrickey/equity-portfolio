@@ -22,9 +22,14 @@ urlpatterns = [
     url(r'^api/', include('tracker_app.urls')),
     url(r'^admin/', admin.site.urls),
 
+    url(r'^stocks/$', views.index, name='index'),
+    url(r'^stocks/(?P<pk>[0-9]+)/$', views.detail, name='detail'),
+
     url(r'^custom/(?P<query_string>.+)/$', views.custom_method_test, name='custom'),
     url(r'^retrieve/(?P<stock_sym>.+)/$', views.retrieve_stock_detail, name='manual-detail'),
     url(r'^alpha/(?P<time_frequency>.+)/$', views.alpha_vantage_demo, name='alpha-demo'),
+
+
     url(r'^$', views.index, name='index'),
 
 ]

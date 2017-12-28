@@ -41,8 +41,24 @@ def index(request):
     context = {'stock_list': stock_list}
     # template = loader.get_template('stocks/index.html')
     # return HttpResponse(template.render(context, request))
+
     #arguments required for render: input request, path to template you want to render, context=variables you need to pass to template
     return render(request, 'stocks/index.html', context)
+
+
+def detail(request, pk):
+    try:
+        stock = Stock.objects.get(pk=pk)
+        # stock = Stock.objects.get(symbol=stock_symbol)
+    except Stock.DoesNotExist:
+        raise Http404("That stock does not exist in our database.")
+
+    context = {'stock': stock}
+    return render(request, 'stocks/detail.html', context)
+
+
+
+
 
 
 def custom_method_test(request, query_string):
