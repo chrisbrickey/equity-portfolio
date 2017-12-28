@@ -24,6 +24,7 @@ urlpatterns = [
 
     url(r'^custom/(?P<query_string>.+)/$', views.custom_method_test, name='custom'),
     url(r'^retrieve/(?P<stock_sym>.+)/$', views.retrieve_stock_detail, name='manual-detail'),
+    url(r'^alpha/(?P<time_frequency>.+)/$', views.alpha_vantage_demo, name='alpha-demo'),
     url(r'^$', views.index, name='index'),
 
 ]

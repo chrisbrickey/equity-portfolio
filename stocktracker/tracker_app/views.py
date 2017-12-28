@@ -12,6 +12,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
+import requests
+
 
 class StockList(generics.ListCreateAPIView):
     queryset = Stock.objects.all()
@@ -40,8 +42,8 @@ def index(request):
     return HttpResponse(response)
 
 def custom_method_test(request, query_string):
-    response = "custom method received: %s"
-    return HttpResponse(response % query_string)
+    response = "custom method received: {0}"
+    return HttpResponse(response.format(query_string))
 
 def retrieve_stock_detail(request, stock_sym):
     try:
@@ -51,3 +53,9 @@ def retrieve_stock_detail(request, stock_sym):
 
     response = "Symbol: {0}, Name: {1}, Price: {2}, Shares Owned: {3}"
     return HttpResponse(response.format(s.symbol, s.company_name, s.last_trade_price, s.shares_owned))
+
+def alpha_vantage_demo(request, time_frequency): #5min
+    api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval={0}&apikey=Z8GRK4D67R58DDGC".format(time_frequency)
+    response = requests.get(api_call)
+    return HttpResponse(response.text)
+    # return HttpResponse(response.json())
