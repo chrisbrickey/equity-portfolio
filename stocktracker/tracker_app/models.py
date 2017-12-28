@@ -13,7 +13,7 @@ STYLE_CHOICES = sorted((item, item) for item in get_all_styles())
 class Portfolio(models.Model):
 
     name = models.CharField(max_length=200, unique=True, blank=False)  #not appropriate for a system with multiple users
-    timestamp_last_updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    timestamp_last_updated = models.DateTimeField(auto_now=True, auto_now_add=False, blank=True, null=True)
     timestamp_created = models.DateTimeField(auto_now_add=True, auto_now=False)
 
     def __str__(self):
@@ -42,7 +42,7 @@ class Stock(models.Model):
 
     #below two should be combined in final version (e.g. update last_trade_price if last_updated == created OR last_updated > 5 seconds ago)
     last_trade_time = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
-    timestamp_last_updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    timestamp_last_updated = models.DateTimeField(auto_now=True, auto_now_add=False, blank=True, null=True)
 
     #below three are not appropriate for systems with multiple users or portfolios
     portfolio = models.ForeignKey(Portfolio, on_delete=models.PROTECT, blank=True, null=True)
