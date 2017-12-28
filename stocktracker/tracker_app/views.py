@@ -45,13 +45,23 @@ def api_root(request, format=None):
 
 
 # FRONTEND
+def portfolio_horace(request):
+    horace_portfolio = Portfolio.objects.filter(name="Horace") #pulls first 100 stocks based on symbol ABC order
+
+    if horace_portfolio.exists():
+        context = {'portfolio': horace_portfolio[0]}
+        return render(request, 'portfolios/horace.html', context)
+    else:
+        raise Http404("We can't find Horace's portfolio in our database.")
+
+
+
 def stock_index(request):
     stock_list = Stock.objects.order_by('symbol')[:100] #pulls first 100 stocks based on symbol ABC order
     context = {'stock_list': stock_list}
 
     #arguments required for render: input request, path to template you want to render, context=variables you need to pass to template
     return render(request, 'stocks/index.html', context)
-
 
 def stock_detail(request, pk):
     try:
@@ -63,6 +73,23 @@ def stock_detail(request, pk):
     context = {'stock': stock}
     return render(request, 'stocks/detail.html', context)
 
+
+
+# IMPLEMENT BELOW FOR SYSTEM WITH MULTIPLE PORTFOLIOS
+# def portfolio_index(request):
+#     portfolio_list = Portfolio.objects.order_by('name')[:100] #pulls first 100 portfolios based on name ABC order
+#     context = {'portfolio_list': portfolio_list}
+#     return render(request, 'portfolios/index.html', context)
+
+# def portfolio_detail(request, pk):
+#     try:
+#         portfolio = Portfolio.objects.get(pk=pk)
+#         # portfolio = Portfolio.objects.get(name=portfolio_name)
+#     except Portfolio.DoesNotExist:
+#         raise Http404("That portfolio does not exist in our database.")
+#
+#     context = {'portfolio': portfolio}
+#     return render(request, 'portfolios/detail.html', context)
 
 
 # EXPERIMENTS

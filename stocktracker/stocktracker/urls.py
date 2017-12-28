@@ -23,8 +23,10 @@ urlpatterns = [
     url(r'^api/', include('tracker_app.urls')),
     url(r'^admin/', admin.site.urls),
 
-    #below urls are separate from api and admin
-    #change functions on views to stock_index and stock_detail if need to also build separate views for portfolios
+    # implement below for system with multiple portfolios
+    # url(r'^portfolios/$', views.portfolio_index, name='index'),
+    # url(r'^portfolios/(?P<pk>[0-9]+)/$', views.portfolio_detail, name='detail'),
+
     url(r'^stocks/$', views.stock_index, name='index'),
     url(r'^stocks/(?P<pk>[0-9]+)/$', views.stock_detail, name='detail'),
 
@@ -32,7 +34,6 @@ urlpatterns = [
     url(r'^retrieve/(?P<stock_sym>.+)/$', views.retrieve_stock_detail, name='manual-detail'),
     url(r'^alpha/(?P<time_frequency>.+)/$', views.alpha_vantage_demo, name='alpha-demo'),
 
-
-    url(r'^$', views.stock_index, name='index'),
+    url(r'^$', views.portfolio_horace, name='horace'),  #the top level shows Horace's portfolio detail
 
 ]
