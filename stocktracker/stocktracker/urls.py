@@ -21,6 +21,8 @@ urlpatterns = [
 
     url(r'^api/', include('tracker_app.urls')),
     url(r'^admin/', admin.site.urls),
+
+    url(r'^custom/(?P<query_string>.+)/$', views.custom_method_test, name='custom'),
     url(r'^$', views.index, name='index'),
 
 ]
