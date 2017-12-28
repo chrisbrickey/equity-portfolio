@@ -1,12 +1,14 @@
 from rest_framework import serializers
 from .models import Stock, LANGUAGE_CHOICES, STYLE_CHOICES
 
-class StockSerializer(serializers.ModelSerializer):
-    #ModelSerializer classes use default versions of create() and update()
+
+#previously used ModelSerializer as inheriting class which uses default versions of create() and update()
+class StockSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Stock
-        fields = ('id',
+        fields = ('url',        #we get this from HyperlinkedIdentityField
+                  'id',
                   'symbol',
                   'company_name',
                   'last_trade_price',
