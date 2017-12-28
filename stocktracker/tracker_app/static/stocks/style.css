@@ -68,11 +68,13 @@ table {
 
 /*beginning of custom CSS*/
 
-/* $exchange-blue: #52CCF2;
-$exchange-purple: #131AA0; */
+/*
+$exchange-blue: #52CCF2;
+$exchange-purple: #131AA0;
+*/
 
 main {
-  background-color: black;
+  background-color: #131AA0;
   width: 100%;
   height: 100vh;
   overflow-y: auto;
@@ -92,6 +94,7 @@ main {
 h1 {
   font-size: 2.5em;
   letter-spacing: 2px;
+  color: #131AA0;
 }
 
 h2 {
@@ -131,14 +134,14 @@ h6 {
 }
 
 #headline {
-  background-color: gray;
+  /* background-color: pink; */
   margin: 20px 10px 5px 0px;
   padding: 5px 10px 5px 0px;
   display: flex;
 }
 
 #landingPage {
-  background-color: #131AA0;
+  background-color: lightgreen;
   width: 100%;
   margin: 0px 10px 0px 10px;
   padding: 5px 10px 5px 10px;
