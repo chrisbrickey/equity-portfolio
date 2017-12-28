@@ -13,9 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
 from django.contrib import admin
+from django.conf.urls import url, include
 
 urlpatterns = [
+
+    url(r'^', include('tracker_app.urls')),
     url(r'^admin/', admin.site.urls),
+
+    # url(r'^api/', include(tracker_app_urls)),
+    # url(r'^$', views.index, name='index'),  OR  url(r'^$', views.landing_page), #use later for landing page
+    # url(r'^', include(router.urls)), #catch-all, covers all registered default routers, should be last on list of URLs
+
 ]
