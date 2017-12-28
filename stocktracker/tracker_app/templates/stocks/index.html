@@ -41,7 +41,7 @@
               <br />
                 <ul>
                 {% for stock in stock_list %}
-                    <li><a href="/api/stocks/{{ stock.id }}/">{{ stock.symbol }}</a></li>
+                    <li><a href="/stocks/{{ stock.id }}/">{{ stock.symbol }}</a></li>
                 {% endfor %}
                 </ul>
             {% else %}
