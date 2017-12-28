@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'^custom/(?P<query_string>.+)/$', views.custom_method_test, name='custom'),
+    url(r'^retrieve/(?P<stock_sym>.+)/$', views.retrieve_stock_detail, name='manual-detail'),
     url(r'^$', views.index, name='index'),
 
 ]

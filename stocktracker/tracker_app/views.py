@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from rest_framework import generics, renderers
 
 from .models import Stock
@@ -42,3 +42,12 @@ def index(request):
 def custom_method_test(request, query_string):
     response = "custom method received: %s"
     return HttpResponse(response % query_string)
+
+def retrieve_stock_detail(request, stock_sym):
+    try:
+        s = Stock.objects.get(symbol=stock_sym)
+    except Stock.DoesNotExist:
+        raise Http404("Stock does not exist")
+
+    response = "Symbol: {0}, Name: {1}, Price: {2}, Shares Owned: {3}"
+    return HttpResponse(response.format(s.symbol, s.company_name, s.last_trade_price, s.shares_owned))
