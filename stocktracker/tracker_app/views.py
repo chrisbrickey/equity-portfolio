@@ -5,8 +5,8 @@ from django.http import HttpResponse, Http404
 from rest_framework import generics, renderers
 from django.template import loader
 
-from .models import Stock
-from .serializers import StockSerializer
+from .models import Portfolio, Stock
+from .serializers import PortfolioSerializer, StockSerializer
 
 # for API Root
 from rest_framework.decorators import api_view
@@ -16,10 +16,18 @@ from rest_framework.reverse import reverse
 import requests
 
 
+class PortfolioList(generics.ListCreateAPIView):
+    queryset = Portfolio.objects.all()
+    serializer_class = PortfolioSerializer
+
+
+class PortfolioDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Portfolio.objects.all()
+    serializer_class = PortfolioSerializer
+
 class StockList(generics.ListCreateAPIView):
     queryset = Stock.objects.all()
     serializer_class = StockSerializer
-
 
 class StockDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Stock.objects.all()
@@ -29,6 +37,7 @@ class StockDetail(generics.RetrieveUpdateDestroyAPIView):
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
+        'portfolios': reverse('portfolio-list', request=request, format=format),
         'stocks': reverse('stock-list', request=request, format=format)
     })
 

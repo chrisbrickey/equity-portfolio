@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^api/', include('tracker_app.urls')),
     url(r'^admin/', admin.site.urls),
 
+    #change functions on views to stock_index and stock_detail if need to also build separate views for portfolios
     url(r'^stocks/$', views.index, name='index'),
     url(r'^stocks/(?P<pk>[0-9]+)/$', views.detail, name='detail'),
 
