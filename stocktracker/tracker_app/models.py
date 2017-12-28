@@ -19,6 +19,7 @@ class Stock(models.Model):
 
     #placing shares owned within Stock model is not appropriate for multiple users/portfolios
     shares_owned = models.DecimalField(max_digits=19, decimal_places=3, default=Decimal('0.000'), blank=False)
+    market_value = models.DecimalField(max_digits=19, decimal_places=3, default=Decimal('0.000'), blank=False)
 
     #below two should be combined in final version (e.g. update last_trade_price if last_updated == created OR last_updated > 5 seconds ago)
     last_trade_time = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
@@ -27,6 +28,8 @@ class Stock(models.Model):
     # field to display on Django admin and whenever using string representation of entire object; must be unique
     def __str__(self):
         return self.symbol
+
+    #add method to update market_value when shares_owned changes
 
 
 # implement below model for multiple users/portfolios
