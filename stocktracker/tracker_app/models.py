@@ -14,16 +14,15 @@ class Stock(models.Model):
 
     company_name = models.CharField(max_length=200, blank=True)
     symbol = models.CharField(max_length=20, unique=True, blank=False)
-    last_trade_price = models.DecimalField(max_digits=19, decimal_places=3, blank=True)
+    last_trade_price = models.DecimalField(max_digits=19, decimal_places=3, blank=True, null=True)
     timestamp_created = models.DateTimeField(auto_now_add=True, auto_now=False)
 
     #placing shares owned within Stock model is not appropriate for multiple users/portfolios
     shares_owned = models.DecimalField(max_digits=19, decimal_places=3, default=Decimal('0.000'), blank=False)
 
-    #below two should be combined in final version
-    last_trade_time = models.DateTimeField(auto_now=False, auto_now_add=False)
+    #below two should be combined in final version (e.g. update last_trade_price if last_updated == created OR last_updated > 5 seconds ago)
+    last_trade_time = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
     timestamp_last_updated = models.DateTimeField(auto_now=True, auto_now_add=False)
-
 
     # field to display on Django admin and whenever using string representation of entire object; must be unique
     def __str__(self):
