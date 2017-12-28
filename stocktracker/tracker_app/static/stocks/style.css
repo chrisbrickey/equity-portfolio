@@ -1,0 +1,203 @@
+/* RESET CSS
+   http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, button, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+ margin: 0;
+ padding: 0;
+ border: 0;
+ font-size: 100%;
+ font: inherit;
+ vertical-align: baseline;
+ background-color: transparent;
+ text-decoration: none;
+}
+
+input[type="placeholder"],
+input[type="password"],
+input[type="text"],
+input[type="submit"],
+textarea,
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+/* textarea, input, button { outline: none; } */
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+ display: block;
+}
+body {
+ line-height: 1;
+}
+ol, ul {
+ list-style: none;
+}
+blockquote, q {
+ quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+ content: '';
+ content: none;
+}
+table {
+ border-collapse: collapse;
+ border-spacing: 0;
+}
+
+
+/*beginning of custom CSS*/
+
+/* $exchange-blue: #52CCF2;
+$exchange-purple: #131AA0; */
+
+main {
+  background-color: black;
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* overflow: auto; */
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 1px;
+  line-height: 120%;
+  font-size: 90%;
+  color: white;
+}
+
+h1 {
+  font-size: 2.5em;
+  letter-spacing: 2px;
+}
+
+h2 {
+  font-size: 1.75em;
+  text-decoration: bold;
+}
+
+h3 {
+  font-size: 1.5em;
+  text-decoration: bold;
+}
+
+h4 {
+  font-size: 1.25em;
+  text-decoration: bold;
+}
+
+h5 {
+
+}
+
+h6 {
+  /* used for footer */
+  font-size: 0.75em;
+}
+
+
+#header {
+  background-color: #52CCF2;
+  width: 100%;
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+}
+
+#headline {
+  background-color: gray;
+  margin: 20px 10px 5px 0px;
+  padding: 5px 10px 5px 0px;
+  display: flex;
+}
+
+#landingPage {
+  background-color: #131AA0;
+  width: 100%;
+  margin: 0px 10px 0px 10px;
+  padding: 5px 10px 5px 10px;
+
+  flex: 1;
+
+  /* display: flex; */
+  /* flex-direction: column;
+  justify-content: left;
+  align-items: left;  */
+}
+
+#landingPage a {
+  text-decoration: underline;
+  color: white;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+#footer {
+  /* background-color: pink; */
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  margin: 0px 5px 10px 5px;
+  padding: 5px;
+  display: flex;
+}
+
+#footline {
+  background-color: gray;
+  margin: 10px;
+  padding: 10px;
+
+  width: 200px;
+  border-width: 0px;
+  transition: background-color 0.5s ease;
+  text-align: center;
+  font-weight: 600;
+  font-size: 120%;
+  line-height: 15px;
+  border-radius: 3px;
+  margin-bottom: 0px;
+  cursor:pointer;
+
+}
+
+#footline:active {
+  background-color: white;
+}
+
+#footer a {
+  color: white;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.padding {
+  height: 5px;
+}

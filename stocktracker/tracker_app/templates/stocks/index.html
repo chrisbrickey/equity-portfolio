@@ -1,12 +1,61 @@
-{% if stock_list %}
-  <p>List of all stocks in database:</p>
-    <ul>
-    {% for stock in stock_list %}
-        <li><a href="/api/stocks/{{ stock.id }}/">{{ stock.symbol }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>Sorry, there are no stocks available at this time.</p>
-{% endif %}
-<br />
-<a href="/api/">Browsable API</a>
+
+
+<head>
+    <meta charset="utf-8">
+    <title>Stock Tracker</title>
+    <link
+        rel="icon"
+        href="https://res.cloudinary.com/dckkkjkuz/image/upload/v1514438963/dollar_nvldfi.png"
+        type="image/x-icon"/>
+
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Montserrat" >
+
+    {% load static %}
+    <link
+        rel="stylesheet"
+        href="{% static 'stocks/style.css' %}"
+        type="text/css" />
+
+
+</head>
+
+<body>
+    <main>
+
+
+        <section id="header">
+          <div id="headline"><h1>Stock Tracker</h1></div>
+        </section>
+
+
+        <section id="landingPage">
+
+            {% if stock_list %}
+              <h3>List of all stocks in database:</h3>
+              <br />
+                <ul>
+                {% for stock in stock_list %}
+                    <li><a href="/api/stocks/{{ stock.id }}/">{{ stock.symbol }}</a></li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <h3>Sorry, there are no stocks available at this time.</h3>
+            {% endif %}
+
+        </section>
+
+
+        <section id="footer">
+
+            <div id="footline">
+                <h6><a href="/api/">Browsable API</a></h6>
+            </div>
+
+            <div class="padding"></div>
+        </section>
+
+
+    </main>
+</body>
