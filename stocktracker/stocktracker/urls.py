@@ -15,12 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf.urls import url, include
+from tracker_app import views   #for frontend only
 
 urlpatterns = [
 
     url(r'^api/', include('tracker_app.urls')),
     url(r'^admin/', admin.site.urls),
-    # url(r'^$', views.index, name='index'),  OR  url(r'^$', views.landing_page), #use later for landing page
-    # url(r'^', include(router.urls)), #catch-all, covers all registered default routers, should be last on list of URLs
+    url(r'^$', views.index, name='index'),
 
 ]

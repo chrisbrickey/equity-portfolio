@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.shortcuts import render
+from django.http import HttpResponse
 from rest_framework import generics, renderers
 
 from .models import Stock
@@ -25,3 +26,6 @@ def api_root(request, format=None):
     return Response({
         'stocks': reverse('stock-list', request=request, format=format)
     })
+
+def index(request):
+    return HttpResponse("i'm in control")
