@@ -12,20 +12,23 @@ STYLE_CHOICES = sorted((item, item) for item in get_all_styles())
 
 class Portfolio(models.Model):
 
-    #unique portfolio names are not appropriate for a system with multiple users
-    name = models.CharField(max_length=200, unique=True, blank=False)
+    name = models.CharField(max_length=200, unique=True, blank=False)  #not appropriate for a system with multiple users
     timestamp_last_updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp_created = models.DateTimeField(auto_now_add=True, auto_now=False)
 
     def __str__(self):
         return self.name
 
-    #limits portfolio size to 5 stocks
-    def add_stock(self, stock):
+    #limits portfolio size to 5 stocks and ensures that stocks are not duplicated
+    def add_stock(self, new_stock):
         if self.stock_set.count() >= 5:
             raise Exception("You already have 5 stocks in this portfolio.")
 
-        self.stock_set.add(stock)
+        for old_stock in self.stock_set.all():
+            if old_stock.id == new_stock.id:
+                raise Exception("That stock is already in this portfolio.")
+
+        self.stock_set.add(new_stock)
 
 
 class Stock(models.Model):
@@ -35,7 +38,7 @@ class Stock(models.Model):
     last_trade_price = models.DecimalField(max_digits=19, decimal_places=3, blank=True, null=True)
     timestamp_created = models.DateTimeField(auto_now_add=True, auto_now=False)
 
-    #placing shares owned and portfolio within Stock model is not appropriate for multiple users/portfolios
+    #below are not appropriate for systems with multiple users or portfolios
     portfolio = models.ForeignKey(Portfolio, on_delete=models.PROTECT, blank=True, null=True)
     shares_owned = models.DecimalField(max_digits=19, decimal_places=3, default=Decimal('0.000'), blank=False)
     market_value = models.DecimalField(max_digits=19, decimal_places=3, default=Decimal('0.000'), blank=False)
@@ -44,7 +47,6 @@ class Stock(models.Model):
     last_trade_time = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
     timestamp_last_updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
-    # field to display on Django admin and whenever using string representation of entire object; must be unique
     def __str__(self):
         return self.symbol
 
