@@ -32,6 +32,10 @@
 
         <section id="landingPage">
 
+
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+
             {% if stock_list %}
               <h3>List of all stocks in database:</h3>
               <br />
@@ -43,6 +47,35 @@
             {% else %}
                 <h3>Sorry, there are no stocks available at this time.</h3>
             {% endif %}
+
+
+            </br>
+            </br>
+
+
+            <h3>This form takes the pk and is still making a query string instead of regular route....</h3>
+            <form action="stocks/{{ stock_id }}/" method="get">
+                <label for="stock_id">Type stock id here: </label>
+                <input id="whatevs" name="s" type="text" value="{{ stock_id }}">
+                <input type="submit" value="Get Stock Details">
+            </form>
+
+            </br>
+
+            <h3>This form makes a query string with the symbol....</h3>
+            <form action="retrieve/{{ stock_sym }}" method="get">
+                <label for="stock_sym">Type stock symbol here: </label>
+                <input id="whatevs" name="s" type="text" value="{{ stock_sym }}">
+                <input type="submit" value="Get Stock Details">
+            </form>
+
+
+
+
+
+
+
+
 
         </section>
 
