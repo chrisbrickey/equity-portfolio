@@ -20,6 +20,13 @@ class Portfolio(models.Model):
     def __str__(self):
         return self.name
 
+    #limits portfolio size to 5 stocks
+    def add_stock(self, stock):
+        if self.stock_set.count() >= 5:
+            raise Exception("You already have 5 stocks in this portfolio.")
+
+        self.stock_set.add(stock)
+
 
 class Stock(models.Model):
 
