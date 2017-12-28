@@ -16,6 +16,7 @@ from rest_framework.reverse import reverse
 import requests
 
 
+# BROWSABLE API
 class PortfolioList(generics.ListCreateAPIView):
     queryset = Portfolio.objects.all()
     serializer_class = PortfolioSerializer
@@ -43,19 +44,16 @@ def api_root(request, format=None):
 
 
 
-
-#playing around with frontend
-def index(request):
+# FRONTEND
+def stock_index(request):
     stock_list = Stock.objects.order_by('symbol')[:100] #pulls first 100 stocks based on symbol ABC order
     context = {'stock_list': stock_list}
-    # template = loader.get_template('stocks/index.html')
-    # return HttpResponse(template.render(context, request))
 
     #arguments required for render: input request, path to template you want to render, context=variables you need to pass to template
     return render(request, 'stocks/index.html', context)
 
 
-def detail(request, pk):
+def stock_detail(request, pk):
     try:
         stock = Stock.objects.get(pk=pk)
         # stock = Stock.objects.get(symbol=stock_symbol)
@@ -67,9 +65,7 @@ def detail(request, pk):
 
 
 
-
-
-
+# EXPERIMENTS
 def custom_method_test(request, query_string):
     response = "custom method received: {0}"
     return HttpResponse(response.format(query_string))
