@@ -1,36 +1,21 @@
 # Stock Tracker
-Xyzzzzzzzzzzzzzz
-
+Stock Tracker is a single-page web application that utilizes a Django for both front and back end as well as Django Rest Framework to provide a browsable API.
 
 ## Features Highlight
 
-#### A
-Xyzzzzzzzzzzzzzz
+#### Browsable API
+Non-technical users may interact only with the templates, but a fully hyperlinked, browsable API is also available using the /api path.
 
-#### B
-Xyzzzzzzzzzzzzzz
+#### What else?
+XXX
 
-
-## Future Development
-
-#### Up/Down Indicator
-Alongside the last trade price show, user sees a green up arrow or red down arrow depending on whether it's gone up or down since the last quote
-
-#### Currency Conversion
-User can view values in currencies other than USD
-
-#### Multiple Markets
-User can access other securities markets
 
 
 ## Technology
-Stock Tracker is a single-page web application that utilizes a Django backend and *tbd* frontend.
-- python 2.7.10
-- django 1.11 (latest version using python 2.7)
-- django Rest Framework 3.7.7
-- psycopg2 2.7.3.2 (package for working with Postgres)
-
-*See requirements.txt and requirements-dev.txt for full list of dependencies.*
+*See requirements.txt for full list of dependencies.*
+- Python 2.7.10
+- Django 1.11 (latest version using python 2.7)
+- Django Rest Framework 3.7.7
 
 
 ## Run the Program
@@ -43,3 +28,11 @@ Stock Tracker is a single-page web application that utilizes a Django backend an
 
 ## Troubleshooting
 - If static files are not running locally: `./manage.py collectstatic`
+
+
+## Future Development
+- Multiple Portfolios: Users can own multiple portfolios
+- Authentication: System can handle multiple users and provide reasonable level of security.
+- Up/Down Indicator: Alongside the last trade price show, user sees a green up arrow or red down arrow depending on whether it's gone up or down since the last quote
+- Currency Conversion: User can view values in currencies other than USD
+- Multiple Markets: User can access other securities markets
