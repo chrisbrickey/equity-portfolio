@@ -18,10 +18,8 @@ from django.conf.urls import url, include
 
 urlpatterns = [
 
-    url(r'^', include('tracker_app.urls')),
+    url(r'^api/', include('tracker_app.urls')),
     url(r'^admin/', admin.site.urls),
-
-    # url(r'^api/', include(tracker_app_urls)),
     # url(r'^$', views.index, name='index'),  OR  url(r'^$', views.landing_page), #use later for landing page
     # url(r'^', include(router.urls)), #catch-all, covers all registered default routers, should be last on list of URLs
 
