@@ -96,7 +96,9 @@ def add_stock(request, symbol):
     horace_portfolio = Portfolio.objects.get(name="Horace")
     horace_portfolio.add_stock(new_stock)
 
-    return render(request, 'portfolios/horace.html')
+    horace_stock_queryset = horace_portfolio.stock_set.all()
+    context = {'portfolio': horace_portfolio, 'stock_set': horace_stock_queryset}
+    return render(request, 'portfolios/horace.html', context)
 
 
 def stock_index(request):
@@ -134,14 +136,3 @@ def stock_detail(request, pk):
 #
 #     context = {'portfolio': portfolio}
 #     return render(request, 'portfolios/detail.html', context)
-
-
-# EXPERIMENTS
-def retrieve_stock_detail(request, stock_sym):
-    try:
-        s = Stock.objects.get(symbol=stock_sym)
-    except Stock.DoesNotExist:
-        raise Http404("Stock does not exist")
-
-    response = "Symbol: {0}, Name: {1}, Price: {2}, Shares Owned: {3}"
-    return HttpResponse(response.format(s.symbol, s.last_trade_price, s.shares_owned))
