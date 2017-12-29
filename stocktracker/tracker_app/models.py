@@ -55,12 +55,16 @@ class Stock(models.Model):
 
     #updates shares_owned and market_value; last_trade_price must be populated for this to work as expected; post-MVP, edit to handle last_trade_price as None type
     def buy_shares(self, number_of_shares):
-        self.shares_owned = self.shares_owned + number_of_shares
-        self.market_value = self.last_trade_price * self.shares_owned
+        self.shares_owned = float(self.shares_owned) + float(number_of_shares)
+        self.market_value = float(self.last_trade_price) * float(self.shares_owned)
+        self.save()
         #do I need a manual save to database here?
 
     def remove_from_portfolio(self):
         self.portfolio = None
+        self.shares_owned = 0
+        self.market_value = 0
+        self.save()
         #do I need a manual save to database here so portfolio stock_set also changed?
 
 

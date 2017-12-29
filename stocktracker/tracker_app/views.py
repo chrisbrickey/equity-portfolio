@@ -23,7 +23,6 @@ class PortfolioList(generics.ListCreateAPIView):
     queryset = Portfolio.objects.all()
     serializer_class = PortfolioSerializer
 
-
 class PortfolioDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Portfolio.objects.all()
     serializer_class = PortfolioSerializer
@@ -64,7 +63,7 @@ def render_search_form(request):
 
 def search_stock(request):
     symbol = request.GET.get('symbol', None)
-    api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={0}&interval=5min&apikey=Z8GRK4D67R58DDGC".format(symbol)
+    api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={0}&interval=1min&apikey=Z8GRK4D67R58DDGC".format(symbol)
     response = requests.get(api_call)
     stock_text = response.text
     stock_dict = json.loads(stock_text)
@@ -73,7 +72,7 @@ def search_stock(request):
     time_zone = meta_data['6. Time Zone']
     latest_date_time = meta_data['3. Last Refreshed']
 
-    closing_price = stock_dict['Time Series (5min)'][latest_date_time]['4. close']
+    closing_price = stock_dict['Time Series (1min)'][latest_date_time]['4. close']
 
     context = {'symbol': symbol,
                'latest_date_time': latest_date_time,
@@ -84,13 +83,14 @@ def search_stock(request):
 
 @csrf_exempt
 def add_stock(request, symbol):
-    portfolio = Portfolio.objects.get(name="Horace")
 
-    closing_price = request.POST.get('closing_price', None)
-    last_updated = request.POST.get('last_updated', None)
+    last_trade_price = request.POST.get('last_trade_price', None)
+    last_trade_time = request.POST.get('last_trade_time', None)
+    # portfolio_id = request.POST.get('portfolio_id', None)
     n_shares = request.POST.get('n_shares', None)
+    n_shares = str(n_shares)
 
-    new_stock = Stock(symbol=symbol, last_trade_time=last_updated, last_trade_price=closing_price, portfolio=portfolio)
+    new_stock = Stock(symbol=symbol, last_trade_time=last_trade_time, last_trade_price=last_trade_price)
     new_stock.save()
     new_stock.buy_shares(n_shares)
     return render(request, 'portfolios/horace.html')
