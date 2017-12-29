@@ -35,11 +35,9 @@ class Stock(models.Model):
 
     symbol = models.CharField(max_length=20, unique=True, blank=False)
     timestamp_created = models.DateTimeField(auto_now_add=True, auto_now=False)
-
-    # last_trade_price = models.DecimalField(max_digits=19, decimal_places=3, blank=True, null=True) #defaults to None; preferred; using below for MVP
     last_trade_price = models.DecimalField(max_digits=19, decimal_places=3, default=Decimal('0.000'), blank=False) #defaults to 0.000 so buy_shares does not need to handle None type
 
-    #below two should be combined in final version (e.g. update last_trade_price if last_updated == created OR last_updated > 5 seconds ago)
+    #below two should be combined in final version
     last_trade_time = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
     timestamp_last_updated = models.DateTimeField(auto_now=True, auto_now_add=False, blank=True, null=True)
 
@@ -52,21 +50,20 @@ class Stock(models.Model):
         return self.symbol
 
 
-    #updates shares_owned and market_value; last_trade_price must be populated for this to work as expected; post-MVP, edit to handle last_trade_price as None type
+    #updates shares_owned and market_value
     def buy_shares(self, number_of_shares):
+        if number_of_shares == "":
+            number_of_shares = 0
+
         self.shares_owned = float(self.shares_owned) + float(number_of_shares)
         self.market_value = float(self.last_trade_price) * float(self.shares_owned)
-        self.save()
-        #do I need a manual save to database here?
+        self.save() # future: handle exceptions here
 
     def remove_from_portfolio(self):
         self.portfolio = None
         self.shares_owned = 0
         self.market_value = 0
-        self.save()
-        #do I need a manual save to database here so portfolio stock_set also changed?
-
-
+        self.save()  # future: handle exceptions here
 
 
 
