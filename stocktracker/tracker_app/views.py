@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django.conf import settings
 from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from rest_framework import generics, renderers
@@ -61,7 +62,7 @@ def render_search_form(request):
 
 def stock_index(request):
     symbol = request.GET.get('symbol', None)
-    api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={0}&interval=1min&apikey=Z8GRK4D67R58DDGC".format(symbol)
+    api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={0}&interval=1min&apikey={1}".format(symbol, settings.ALPHA_KEY)
     response = requests.get(api_call)
     stock_text = response.text
     stock_dict = json.loads(stock_text)
