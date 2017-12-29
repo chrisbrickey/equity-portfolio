@@ -24,9 +24,9 @@
 
 
         <section id="header">
-          <div id="headline">
-              <h1><a href="/">Stock Tracker</a></h1>
-          </div>
+            <div id="headline">
+                <h1><a href="/">Stock Tracker</a></h1>
+            </div>
         </section>
 
 
@@ -40,11 +40,17 @@
                 <div class="stockDetail" id="stockLabels"></div>
 
                 <div class="stockDetail">
-                      <h4>{{ symbol }}</h4>
-                      <p>Latest Closing Price (USD): {{closing_price}}</p>
-                      <p>Last Trade Time ({{time_zone}}): {{latest_date_time}}</p>
+                    <h4>{{ symbol }}</h4>
+                    <p>Latest Closing Price (USD): {{closing_price}}</p>
+                    <p>Last Trade Time ({{time_zone}}): {{latest_date_time}}</p>
                 </div>
 
+            </div>
+
+            <div id="addPortfolioDiv">
+                <form action="/stocks/{{symbol}}" method="post">
+                    <input type="submit" value="Add to Portfolio" />
+                </form>
             </div>
 
 

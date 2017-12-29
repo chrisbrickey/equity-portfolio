@@ -125,7 +125,7 @@ h6 {
 #header {
   background-color: #52CCF2;
   width: 100%;
-  margin: 10px;
+  margin: 10px 0px;
   padding: 10px;
   display: flex;
   flex-direction: row;
@@ -135,8 +135,8 @@ h6 {
 
 #headline {
   /* background-color: pink; */
-  margin: 20px 10px 5px 0px;
-  padding: 5px 10px 5px 0px;
+  margin: 20px 10px 5px 10px;
+  padding: 5px 10px 5px 10px;
   display: flex;
 }
 
@@ -198,6 +198,10 @@ h6 {
   flex-direction: column;
   justify-content: left;
   align-items: left;
+}
+
+#addPortfolioDiv {
+  margin: 10px 30px;
 }
 
 #footer {
