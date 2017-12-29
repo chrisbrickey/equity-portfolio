@@ -1,9 +1,8 @@
 from rest_framework import serializers
 from .models import Portfolio, Stock, LANGUAGE_CHOICES, STYLE_CHOICES
 
-# ModelSerializer uses default versions of create() and update()
-# decided against HyperlinkedModelSerializer due to increased complexity when creating new objects with relationships
-class PortfolioSerializer(serializers.ModelSerializer):
+# alternative ModelSerializer uses default versions of create() and update()
+class PortfolioSerializer(serializers.HyperlinkedModelSerializer):
     stock_set = serializers.StringRelatedField(many=True)
 
     class Meta:
@@ -18,7 +17,7 @@ class PortfolioSerializer(serializers.ModelSerializer):
 
 
 
-class StockSerializer(serializers.ModelSerializer):
+class StockSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Stock
