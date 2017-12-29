@@ -23,9 +23,9 @@ urlpatterns = [
     url(r'^api/', include('tracker_app.urls')),
     url(r'^admin/', admin.site.urls),
 
-    url(r'^alpha/$', views.stockA_index, name='stockA-index'),
-    url(r'^stocks/(?P<symbol>.+)/$', views.stockA_detail, name='stockA-detail'),
     url(r'^search/$', views.render_search_form, name='search-form'),
+    url(r'^alpha/$', views.stock_index, name='stockA-index'),
+    url(r'^stocks/(?P<symbol>.+)/$', views.stock_detail, name='stockA-detail'),
 
     url(r'^stocksOLD/$', views.stockOLD_index, name='stockOLD-index'),
     url(r'^stocksOLD/(?P<pk>[0-9]+)/$', views.stockOLD_detail, name='stockOLD-detail'),
@@ -34,6 +34,6 @@ urlpatterns = [
     # url(r'^portfolios/$', views.portfolio_index, name='index'),
     # url(r'^portfolios/(?P<pk>[0-9]+)/$', views.portfolio_detail, name='detail'),
 
-    url(r'^$', views.portfolio_horace, name='horace'),  #the top level shows Horace's portfolio detail
+    url(r'^$', views.load_portfolio_horace, name='horace'),  #the top level shows Horace's portfolio detail
 
 ]

@@ -44,9 +44,8 @@ def api_root(request, format=None):
     })
 
 
-
 # FRONTEND
-def portfolio_horace(request):
+def load_portfolio_horace(request):
     horace_portfolio_set = Portfolio.objects.filter(name="Horace") #pulls first 100 stocks based on symbol ABC order
     horace_stock_queryset = horace_portfolio_set[0].stock_set.all()
 
@@ -56,12 +55,10 @@ def portfolio_horace(request):
     else:
         raise Http404("We can't find Horace's portfolio in our database.")
 
-
 def render_search_form(request):
     return render(request, 'stocks/search_form.html')
 
-
-def stockA_index(request):
+def stock_index(request):
     symbol = request.GET.get('symbol', None)
     api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={0}&interval=1min&apikey=Z8GRK4D67R58DDGC".format(symbol)
     response = requests.get(api_call)
@@ -83,7 +80,7 @@ def stockA_index(request):
 
 
 @csrf_exempt
-def stockA_detail(request, symbol):
+def stock_detail(request, symbol):
 
     if request.method == 'DELETE':
         stock_to_delete = Stock.objects.get(symbol=symbol)
@@ -117,24 +114,22 @@ def stockA_detail(request, symbol):
         context = {'portfolio': horace_portfolio, 'stock_set': horace_stock_queryset}
         return render(request, 'portfolios/horace.html', context)
 
+
+#OLDER VERSIONS
 def stockOLD_index(request):
     stock_list = Stock.objects.order_by('symbol')[:100] #pulls first 100 stocks based on symbol ABC order
     context = {'stock_list': stock_list}
-
-    #arguments required for render: input request, path to template you want to render, context=variables you need to pass to template
     return render(request, 'stocksOLD/index.html', context)
 
 
 def stockOLD_detail(request, pk):
     try:
         stock = Stock.objects.get(pk=pk)
-        # stock = Stock.objects.get(symbol=stock_symbol)
     except Stock.DoesNotExist:
         raise Http404("That stock does not exist in our database.")
 
     context = {'stock': stock}
     return render(request, 'stocksOLD/detail.html', context)
-
 
 
 # IMPLEMENT BELOW FOR SYSTEM WITH MULTIPLE PORTFOLIOS
