@@ -32,13 +32,33 @@
 
             {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-            <h3>Portfolio Name: {{ portfolio.name }}</h3>
+            <div id="title">
+                <h3>Portfolio Name: {{ portfolio.name }}</h3>
+            </div>
 
-            <ul id="stockList">
+            <div id="stockList">
+                <div class="stockDetail" id="stockLabels">
+                    <h4>Symbol:</h4>
+                    <p>Company Name:</p>
+                    <p>Last Trade Price:</p>
+                    <p>Number of shares owned:</p>
+                    <p>Market value of stake:</p>
+                </div>
+
                 {% for stock in stock_set %}
-                <li class="stockDetail"><a href="/stocks/{{ stock.id }}/">{{ stock.symbol }}</a></li>
+                <div class="stockDetail">
+
+                      <h4><a href="/stocks/{{ stock.id }}/">{{ stock.symbol }}</a></h4>
+                      <p>{{ stock.company_name}}</p>
+                      <p>{{ stock.last_trade_price }}</p>
+                      <p>{{ stock.shares_owned }}</p>
+                      <p>{{ stock.market_value }}</p>
+                </div>
                 {% endfor %}
-            </ul>
+
+            </div>
+
+
 
         </section>
 
