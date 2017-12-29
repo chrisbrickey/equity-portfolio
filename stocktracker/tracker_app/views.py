@@ -114,3 +114,11 @@ def alpha_vantage_demo(request, time_frequency): #5min
     response = requests.get(api_call)
     return HttpResponse(response.text)
     # return HttpResponse(response.json())
+
+def pull_stock(request, symbol):
+    api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={0}&interval=5min&apikey=Z8GRK4D67R58DDGC".format(symbol)
+    response = requests.get(api_call)
+    return HttpResponse(response.text)
+
+    # context = {'symbol': symbol}
+    # return render(request, 'stocks/detail.html', context)

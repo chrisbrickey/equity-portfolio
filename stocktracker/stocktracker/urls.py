@@ -32,7 +32,8 @@ urlpatterns = [
 
     url(r'^custom/(?P<query_string>.+)/$', views.custom_method_test, name='custom'),
     url(r'^retrieve/(?P<stock_sym>.+)/$', views.retrieve_stock_detail, name='manual-detail'),
-    url(r'^alpha/(?P<time_frequency>.+)/$', views.alpha_vantage_demo, name='alpha-demo'),
+    # url(r'^alpha/(?P<time_frequency>.+)/$', views.alpha_vantage_demo, name='alpha-demo'),
+    url(r'^alpha/(?P<symbol>.+)/$', views.pull_stock, name='pull-stock'),
 
     url(r'^$', views.portfolio_horace, name='horace'),  #the top level shows Horace's portfolio detail
 
