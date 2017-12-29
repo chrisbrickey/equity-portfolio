@@ -189,8 +189,6 @@ h6 {
 
 .stockDetail {
   /* background-color: gray; */
-  border-style: dotted;
-  border-color: red;
   margin: 5px;
   padding: 5px;
 
@@ -201,7 +199,10 @@ h6 {
 }
 
 #addPortfolioDiv {
+  /* background-color: yellow; */
   margin: 10px 30px;
+  display: flex;
+  flex-direction: column;
 }
 
 #footer {
