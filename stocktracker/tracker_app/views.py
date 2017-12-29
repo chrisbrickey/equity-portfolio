@@ -46,10 +46,11 @@ def api_root(request, format=None):
 
 # FRONTEND
 def portfolio_horace(request):
-    horace_portfolio = Portfolio.objects.filter(name="Horace") #pulls first 100 stocks based on symbol ABC order
+    horace_portfolio_set = Portfolio.objects.filter(name="Horace") #pulls first 100 stocks based on symbol ABC order
+    horace_stock_queryset = horace_portfolio_set[0].stock_set.all()
 
-    if horace_portfolio.exists():
-        context = {'portfolio': horace_portfolio[0]}
+    if horace_portfolio_set.exists():
+        context = {'portfolio': horace_portfolio_set[0], 'stock_set': horace_stock_queryset}
         return render(request, 'portfolios/horace.html', context)
     else:
         raise Http404("We can't find Horace's portfolio in our database.")
