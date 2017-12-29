@@ -24,8 +24,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'^search/$', views.render_search_form, name='search-form'),
-    url(r'^alpha/$', views.stock_index, name='stockA-index'),
-    url(r'^stocks/(?P<symbol>.+)/$', views.stock_detail, name='stockA-detail'),
+    url(r'^stocks/$', views.stock_index, name='stock-index'),
+    url(r'^stocks/(?P<symbol>.+)/$', views.stock_detail, name='stock-detail'),
 
     url(r'^stocksOLD/$', views.stockOLD_index, name='stockOLD-index'),
     url(r'^stocksOLD/(?P<pk>[0-9]+)/$', views.stockOLD_detail, name='stockOLD-detail'),
