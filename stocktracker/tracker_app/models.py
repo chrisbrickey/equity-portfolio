@@ -56,6 +56,10 @@ class Stock(models.Model):
             number_of_shares = 0
 
         self.shares_owned = float(self.shares_owned) + float(number_of_shares)
+        self.update_market_value()
+        self.save() # future: handle exceptions here
+
+    def update_market_value(self):
         self.market_value = float(self.last_trade_price) * float(self.shares_owned)
         self.save() # future: handle exceptions here
 
