@@ -16,28 +16,5 @@
       "timestamp_last_updated": "2017-12-28T18:24:53.762Z",
       "timestamp_created": "2017-12-28T18:24:53.762Z"
     }
-  },
-  {
-    "model": "tracker_app.stock",
-    "pk": 1,
-    "fields": {
-      "symbol": "ABC",
-      "last_trade_price": 1,
-      "portfolio": 1,
-      "shares_owned": 2,
-      "market_value": 2,
-      "timestamp_last_updated": "2017-12-28T18:24:53.762Z",
-      "timestamp_created": "2017-12-28T18:24:53.762Z"
-    }
-  },
-  {
-    "model": "tracker_app.stock",
-    "pk": 2,
-    "fields": {
-      "symbol": "BCD",
-      "last_trade_price": 3,
-      "timestamp_last_updated": "2017-12-28T18:24:53.762Z",
-      "timestamp_created": "2017-12-28T18:24:53.762Z"
-    }
   }
 ]
