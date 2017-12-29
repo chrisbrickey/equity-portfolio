@@ -73,7 +73,7 @@ def search_stock(request, symbol):
                'closing_price': closing_price,
                'time_zone': time_zone}
 
-    return render(request, 'portfolios/playing.html', context)
+    return render(request, 'stocks/search.html', context)
 
 
 def stock_index(request):
