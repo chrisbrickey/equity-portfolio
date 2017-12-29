@@ -140,6 +140,14 @@ h6 {
   display: flex;
 }
 
+#header a {
+  /* text-decoration: underline; */
+  color: #131AA0;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 #landingPage {
   /* background-color: lightgreen; */
   width: 100%;
