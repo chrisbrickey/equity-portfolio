@@ -56,19 +56,24 @@ def portfolio_horace(request):
     else:
         raise Http404("We can't find Horace's portfolio in our database.")
 
-def pull_stock(request, symbol):
+def search_stock(request, symbol):
     api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={0}&interval=5min&apikey=Z8GRK4D67R58DDGC".format(symbol)
     response = requests.get(api_call)
     stock_text = response.text
     stock_dict = json.loads(stock_text)
 
-    array_of_date_times = stock_dict['Time Series (5min)'].keys()
-    array_of_date_times.sort()
-    latest_date_time = array_of_date_times.pop(-1) #string of the latest time
+    meta_data = stock_dict['Meta Data']
+    time_zone = meta_data['6. Time Zone']
+    latest_date_time = meta_data['3. Last Refreshed']
 
-    context = {'stock_data': stock_dict['Time Series (5min)'][latest_date_time], 'latest_date_time': latest_date_time}
+    closing_price = stock_dict['Time Series (5min)'][latest_date_time]['4. close']
+
+    context = {'symbol': symbol,
+               'latest_date_time': latest_date_time,
+               'closing_price': closing_price,
+               'time_zone': time_zone}
+
     return render(request, 'portfolios/playing.html', context)
-    # return render(request, 'stocks/detail.html', context)
 
 
 def stock_index(request):

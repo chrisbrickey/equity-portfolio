@@ -29,9 +29,9 @@ urlpatterns = [
 
     url(r'^stocks/$', views.stock_index, name='index'),
     url(r'^stocks/(?P<pk>[0-9]+)/$', views.stock_detail, name='detail'),
-    
+
     url(r'^retrieve/(?P<stock_sym>.+)/$', views.retrieve_stock_detail, name='manual-detail'),
-    url(r'^alpha/(?P<symbol>.+)/$', views.pull_stock, name='pull-stock'),
+    url(r'^alpha/(?P<symbol>.+)/$', views.search_stock, name='search-stock'),
 
     url(r'^$', views.portfolio_horace, name='horace'),  #the top level shows Horace's portfolio detail
 
