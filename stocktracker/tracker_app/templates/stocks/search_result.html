@@ -51,7 +51,7 @@
             <div id="addPortfolioDiv">
 
                 <form action="/stocks/{{symbol}}/" method="post">
-                    <input id="symbol" type="hidden" name="name_field" value="{{symbol}}">
+                    <input id="symbol" type="hidden" name="symbol" value="{{symbol}}">
                     <input id="portfolio_id" type="hidden" name="portfolio_id" value="{{ 1 }}">
                     <input id="last_trade_price" type="hidden" name="last_trade_price" value={{closing_price}}>
                     <input id="last_trade_time" type="hidden" name="last_trade_time" value={{latest_date_time}}>
