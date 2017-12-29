@@ -19,15 +19,21 @@ Buttons in the footer help users navigate the site's functionality.
 
 
 ## Run the Program
-- Open virtual environment: `. env/bin/activate`
-- Install dependencies: `pip install -r requirements.txt`
-- Migrate the database: `./manage.py makemigrations` then `./manage.py migrate`
-- Load data from seed: `./manage.py loaddata initdata.json`
-- Run development server locally: `./manage.py runserver`
-
-
-## Troubleshooting
-- If static files are not running locally: `./manage.py collectstatic`
+1. Add your own AlphaVantage API key
+  - Get an AlphaVantage API key [here](https://www.alphavantage.co/).
+  - Add your that string to the secrets.template file, e.g. `ALPHA_KEY="copy/paste your key here"`.
+  - Rename that file from secrets.template to secrets.py.
+  - Remove that file from your version control.
+2. Enter the virtual environment
+  - `. env/bin/activate`
+3. Install dependencies
+  - `pip install -r requirements.txt`
+4. Migrate the database
+  - `./manage.py makemigrations` then `./manage.py migrate`
+5. Load data from seed
+  - `./manage.py loaddata initdata.json`
+6. Run development server locally
+  - `./manage.py runserver`
 
 
 ## Future Development
