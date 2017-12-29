@@ -29,8 +29,8 @@ urlpatterns = [
 
     url(r'^stocks/$', views.stock_index, name='index'),
     url(r'^stocks/(?P<pk>[0-9]+)/$', views.stock_detail, name='detail'),
-    url(r'^stocks/(?P<stock_sym>.+)/$', views.add_stock, name='add-stock'),
-    
+    url(r'^stocks/(?P<symbol>.+)/$', views.add_stock, name='add-stock'),
+
     url(r'^retrieve/(?P<stock_sym>.+)/$', views.retrieve_stock_detail, name='manual-detail'),
 
     url(r'^search/$', views.render_search_form, name='search-form'),

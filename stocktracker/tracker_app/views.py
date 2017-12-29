@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from rest_framework import generics, renderers
 from django.template import loader
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import Portfolio, Stock
 from .serializers import PortfolioSerializer, StockSerializer
@@ -80,6 +81,19 @@ def search_stock(request):
                'time_zone': time_zone}
 
     return render(request, 'stocks/search_result.html', context)
+
+@csrf_exempt
+def add_stock(request, symbol):
+    portfolio = Portfolio.objects.get(name="Horace")
+
+    closing_price = request.POST.get('closing_price', None)
+    last_updated = request.POST.get('last_updated', None)
+    n_shares = request.POST.get('n_shares', None)
+
+    new_stock = Stock(symbol=symbol, last_trade_time=last_updated, last_trade_price=closing_price, portfolio=portfolio)
+    new_stock.save()
+    new_stock.buy_shares(n_shares)
+    return render(request, 'portfolios/horace.html')
 
 
 def stock_index(request):
