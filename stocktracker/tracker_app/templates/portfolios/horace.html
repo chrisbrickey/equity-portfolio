@@ -49,7 +49,7 @@
                 {% for stock in stock_set %}
                 <div class="stockDetail">
 
-                      <h4><a href="/stocks/{{ stock.id }}/">{{ stock.symbol }}</a></h4>
+                      <h4>{{ stock.symbol }}</a></h4>
                       <p>{{ stock.last_trade_price }}</p>
                       <p>{{ stock.shares_owned }}</p>
                       <p>{{ stock.market_value }}</p>
