@@ -8,14 +8,15 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import Portfolio, Stock
 from .serializers import PortfolioSerializer, StockSerializer
+import requests
+import json
 
 # for API Root
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
-import requests
-import json
+
 
 
 # BROWSABLE API
@@ -71,10 +72,19 @@ def stock_index(request):
 
     closing_price = stock_dict['Time Series (1min)'][latest_date_time]['4. close']
 
+
+    n_shares = 0
+    try:
+        existing_stock = Stock.objects.get(symbol=symbol)
+        n_shares = existing_stock.shares_owned
+    except:
+        pass
+
     context = {'symbol': symbol,
                'latest_date_time': latest_date_time,
                'closing_price': closing_price,
-               'time_zone': time_zone}
+               'time_zone': time_zone,
+               'n_shares': n_shares}
 
     return render(request, 'stocks/search_result.html', context)
 
@@ -102,17 +112,18 @@ def stock_detail(request, symbol):
         try:
             new_stock.save()
         except:
-            render(request, 'stocks/search_form.html', { 'error_message' : "This stock is already in the portfolio. Please choose another."})
+            return render(request, 'stocks/search_form.html', { 'error_message' : "This stock is already in the portfolio. Please choose another."})
 
         try:
             horace_portfolio.add_stock(new_stock)
         except:
-            render(request, 'stocks/search_form.html', { 'error_message' : "This stock is already in the portfolio or the portfolio is full."})
+            return render(request, 'stocks/search_form.html', { 'error_message' : "This stock is already in the portfolio or the portfolio is full."})
 
         new_stock.buy_shares(n_shares)
         horace_stock_queryset = horace_portfolio.stock_set.all()
         context = {'portfolio': horace_portfolio, 'stock_set': horace_stock_queryset}
         return render(request, 'portfolios/horace.html', context)
+
 
 
 #OLDER VERSIONS

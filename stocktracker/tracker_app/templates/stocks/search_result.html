@@ -43,6 +43,7 @@
                     <h4>{{ symbol }}</h4>
                     <p>Latest Closing Price (USD): {{closing_price}}</p>
                     <p>Last Trade Time ({{time_zone}}): {{latest_date_time}}</p>
+                    <p>Shares in Portfolio: {{n_shares}}</p>
                 </div>
 
             </div>
@@ -50,13 +51,13 @@
             <div id="addPortfolioDiv">
 
                 <form action="/stocks/{{symbol}}/" method="post">
-                    <input id="team_name" type="hidden" name="name_field" value="{{symbol}}">
+                    <input id="symbol" type="hidden" name="name_field" value="{{symbol}}">
                     <input id="portfolio_id" type="hidden" name="portfolio_id" value="{{ 1 }}">
                     <input id="last_trade_price" type="hidden" name="last_trade_price" value={{closing_price}}>
                     <input id="last_trade_time" type="hidden" name="last_trade_time" value={{latest_date_time}}>
 
                     <label for="n_shares">Number of Shares: </label>
-                    <input id="n_shares" type="text" name="n_shares">
+                    <input id="n_shares" type="text" name="n_shares" value="{{n_shares}}">
 
                     </br>
 
