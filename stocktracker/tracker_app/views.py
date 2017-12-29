@@ -122,7 +122,7 @@ def stock_index(request):
     context = {'stock_list': stock_list}
 
     #arguments required for render: input request, path to template you want to render, context=variables you need to pass to template
-    return render(request, 'stocks/index.html', context)
+    return render(request, 'stocksOLD/index.html', context)
 
 
 def stock_detail(request, pk):
@@ -133,7 +133,7 @@ def stock_detail(request, pk):
         raise Http404("That stock does not exist in our database.")
 
     context = {'stock': stock}
-    return render(request, 'stocks/detail.html', context)
+    return render(request, 'stocksOLD/detail.html', context)
 
 
 

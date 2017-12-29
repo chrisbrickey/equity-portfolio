@@ -23,12 +23,12 @@ urlpatterns = [
     url(r'^api/', include('tracker_app.urls')),
     url(r'^admin/', admin.site.urls),
 
-    url(r'^stocks/$', views.stock_index, name='index'),
-    url(r'^stocks/(?P<pk>[0-9]+)/$', views.stock_detail, name='detail'),
-    url(r'^stocks/(?P<symbol>.+)/$', views.stockA_detail, name='stockA-detail'),
-
-    url(r'^search/$', views.render_search_form, name='search-form'),
     url(r'^alpha/$', views.stockA_index, name='stockA-index'),
+    url(r'^stocks/(?P<symbol>.+)/$', views.stockA_detail, name='stockA-detail'),
+    url(r'^search/$', views.render_search_form, name='search-form'),
+
+    url(r'^stocksOLD/$', views.stock_index, name='index'),
+    url(r'^stocksOLD/(?P<pk>[0-9]+)/$', views.stock_detail, name='detail'),
 
     # implement below for system with multiple portfolios
     # url(r'^portfolios/$', views.portfolio_index, name='index'),
