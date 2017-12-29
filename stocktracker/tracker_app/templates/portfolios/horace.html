@@ -54,6 +54,13 @@
                       <p>{{ stock.shares_owned }}</p>
                       <p>{{ stock.market_value }}</p>
                 </div>
+
+                </br>
+
+                <form action="/stocks/{{stock.symbol}}/" method="delete">
+                    <input id="symbol" type="hidden" name="name_field" value="{{stock.symbol}}">
+                    <input type="submit" value="Delete">
+                </form>
                 {% endfor %}
 
             </div>
