@@ -117,7 +117,7 @@ def stockA_detail(request, symbol):
         context = {'portfolio': horace_portfolio, 'stock_set': horace_stock_queryset}
         return render(request, 'portfolios/horace.html', context)
 
-def stock_index(request):
+def stockOLD_index(request):
     stock_list = Stock.objects.order_by('symbol')[:100] #pulls first 100 stocks based on symbol ABC order
     context = {'stock_list': stock_list}
 
@@ -125,7 +125,7 @@ def stock_index(request):
     return render(request, 'stocksOLD/index.html', context)
 
 
-def stock_detail(request, pk):
+def stockOLD_detail(request, pk):
     try:
         stock = Stock.objects.get(pk=pk)
         # stock = Stock.objects.get(symbol=stock_symbol)
