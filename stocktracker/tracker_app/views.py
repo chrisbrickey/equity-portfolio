@@ -61,7 +61,7 @@ def render_search_form(request):
     return render(request, 'stocks/search_form.html')
 
 
-def search_stock(request):
+def stockA_index(request):
     symbol = request.GET.get('symbol', None)
     api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={0}&interval=1min&apikey=Z8GRK4D67R58DDGC".format(symbol)
     response = requests.get(api_call)
@@ -81,25 +81,41 @@ def search_stock(request):
 
     return render(request, 'stocks/search_result.html', context)
 
+
 @csrf_exempt
-def add_stock(request, symbol):
+def stockA_detail(request, symbol):
 
-    last_trade_price = request.POST.get('last_trade_price', None)
-    last_trade_time = request.POST.get('last_trade_time', None)
-    n_shares = request.POST.get('n_shares', None)
-    n_shares = str(n_shares)
+    if request.method == 'DELETE':
+        stock_to_delete = Stock.objects.get(symbol=symbol)
+        stock_to_delete.remove_from_portfolio()
+        stock_to_delete.delete()
 
-    new_stock = Stock(symbol=symbol, last_trade_time=last_trade_time, last_trade_price=last_trade_price)
-    new_stock.save()
-    new_stock.buy_shares(n_shares)
+        context = {'portfolio': horace_portfolio, 'stock_set': horace_stock_queryset}
+        return render(request, 'portfolios/horace.html', context)
 
-    horace_portfolio = Portfolio.objects.get(name="Horace")
-    horace_portfolio.add_stock(new_stock)
+    elif request.method == 'POST':
+        last_trade_price = request.POST.get('last_trade_price', None)
+        last_trade_time = request.POST.get('last_trade_time', None)
+        n_shares = request.POST.get('n_shares', None)
+        n_shares = str(n_shares)
+        horace_portfolio = Portfolio.objects.get(name="Horace")
 
-    horace_stock_queryset = horace_portfolio.stock_set.all()
-    context = {'portfolio': horace_portfolio, 'stock_set': horace_stock_queryset}
-    return render(request, 'portfolios/horace.html', context)
+        new_stock = Stock(symbol=symbol, last_trade_time=last_trade_time, last_trade_price=last_trade_price)
 
+        try:
+            new_stock.save()
+        except:
+            render(request, 'stocks/search_form.html', { 'error_message' : "This stock is already in the portfolio. Please choose another."})
+
+        try:
+            horace_portfolio.add_stock(new_stock)
+        except:
+            render(request, 'stocks/search_form.html', { 'error_message' : "This stock is already in the portfolio or the portfolio is full."})
+
+        new_stock.buy_shares(n_shares)
+        horace_stock_queryset = horace_portfolio.stock_set.all()
+        context = {'portfolio': horace_portfolio, 'stock_set': horace_stock_queryset}
+        return render(request, 'portfolios/horace.html', context)
 
 def stock_index(request):
     stock_list = Stock.objects.order_by('symbol')[:100] #pulls first 100 stocks based on symbol ABC order

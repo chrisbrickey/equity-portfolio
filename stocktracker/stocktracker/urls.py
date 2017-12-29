@@ -25,10 +25,10 @@ urlpatterns = [
 
     url(r'^stocks/$', views.stock_index, name='index'),
     url(r'^stocks/(?P<pk>[0-9]+)/$', views.stock_detail, name='detail'),
-    url(r'^stocks/(?P<symbol>.+)/$', views.add_stock, name='add-stock'),
+    url(r'^stocks/(?P<symbol>.+)/$', views.stockA_detail, name='stockA-detail'),
 
     url(r'^search/$', views.render_search_form, name='search-form'),
-    url(r'^alpha/$', views.search_stock, name='search-stock'),
+    url(r'^alpha/$', views.stockA_index, name='stockA-index'),
 
     # implement below for system with multiple portfolios
     # url(r'^portfolios/$', views.portfolio_index, name='index'),
