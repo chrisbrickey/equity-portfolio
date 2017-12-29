@@ -1,14 +1,14 @@
 # Stock Tracker
 Stock Tracker is a single-page web application that utilizes a Django for both front and back end as well as Django Rest Framework to provide a browsable API.
 
+
 ## Features Highlight
 
 #### Browsable API
 Non-technical users may interact only with the templates, but a fully hyperlinked, browsable API is also available using the /api path.
 
-#### What else?
-XXX
-
+#### Navigation
+Buttons in the footer help users navigate the site's functionality.
 
 
 ## Technology
@@ -31,8 +31,9 @@ XXX
 
 
 ## Future Development
+- Live Update: Portfolio updates every 5 seconds.
+- Up/Down Indicator: Alongside the last trade price show, user sees a green up arrow or red down arrow depending on whether it's gone up or down since the last quote
 - Multiple Portfolios: Users can own multiple portfolios
 - Authentication: System can handle multiple users and provide reasonable level of security.
-- Up/Down Indicator: Alongside the last trade price show, user sees a green up arrow or red down arrow depending on whether it's gone up or down since the last quote
 - Currency Conversion: User can view values in currencies other than USD
 - Multiple Markets: User can access other securities markets
