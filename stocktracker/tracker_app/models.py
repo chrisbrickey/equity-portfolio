@@ -57,7 +57,11 @@ class Stock(models.Model):
     def buy_shares(self, number_of_shares):
         self.shares_owned = self.shares_owned + number_of_shares
         self.market_value = self.last_trade_price * self.shares_owned
+        #do I need a manual save to database here?
 
+    def remove_from_portfolio(self):
+        self.portfolio = None
+        #do I need a manual save to database here so portfolio stock_set also changed?
 
 
 
