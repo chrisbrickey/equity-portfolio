@@ -23,20 +23,16 @@ urlpatterns = [
     url(r'^api/', include('tracker_app.urls')),
     url(r'^admin/', admin.site.urls),
 
-    # implement below for system with multiple portfolios
-    # url(r'^portfolios/$', views.portfolio_index, name='index'),
-    # url(r'^portfolios/(?P<pk>[0-9]+)/$', views.portfolio_detail, name='detail'),
-
     url(r'^stocks/$', views.stock_index, name='index'),
     url(r'^stocks/(?P<pk>[0-9]+)/$', views.stock_detail, name='detail'),
-    # url(r'^stocks/(?P<symbol>.+)/$', views.StockList.as_view(), name='stock-list'), # uses rest framework view
-    url(r'^stocks/(?P<symbol>.+)/$', views.add_stock, name='add-stock'), # uses customview
-
-    url(r'^retrieve/(?P<stock_sym>.+)/$', views.retrieve_stock_detail, name='manual-detail'),
+    url(r'^stocks/(?P<symbol>.+)/$', views.add_stock, name='add-stock'),
 
     url(r'^search/$', views.render_search_form, name='search-form'),
     url(r'^alpha/$', views.search_stock, name='search-stock'),
-    # url(r'^alpha/(?P<symbol>.+)/$', views.search_stock, name='search-stock'),
+
+    # implement below for system with multiple portfolios
+    # url(r'^portfolios/$', views.portfolio_index, name='index'),
+    # url(r'^portfolios/(?P<pk>[0-9]+)/$', views.portfolio_detail, name='detail'),
 
     url(r'^$', views.portfolio_horace, name='horace'),  #the top level shows Horace's portfolio detail
 
