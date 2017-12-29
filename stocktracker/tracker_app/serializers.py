@@ -24,10 +24,10 @@ class StockSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url',
                   'id',
                   'symbol',
-                  'company_name',
                   'last_trade_price',
                   'portfolio',
                   'shares_owned',
+                  'market_value',
                   'timestamp_created',
                   'timestamp_last_updated',
                   'last_trade_time')

@@ -33,7 +33,6 @@ class Portfolio(models.Model):
 
 class Stock(models.Model):
 
-    company_name = models.CharField(max_length=200, blank=True)
     symbol = models.CharField(max_length=20, unique=True, blank=False)
     timestamp_created = models.DateTimeField(auto_now_add=True, auto_now=False)
 

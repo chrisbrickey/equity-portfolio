@@ -21,7 +21,6 @@
     "model": "tracker_app.stock",
     "pk": 1,
     "fields": {
-      "company_name": "alpha",
       "symbol": "ABC",
       "last_trade_price": 1,
       "portfolio": 1,
@@ -35,7 +34,6 @@
     "model": "tracker_app.stock",
     "pk": 2,
     "fields": {
-      "company_name": "beta",
       "symbol": "BCD",
       "last_trade_price": 3,
       "timestamp_last_updated": "2017-12-28T18:24:53.762Z",

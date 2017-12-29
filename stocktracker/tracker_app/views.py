@@ -86,13 +86,16 @@ def add_stock(request, symbol):
 
     last_trade_price = request.POST.get('last_trade_price', None)
     last_trade_time = request.POST.get('last_trade_time', None)
-    # portfolio_id = request.POST.get('portfolio_id', None)
     n_shares = request.POST.get('n_shares', None)
     n_shares = str(n_shares)
 
     new_stock = Stock(symbol=symbol, last_trade_time=last_trade_time, last_trade_price=last_trade_price)
     new_stock.save()
     new_stock.buy_shares(n_shares)
+
+    horace_portfolio = Portfolio.objects.get(name="Horace")
+    horace_portfolio.add_stock(new_stock)
+
     return render(request, 'portfolios/horace.html')
 
 
@@ -141,4 +144,4 @@ def retrieve_stock_detail(request, stock_sym):
         raise Http404("Stock does not exist")
 
     response = "Symbol: {0}, Name: {1}, Price: {2}, Shares Owned: {3}"
-    return HttpResponse(response.format(s.symbol, s.company_name, s.last_trade_price, s.shares_owned))
+    return HttpResponse(response.format(s.symbol, s.last_trade_price, s.shares_owned))

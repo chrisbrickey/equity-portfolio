@@ -41,7 +41,6 @@
             <div id="stockList">
                 <div class="stockDetail" id="stockLabels">
                     <h4>Symbol:</h4>
-                    <p>Company Name:</p>
                     <p>Last Trade Price:</p>
                     <p>Number of shares owned:</p>
                     <p>Market value of stake:</p>
@@ -51,7 +50,6 @@
                 <div class="stockDetail">
 
                       <h4><a href="/stocks/{{ stock.id }}/">{{ stock.symbol }}</a></h4>
-                      <p>{{ stock.company_name}}</p>
                       <p>{{ stock.last_trade_price }}</p>
                       <p>{{ stock.shares_owned }}</p>
                       <p>{{ stock.market_value }}</p>
