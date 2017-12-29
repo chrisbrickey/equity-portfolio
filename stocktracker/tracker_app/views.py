@@ -14,6 +14,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
 import requests
+import json
 
 
 # BROWSABLE API
@@ -55,6 +56,19 @@ def portfolio_horace(request):
     else:
         raise Http404("We can't find Horace's portfolio in our database.")
 
+def pull_stock(request, symbol):
+    api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={0}&interval=5min&apikey=Z8GRK4D67R58DDGC".format(symbol)
+    response = requests.get(api_call)
+    stock_text = response.text
+    stock_dict = json.loads(stock_text)
+
+    array_of_date_times = stock_dict['Time Series (5min)'].keys()
+    array_of_date_times.sort()
+    latest_date_time = array_of_date_times.pop(-1) #string of the latest time
+
+    context = {'stock_data': stock_dict['Time Series (5min)'][latest_date_time], 'latest_date_time': latest_date_time}
+    return render(request, 'portfolios/playing.html', context)
+    # return render(request, 'stocks/detail.html', context)
 
 
 def stock_index(request):
@@ -94,11 +108,6 @@ def stock_detail(request, pk):
 
 
 # EXPERIMENTS
-def custom_method_test(request, query_string):
-    response = "custom method received: {0}"
-    return HttpResponse(response.format(query_string))
-
-
 def retrieve_stock_detail(request, stock_sym):
     try:
         s = Stock.objects.get(symbol=stock_sym)
@@ -107,18 +116,3 @@ def retrieve_stock_detail(request, stock_sym):
 
     response = "Symbol: {0}, Name: {1}, Price: {2}, Shares Owned: {3}"
     return HttpResponse(response.format(s.symbol, s.company_name, s.last_trade_price, s.shares_owned))
-
-
-def alpha_vantage_demo(request, time_frequency): #5min
-    api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval={0}&apikey=Z8GRK4D67R58DDGC".format(time_frequency)
-    response = requests.get(api_call)
-    return HttpResponse(response.text)
-    # return HttpResponse(response.json())
-
-def pull_stock(request, symbol):
-    api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={0}&interval=5min&apikey=Z8GRK4D67R58DDGC".format(symbol)
-    response = requests.get(api_call)
-    return HttpResponse(response.text)
-
-    # context = {'symbol': symbol}
-    # return render(request, 'stocks/detail.html', context)
