@@ -56,10 +56,13 @@ def portfolio_horace(request):
     else:
         raise Http404("We can't find Horace's portfolio in our database.")
 
+
 def render_search_form(request):
     return render(request, 'stocks/search_form.html')
 
-def search_stock(request, symbol):
+
+def search_stock(request):
+    symbol = request.GET.get('symbol', None)
     api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={0}&interval=5min&apikey=Z8GRK4D67R58DDGC".format(symbol)
     response = requests.get(api_call)
     stock_text = response.text
@@ -85,6 +88,7 @@ def stock_index(request):
 
     #arguments required for render: input request, path to template you want to render, context=variables you need to pass to template
     return render(request, 'stocks/index.html', context)
+
 
 def stock_detail(request, pk):
     try:

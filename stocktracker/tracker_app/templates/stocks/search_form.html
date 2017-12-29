@@ -40,10 +40,10 @@
                 <div class="stockDetail" id="stockLabels"></div>
 
                 <div class="stockDetail">
-                      <form action="/alpha/{symbol}" method="get">
+                      <form action="/alpha/{{symbol}}" method="get">
                         <label for "symbol">Enter symbol here: </label>
-                        <input id="whatevs" type="text" name="haha" value="{{ symbol }}" >
-                        <input type="submit" value="OK" />
+                        <input id="symbol" type="text" name="symbol">
+                        <input type="submit" value="Find it!" />
                       </form>
                 </div>
 
