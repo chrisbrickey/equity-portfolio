@@ -36,12 +36,21 @@
 
             <h3>{{ stock.symbol }}</h3>
             <p>Company Name: {{ stock.company_name}}</p>
+            <p>Last Refreshed: {{ stock.timestamp_last_updated}}</p>
             <p>Last Trade Price: {{ stock.last_trade_price }}</p>
 
         </section>
 
 
         <section id="footer">
+
+            <div id="footline">
+                <h6><a href="/search/">Search Stocks</a></h6>
+            </div>
+
+            <div id="footline">
+                <h6><a href="/">Your Portfolio</a></h6>
+            </div>
 
             <div id="footline">
                 <h6><a href="/api/" target="_blank">Browsable API</a></h6>

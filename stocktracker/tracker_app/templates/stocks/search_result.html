@@ -34,29 +34,16 @@
 
             {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-            <div id="title">
-                <h3>Portfolio Name: {{ portfolio.name }}</h3>
-            </div>
+            <div id="title"><h3></h3></div>
 
             <div id="stockList">
-                <div class="stockDetail" id="stockLabels">
-                    <h4>Symbol:</h4>
-                    <p>Company Name:</p>
-                    <p>Last Trade Price:</p>
-                    <p>Number of shares owned:</p>
-                    <p>Market value of stake:</p>
-                </div>
+                <div class="stockDetail" id="stockLabels"></div>
 
-                {% for stock in stock_set %}
                 <div class="stockDetail">
-
-                      <h4><a href="/stocks/{{ stock.id }}/">{{ stock.symbol }}</a></h4>
-                      <p>{{ stock.company_name}}</p>
-                      <p>{{ stock.last_trade_price }}</p>
-                      <p>{{ stock.shares_owned }}</p>
-                      <p>{{ stock.market_value }}</p>
+                      <h4>{{ symbol }}</h4>
+                      <p>Latest Closing Price (USD): {{closing_price}}</p>
+                      <p>Last Trade Time ({{time_zone}}): {{latest_date_time}}</p>
                 </div>
-                {% endfor %}
 
             </div>
 
@@ -68,7 +55,11 @@
         <section id="footer">
 
             <div id="footline">
-                <h6><a href="/search/">Search Stocks</a></h6>
+                <h6><a href="/search/">Search Another</a></h6>
+            </div>
+
+            <div id="footline">
+                <h6><a href="/">Your Portfolio</a></h6>
             </div>
 
             <div id="footline">

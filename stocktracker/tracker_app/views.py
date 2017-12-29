@@ -56,6 +56,9 @@ def portfolio_horace(request):
     else:
         raise Http404("We can't find Horace's portfolio in our database.")
 
+def render_search_form(request):
+    return render(request, 'stocks/search_form.html')
+
 def search_stock(request, symbol):
     api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={0}&interval=5min&apikey=Z8GRK4D67R58DDGC".format(symbol)
     response = requests.get(api_call)
@@ -73,7 +76,7 @@ def search_stock(request, symbol):
                'closing_price': closing_price,
                'time_zone': time_zone}
 
-    return render(request, 'stocks/search.html', context)
+    return render(request, 'stocks/search_result.html', context)
 
 
 def stock_index(request):

@@ -40,9 +40,11 @@
                 <div class="stockDetail" id="stockLabels"></div>
 
                 <div class="stockDetail">
-                      <h4>{{ symbol }}</h4>
-                      <p>Latest Closing Price (USD): {{closing_price}}</p>
-                      <p>Last Trade Time ({{time_zone}}): {{latest_date_time}}</p>
+                      <form action="/alpha/{symbol}" method="get">
+                        <label for "symbol">Enter symbol here: </label>
+                        <input id="whatevs" type="text" name="haha" value="{{ symbol }}" >
+                        <input type="submit" value="OK" />
+                      </form>
                 </div>
 
             </div>
@@ -53,6 +55,10 @@
 
 
         <section id="footer">
+
+            <div id="footline">
+                <h6><a href="/">Your Portfolio</a></h6>
+            </div>
 
             <div id="footline">
                 <h6><a href="/api/" target="_blank">Browsable API</a></h6>
