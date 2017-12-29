@@ -91,12 +91,24 @@ def stock_index(request):
 
 @csrf_exempt
 def stock_detail(request, symbol):
+    horace_portfolio = Portfolio.objects.get(name="Horace")
 
     if request.method == 'DELETE':
         stock_to_delete = Stock.objects.get(symbol=symbol)
         stock_to_delete.remove_from_portfolio()
         stock_to_delete.delete()
 
+        horace_stock_queryset = horace_portfolio.stock_set.all()
+        context = {'portfolio': horace_portfolio, 'stock_set': horace_stock_queryset}
+        return render(request, 'portfolios/horace.html', context)
+
+    elif request.method == 'PUT':
+        new_number_of_shares = request.POST.get('n_shares', None)
+        stock_to_update = Stock.objects.get(symbol=symbol)
+        stock_to_update.shares_owned = new_number_of_shares
+        stock_to_update.update_market_value()
+
+        horace_stock_queryset = horace_portfolio.stock_set.all()
         context = {'portfolio': horace_portfolio, 'stock_set': horace_stock_queryset}
         return render(request, 'portfolios/horace.html', context)
 
@@ -105,7 +117,6 @@ def stock_detail(request, symbol):
         last_trade_time = request.POST.get('last_trade_time', None)
         n_shares = request.POST.get('n_shares', None)
         n_shares = str(n_shares)
-        horace_portfolio = Portfolio.objects.get(name="Horace")
 
         new_stock = Stock(symbol=symbol, last_trade_time=last_trade_time, last_trade_price=last_trade_price)
 
