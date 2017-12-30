@@ -5,7 +5,7 @@ Stock Tracker is a single-page web application that utilizes a Django for both f
 ## Features Highlight
 
 #### Browsable API
-Non-technical users may interact only with the templates, but a fully hyperlinked, browsable API is also available using the /api path.
+Non-technical users may interact only with the templates, but a hyperlinked, browsable API is also available using the /api path.
 
 #### Navigation
 Buttons in the footer help users navigate the site's functionality.
@@ -42,4 +42,3 @@ Buttons in the footer help users navigate the site's functionality.
 - Multiple Portfolios: Users can own multiple portfolios
 - Authentication: System can handle multiple users and provide reasonable level of security.
 - Currency Conversion: User can view values in currencies other than USD
-- Multiple Markets: User can access other securities markets
