@@ -13,7 +13,6 @@ STYLE_CHOICES = sorted((item, item) for item in get_all_styles())
 class Portfolio(models.Model):
 
     name = models.CharField(max_length=200, unique=True, blank=False)  #not appropriate for a system with multiple users
-    timestamp_last_updated = models.DateTimeField(auto_now=True, auto_now_add=False, blank=True, null=True)
     timestamp_created = models.DateTimeField(auto_now_add=True, auto_now=False)
 
     def __str__(self):
@@ -36,10 +35,7 @@ class Stock(models.Model):
     symbol = models.CharField(max_length=20, unique=True, blank=False)
     timestamp_created = models.DateTimeField(auto_now_add=True, auto_now=False)
     last_trade_price = models.DecimalField(max_digits=19, decimal_places=3, default=Decimal('0.000'), blank=False) #defaults to 0.000 so buy_shares does not need to handle None type
-
-    #below two should be combined in final version
     last_trade_time = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
-    timestamp_last_updated = models.DateTimeField(auto_now=True, auto_now_add=False, blank=True, null=True)
 
     #below three are not appropriate for systems with multiple users or portfolios
     portfolio = models.ForeignKey(Portfolio, on_delete=models.PROTECT, blank=True, null=True)
@@ -71,7 +67,6 @@ class Stock(models.Model):
 #     portfolio_id = models.ForeignKey(Portfolio, on_delete=models.PROTECT)
 #     stock_id = models.ForeignKey(Stock, on_delete=models.PROTECT)
 #     shares_owned = models.DecimalField(max_digits=19, decimal_places=3, default=Decimal('0.000'), blank=False)
-#     timestamp_last_updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 #     timestamp_created = models.DateTimeField(auto_now_add=True, auto_now=False)
 #
 #     def __str__(self):
