@@ -1,3 +1,5 @@
+
+
 <head>
     <meta charset="utf-8">
     <title>Stock Tracker</title>
@@ -32,6 +34,8 @@
 
         <section id="landingPage">
 
+            {% load stocktracker_tags %}
+
             {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
             <div id="title">
@@ -41,23 +45,32 @@
             <div id="stockList">
                 <div class="stockDetail" id="stockLabels">
                     <h4>Symbol:</h4>
-                    <p>Last Trade Price:</p>
+                    <p>Last Trade Time:</p>
+                    <p>Last Trade Price(USD):</p>
                     <p>Number of shares owned:</p>
                     <p>Market value of stake:</p>
                 </div>
 
                 {% for stock in stock_set %}
-                <div class="stockDetail">
+                    <div class="stockDetail">
 
-                      <h4>{{ stock.symbol }}</a></h4>
-                      <p>{{ stock.last_trade_price }}</p>
-                      <p>{{ stock.shares_owned }}</p>
-                      <p>{{ stock.market_value }}</p>
+                          <h4>{{ stock.symbol }}</a></h4>
+                          <p>{{ stock.last_trade_time }}</p>
+                          <p>{{ stock.last_trade_price }}</p>
+                          <p>{{ stock.shares_owned }}</p>
 
-                      <form action="/api/stocks/{{stock.id}}/" method="delete">
-                          <input type="submit" value="Delete">
-                      </form>
-                </div>
+                          {% with market_value=4 %}
+                              <p>{{ stock.last_trade_price|multiply:stock.shares_owned }}</p>
+                          {% endwith %}
+
+                          <p>
+                            {{ market_value}}
+                          </p>
+
+                          <form action="/api/stocks/{{stock.id}}/" method="delete">
+                              <input type="submit" value="Update/Delete">
+                          </form>
+                    </div>
 
 
                 {% endfor %}
