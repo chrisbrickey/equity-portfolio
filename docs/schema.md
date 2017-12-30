@@ -1,4 +1,4 @@
-# WIP Schema
+# Initial Schema (may evolve during development)
 
 *don't forget `from decimal import Decimal` on models*
 
