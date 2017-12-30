@@ -58,14 +58,7 @@
                           <p>{{ stock.last_trade_time }}</p>
                           <p>{{ stock.last_trade_price }}</p>
                           <p>{{ stock.shares_owned }}</p>
-
-                          {% with market_value=4 %}
-                              <p>{{ stock.last_trade_price|multiply:stock.shares_owned }}</p>
-                          {% endwith %}
-
-                          <p>
-                            {{ market_value}}
-                          </p>
+                          <p>{{ stock.last_trade_price|multiply:stock.shares_owned }}</p>
 
                           <form action="/api/stocks/{{stock.id}}/" method="delete">
                               <input type="submit" value="Update/Delete">
