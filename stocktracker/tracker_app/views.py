@@ -51,6 +51,24 @@ def load_portfolio_horace(request):
     horace_portfolio_set = Portfolio.objects.filter(name="Horace") #pulls first 100 stocks based on symbol ABC order
     horace_stock_queryset = horace_portfolio_set[0].stock_set.all()
 
+    for stock in horace_stock_queryset:
+        api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={0}&interval=1min&apikey={1}".format(stock.symbol, settings.ALPHA_KEY)
+        response = requests.get(api_call)
+        stock_text = response.text
+        stock_dict = json.loads(stock_text)
+        meta_data = stock_dict['Meta Data']
+
+        time_zone = meta_data['6. Time Zone']
+        stock.time_zone = time_zone
+
+        latest_date_time = meta_data['3. Last Refreshed']
+        stock.last_trade_time = latest_date_time
+
+        closing_price = stock_dict['Time Series (1min)'][latest_date_time]['4. close']
+        stock.last_trade_price = closing_price
+
+        stock.save() # future: handle exceptions here
+
     if horace_portfolio_set.exists():
         context = {'portfolio': horace_portfolio_set[0], 'stock_set': horace_stock_queryset}
         return render(request, 'portfolios/horace.html', context)
@@ -107,7 +125,6 @@ def stock_detail(request, symbol):
         new_number_of_shares = request.POST.get('n_shares', None)
         stock_to_update = Stock.objects.get(symbol=symbol)
         stock_to_update.shares_owned = new_number_of_shares
-        stock_to_update.update_market_value()
 
         horace_stock_queryset = horace_portfolio.stock_set.all()
         context = {'portfolio': horace_portfolio, 'stock_set': horace_stock_queryset}

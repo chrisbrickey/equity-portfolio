@@ -27,7 +27,6 @@ class StockSerializer(serializers.HyperlinkedModelSerializer):
                   'last_trade_price',
                   'portfolio',
                   'shares_owned',
-                  'market_value',
                   'timestamp_created',
                   'timestamp_last_updated',
                   'last_trade_time')

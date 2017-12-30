@@ -44,29 +44,23 @@ class Stock(models.Model):
     #below three are not appropriate for systems with multiple users or portfolios
     portfolio = models.ForeignKey(Portfolio, on_delete=models.PROTECT, blank=True, null=True)
     shares_owned = models.DecimalField(max_digits=19, decimal_places=3, default=Decimal('0.000'), blank=False)
-    market_value = models.DecimalField(max_digits=19, decimal_places=3, default=Decimal('0.000'), blank=False)
 
     def __str__(self):
         return self.symbol
 
 
-    #updates shares_owned and market_value
+    #updates shares_owned
     def buy_shares(self, number_of_shares):
         if number_of_shares == "":
             number_of_shares = 0
 
-        self.shares_owned = float(self.shares_owned) + float(number_of_shares)
-        self.update_market_value()
-        self.save() # future: handle exceptions here
-
-    def update_market_value(self):
-        self.market_value = float(self.last_trade_price) * float(self.shares_owned)
+        interim_shares = float(self.shares_owned) + float(number_of_shares)
+        self.shares_owned = round(interim_shares, 3)
         self.save() # future: handle exceptions here
 
     def remove_from_portfolio(self):
         self.portfolio = None
         self.shares_owned = 0
-        self.market_value = 0
         self.save()  # future: handle exceptions here
 
 
