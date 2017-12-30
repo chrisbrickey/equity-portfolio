@@ -37,8 +37,8 @@ Buttons in the footer help users navigate the site's functionality.
 
 
 ## Future Development
-- Live Update: Portfolio updates every 5 seconds.
+- Live Update: Portfolio updates every 5 seconds
 - Up/Down Indicator: Alongside the last trade price show, user sees a green up arrow or red down arrow depending on whether it's gone up or down since the last quote
 - Multiple Portfolios: Users can own multiple portfolios
-- Authentication: System can handle multiple users and provide reasonable level of security.
+- Authentication: System can handle multiple users and provide reasonable level of security
 - Currency Conversion: User can view values in currencies other than USD
