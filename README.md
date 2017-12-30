@@ -21,7 +21,7 @@ Buttons in the footer help users navigate the site's functionality.
 ## Run the Program
 1. Add your own AlphaVantage API key
   - Get an AlphaVantage API key [here](https://www.alphavantage.co/).
-  - Add your that string to the secrets.template file, e.g. `ALPHA_KEY="copy/paste your key here"`.
+  - Add that string to the secrets.template file, e.g. `ALPHA_KEY="copy/paste your key here"`.
   - Rename that file from secrets.template to secrets.py.
   - Remove that file from your version control.
 2. Enter the virtual environment
