@@ -11,7 +11,6 @@ STYLE_CHOICES = sorted((item, item) for item in get_all_styles())
 
 
 class Portfolio(models.Model):
-
     name = models.CharField(max_length=200, unique=True, blank=False)  #not appropriate for a system with multiple users
     timestamp_created = models.DateTimeField(auto_now_add=True, auto_now=False)
 
@@ -31,39 +30,35 @@ class Portfolio(models.Model):
 
 
 class Stock(models.Model):
-
     symbol = models.CharField(max_length=20, unique=True, blank=False)
     timestamp_created = models.DateTimeField(auto_now_add=True, auto_now=False)
-    last_trade_price = models.DecimalField(max_digits=19, decimal_places=3, default=Decimal('0.000'), blank=False) #defaults to 0.000 so buy_shares does not need to handle None type
+    last_trade_price = models.DecimalField(max_digits=19, decimal_places=3, default=Decimal('0.000'), blank=False)
     last_trade_time = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
 
-    #below three are not appropriate for systems with multiple users or portfolios
+    #below are not appropriate for systems with multiple users or portfolios
     portfolio = models.ForeignKey(Portfolio, on_delete=models.PROTECT, blank=True, null=True)
     shares_owned = models.DecimalField(max_digits=19, decimal_places=3, default=Decimal('0.000'), blank=False)
 
     def __str__(self):
         return self.symbol
 
-
-    #updates shares_owned
+    #updates shares_owned; must handle None type if last_trade_price does not have a default value
     def buy_shares(self, number_of_shares):
         if number_of_shares == "":
             number_of_shares = 0
 
         interim_shares = float(self.shares_owned) + float(number_of_shares)
         self.shares_owned = round(interim_shares, 3)
-        self.save() # future: handle exceptions here
+        self.save()
 
     def remove_from_portfolio(self):
         self.portfolio = None
         self.shares_owned = 0
-        self.save()  # future: handle exceptions here
-
+        self.save()
 
 
 # implement below model for multiple users/portfolios
 # class Follow(models.Model):
-#
 #     portfolio_id = models.ForeignKey(Portfolio, on_delete=models.PROTECT)
 #     stock_id = models.ForeignKey(Stock, on_delete=models.PROTECT)
 #     shares_owned = models.DecimalField(max_digits=19, decimal_places=3, default=Decimal('0.000'), blank=False)

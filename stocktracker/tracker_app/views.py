@@ -19,7 +19,6 @@ from rest_framework.reverse import reverse
 
 
 
-
 # BROWSABLE API
 class PortfolioList(generics.ListCreateAPIView):
     queryset = Portfolio.objects.all()
@@ -46,9 +45,10 @@ def api_root(request, format=None):
     })
 
 
+
 # FRONTEND
 def load_portfolio_horace(request):
-    horace_portfolio_set = Portfolio.objects.filter(name="Horace") #pulls first 100 stocks based on symbol ABC order
+    horace_portfolio_set = Portfolio.objects.filter(name="Horace")
     horace_stock_queryset = horace_portfolio_set[0].stock_set.all()
 
     for stock in horace_stock_queryset:
@@ -67,7 +67,7 @@ def load_portfolio_horace(request):
         closing_price = stock_dict['Time Series (1min)'][latest_date_time]['4. close']
         stock.last_trade_price = closing_price
 
-        stock.save() # future: handle exceptions here
+        stock.save()
 
     if horace_portfolio_set.exists():
         context = {'portfolio': horace_portfolio_set[0], 'stock_set': horace_stock_queryset}
@@ -88,9 +88,7 @@ def stock_index(request):
     meta_data = stock_dict['Meta Data']
     time_zone = meta_data['6. Time Zone']
     latest_date_time = meta_data['3. Last Refreshed']
-
     closing_price = stock_dict['Time Series (1min)'][latest_date_time]['4. close']
-
 
     n_shares = 0
     try:
@@ -106,7 +104,6 @@ def stock_index(request):
                'n_shares': n_shares}
 
     return render(request, 'stocks/search_result.html', context)
-
 
 @csrf_exempt
 def stock_detail(request, symbol):
@@ -161,7 +158,6 @@ def stockOLD_index(request):
     context = {'stock_list': stock_list}
     return render(request, 'stocksOLD/index.html', context)
 
-
 def stockOLD_detail(request, pk):
     try:
         stock = Stock.objects.get(pk=pk)
@@ -170,6 +166,7 @@ def stockOLD_detail(request, pk):
 
     context = {'stock': stock}
     return render(request, 'stocksOLD/detail.html', context)
+
 
 
 # IMPLEMENT BELOW FOR SYSTEM WITH MULTIPLE PORTFOLIOS

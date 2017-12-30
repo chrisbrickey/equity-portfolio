@@ -1,4 +1,4 @@
-# Initial Schema (may evolve during development)
+# Initial Schema (evolved during development)
 
 *don't forget `from decimal import Decimal` on models*
 
@@ -11,7 +11,6 @@ company_name            | string (max_length = 200)                 |
 symbol                  | string (max_length = 20)                  | not null, unique   
 last_trade_price        | decimal (max_digits=19, decimal_places=3) |    
 last_trade_time         | datetime                                  |
-timestamp_last_updated  | datetime                                  | not null
 timestamp_created       | datetime                                  | not null
 
 ##### use this field only when one user/portfolio is sufficient
@@ -27,7 +26,6 @@ id                      | integer                                               
 portfolio_id            | integer (on_delete=models.PROTECT)                                  | not null, foreign key (portfolios)
 stock_id                | integer (on_delete=models.PROTECT)                                  | not null, foreign key (stocks), unique (portfolio_id)
 shares_owned            | decimal (max_digits=19, decimal_places=3, default=Decimal('0.000')) | not null
-timestamp_last_updated  | datetime                                                            | not null
 timestamp_created       | datetime                                                            | not null
 
 
@@ -35,7 +33,6 @@ timestamp_created       | datetime                                              
 column_name             | data_type | details
 ------------------------|-----------|-----------------------
 id                      | integer   | not null, primary key
-timestamp_last_updated  | datetime  | not null
 timestamp_created       | datetime  | not null
 
 ##### backup option for multiple users/portfolios if follows 'join table' does not work well
