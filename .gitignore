@@ -6,6 +6,3 @@ env/
 
 # python source files
 *.pyc
-
-# environment variables
-secrets.py
