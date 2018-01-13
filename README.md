@@ -1,5 +1,5 @@
-# Stock Tracker
-Stock Tracker is a single-page web application that utilizes a Django for both front and back end as well as Django Rest Framework to provide a browsable API.
+# Equity Portfolio
+Equity Portfolio is a single-page web application that utilizes a Django for both front and back end as well as Django Rest Framework to provide a browsable API.
 
 
 ## Features Highlight
