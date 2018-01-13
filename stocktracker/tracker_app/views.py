@@ -48,10 +48,10 @@ def api_root(request, format=None):
 
 # FRONTEND
 def load_portfolio_chris(request):
-    horace_portfolio_set = Portfolio.objects.filter(name="Chris")
-    horace_stock_queryset = horace_portfolio_set[0].stock_set.all()
+    chris_portfolio_set = Portfolio.objects.filter(name="Chris")
+    chris_stock_queryset = chris_portfolio_set[0].stock_set.all()
 
-    for stock in horace_stock_queryset:
+    for stock in chris_stock_queryset:
         api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={0}&interval=1min&apikey={1}".format(stock.symbol, settings.ALPHA_KEY)
         response = requests.get(api_call)
         stock_text = response.text
@@ -69,8 +69,8 @@ def load_portfolio_chris(request):
 
         stock.save()
 
-    if horace_portfolio_set.exists():
-        context = {'portfolio': horace_portfolio_set[0], 'stock_set': horace_stock_queryset}
+    if chris_portfolio_set.exists():
+        context = {'portfolio': chris_portfolio_set[0], 'stock_set': chris_stock_queryset}
         return render(request, 'portfolios/chris.html', context)
     else:
         raise Http404("We can't find Chris' portfolio in our database.")
@@ -107,15 +107,15 @@ def stock_index(request):
 
 @csrf_exempt
 def stock_detail(request, symbol):
-    horace_portfolio = Portfolio.objects.get(name="Chris")
+    chris_portfolio = Portfolio.objects.get(name="Chris")
 
     if request.method == 'DELETE':
         stock_to_delete = Stock.objects.get(symbol=symbol)
         stock_to_delete.remove_from_portfolio()
         stock_to_delete.delete()
 
-        horace_stock_queryset = horace_portfolio.stock_set.all()
-        context = {'portfolio': horace_portfolio, 'stock_set': horace_stock_queryset}
+        chris_stock_queryset = chris_portfolio.stock_set.all()
+        context = {'portfolio': chris_portfolio, 'stock_set': chris_stock_queryset}
         return render(request, 'portfolios/chris.html', context)
 
     elif request.method == 'PUT':
@@ -123,8 +123,8 @@ def stock_detail(request, symbol):
         stock_to_update = Stock.objects.get(symbol=symbol)
         stock_to_update.shares_owned = new_number_of_shares
 
-        horace_stock_queryset = horace_portfolio.stock_set.all()
-        context = {'portfolio': horace_portfolio, 'stock_set': horace_stock_queryset}
+        chris_stock_queryset = chris_portfolio.stock_set.all()
+        context = {'portfolio': chris_portfolio, 'stock_set': chris_stock_queryset}
         return render(request, 'portfolios/chris.html', context)
 
     elif request.method == 'POST':
@@ -141,13 +141,13 @@ def stock_detail(request, symbol):
             return render(request, 'stocks/search_form.html', { 'error_message' : "This stock is already in the portfolio. Please choose another."})
 
         try:
-            horace_portfolio.add_stock(new_stock)
+            chris_portfolio.add_stock(new_stock)
         except:
             return render(request, 'stocks/search_form.html', { 'error_message' : "This stock is already in the portfolio or the portfolio is full."})
 
         new_stock.buy_shares(n_shares)
-        horace_stock_queryset = horace_portfolio.stock_set.all()
-        context = {'portfolio': horace_portfolio, 'stock_set': horace_stock_queryset}
+        chris_stock_queryset = chris_portfolio.stock_set.all()
+        context = {'portfolio': chris_portfolio, 'stock_set': chris_stock_queryset}
         return render(request, 'portfolios/chris.html', context)
 
 
