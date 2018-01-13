@@ -3,7 +3,7 @@
     "model": "tracker_app.portfolio",
     "pk": 1,
     "fields": {
-      "name": "Horace",
+      "name": "Chris",
       "timestamp_created": "2017-12-28T18:24:53.762Z"
     }
   }

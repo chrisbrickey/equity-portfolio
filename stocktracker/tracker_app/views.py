@@ -47,8 +47,8 @@ def api_root(request, format=None):
 
 
 # FRONTEND
-def load_portfolio_horace(request):
-    horace_portfolio_set = Portfolio.objects.filter(name="Horace")
+def load_portfolio_chris(request):
+    horace_portfolio_set = Portfolio.objects.filter(name="Chris")
     horace_stock_queryset = horace_portfolio_set[0].stock_set.all()
 
     for stock in horace_stock_queryset:
@@ -71,9 +71,9 @@ def load_portfolio_horace(request):
 
     if horace_portfolio_set.exists():
         context = {'portfolio': horace_portfolio_set[0], 'stock_set': horace_stock_queryset}
-        return render(request, 'portfolios/horace.html', context)
+        return render(request, 'portfolios/chris.html', context)
     else:
-        raise Http404("We can't find Horace's portfolio in our database.")
+        raise Http404("We can't find Chris' portfolio in our database.")
 
 def render_search_form(request):
     return render(request, 'stocks/search_form.html')
@@ -107,7 +107,7 @@ def stock_index(request):
 
 @csrf_exempt
 def stock_detail(request, symbol):
-    horace_portfolio = Portfolio.objects.get(name="Horace")
+    horace_portfolio = Portfolio.objects.get(name="Chris")
 
     if request.method == 'DELETE':
         stock_to_delete = Stock.objects.get(symbol=symbol)
@@ -116,7 +116,7 @@ def stock_detail(request, symbol):
 
         horace_stock_queryset = horace_portfolio.stock_set.all()
         context = {'portfolio': horace_portfolio, 'stock_set': horace_stock_queryset}
-        return render(request, 'portfolios/horace.html', context)
+        return render(request, 'portfolios/chris.html', context)
 
     elif request.method == 'PUT':
         new_number_of_shares = request.POST.get('n_shares', None)
@@ -125,7 +125,7 @@ def stock_detail(request, symbol):
 
         horace_stock_queryset = horace_portfolio.stock_set.all()
         context = {'portfolio': horace_portfolio, 'stock_set': horace_stock_queryset}
-        return render(request, 'portfolios/horace.html', context)
+        return render(request, 'portfolios/chris.html', context)
 
     elif request.method == 'POST':
         last_trade_price = request.POST.get('last_trade_price', None)
@@ -148,7 +148,7 @@ def stock_detail(request, symbol):
         new_stock.buy_shares(n_shares)
         horace_stock_queryset = horace_portfolio.stock_set.all()
         context = {'portfolio': horace_portfolio, 'stock_set': horace_stock_queryset}
-        return render(request, 'portfolios/horace.html', context)
+        return render(request, 'portfolios/chris.html', context)
 
 
 

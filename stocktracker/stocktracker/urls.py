@@ -34,6 +34,6 @@ urlpatterns = [
     # url(r'^portfolios/$', views.portfolio_index, name='index'),
     # url(r'^portfolios/(?P<pk>[0-9]+)/$', views.portfolio_detail, name='detail'),
 
-    url(r'^$', views.load_portfolio_horace, name='horace'),  #the top level shows Horace's portfolio detail
+    url(r'^$', views.load_portfolio_chris, name='chris'),  #the top level shows Chris' portfolio detail
 
 ]
