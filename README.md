@@ -21,7 +21,7 @@ Buttons in the footer help users navigate the site's functionality.
 ## Run the Program
 1. Add your own AlphaVantage API key
   - Get an AlphaVantage API key [here](https://www.alphavantage.co/).
-  - Add that string to your local environment variables, e.g. `ALPHA_KEY="copy/paste your key here"`.
+  - Add that string to your local environment variables, e.g. `export ALPHA_KEY="copy/paste your key here"`.
 2. Enter the virtual environment
   - `. env/bin/activate`
 3. Install dependencies
