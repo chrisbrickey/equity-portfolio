@@ -25,7 +25,8 @@ ALPHA_KEY = os.environ['ALPHA_KEY']
 
 ALLOWED_HOSTS = [
     'localhost',
-    'intense-beach-72980.herokuapp.com'
+    'intense-beach-72980.herokuapp.com',
+    'www.equity-portfolio.com',
 ]
 
 # SECURITY WARNING: don't run with debug turned on in production!
