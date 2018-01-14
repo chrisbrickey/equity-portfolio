@@ -22,7 +22,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '9@02kj!y^%#4=ofsi11&$7702p_55y0a(5bs)3451_0^y$$l2y'
 ALPHA_KEY = os.environ['ALPHA_KEY']
-ALLOWED_HOSTS = ['intense-beach-72980.herokuapp.com']
+
+ALLOWED_HOSTS = [
+    'localhost',
+    'intense-beach-72980.herokuapp.com'
+]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -147,4 +151,4 @@ STATICFILES_DIRS = (
 # Simplified static file serving. Added this because Django does not automatically support serving static files in production.
 # https://warehouse.python.org/project/whitenoise/
 
-STATICFILES_STORAGE = ‘whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
