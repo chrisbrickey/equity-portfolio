@@ -6,3 +6,6 @@ env/
 
 # python source files
 *.pyc
+
+# processed static files
+staticfiles/
