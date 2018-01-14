@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-import dj_database_url #added when migrating to production
+import dj_database_url 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -136,20 +136,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) #added when migrating to production
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles') #added when migrating to production
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
-
-# ADDED BELOW WHEN MIGRATING TO PRODUCTION
-
-# Here: list all the places you want the system to look for loading static files when 'collectstatic' command is run.
-
 STATICFILES_DIRS = (
-    # os.path.join(PROJECT_ROOT, 'static'),
-    os.path.join(PROJECT_ROOT, 'tracker_app/static'),
+    # list all the places you want the system to look for loading static files when 'collectstatic' command is run.
 )
 
 # Simplified static file serving. Added this because Django does not automatically support serving static files in production.
 # https://warehouse.python.org/project/whitenoise/
-
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
