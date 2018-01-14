@@ -11,10 +11,10 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import dj_database_url #added when migrating to production
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -28,9 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
-
 INSTALLED_APPS = [
     'tracker_app.apps.TrackerAppConfig',
     'rest_framework',
@@ -92,6 +90,10 @@ DATABASES = {
     }
 }
 
+# Update database configuration with $DATABASE_URL.
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -126,7 +128,24 @@ USE_L10N = True
 USE_TZ = True
 
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__)) #added when migrating to production
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles') #added when migrating to production
 STATIC_URL = '/static/'
+
+# ADDED BELOW WHEN MIGRATING TO PRODUCTION
+
+# Here: list all the places you want the system to look for loading static files when 'collectstatic' command is run.
+
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+    os.path.join(PROJECT_ROOT, 'tracker_app/static'),
+)
+
+# Simplified static file serving. Added this because Django does not automatically support serving static files in production.
+# https://warehouse.python.org/project/whitenoise/
+
+STATICFILES_STORAGE = ‘whitenoise.django.GzipManifestStaticFilesStorage'
