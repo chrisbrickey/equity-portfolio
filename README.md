@@ -1,14 +1,14 @@
 # Equity Portfolio
-Equity Portfolio is a single-page web application that utilizes a Django for both front and back end as well as Django Rest Framework to provide a browsable API.
+[Equity-Portfolio](https://www.equity-portfolio.com/) allows users to search for equities across multiple markets and include them in their portfolio with amount of shares owned.  The portfolio updates so users can view the current value of each investment.  This app utilizes Django for both front and back end as well as Django Rest Framework to provide a browsable API.
 
 
 ## Features Highlight
 
-#### Browsable API
-Non-technical users may interact only with the templates, but a hyperlinked, browsable API is also available using the /api path.
+#### 3rd party data service
+This app utilizes AlphaVantage API to retrieve information on stocks in the portfolio and new stocks via search.
 
-#### Navigation
-Buttons in the footer help users navigate the site's functionality.
+#### Browsable API
+Non-technical users may interact only with HTML templates, but a hyperlinked, browsable API is also available using the /api namespace.
 
 
 ## Technology
@@ -35,8 +35,8 @@ Buttons in the footer help users navigate the site's functionality.
 
 
 ## Future Development
-- Live Update: Portfolio updates every 5 seconds
-- Up/Down Indicator: Alongside the last trade price show, user sees a green up arrow or red down arrow depending on whether it's gone up or down since the last quote
 - Multiple Portfolios: Users can own multiple portfolios
+- Live Update: Portfolio updates every 5 seconds without redirect or reload.
 - Authentication: System can handle multiple users and provide reasonable level of security
 - Currency Conversion: User can view values in currencies other than USD
+- Up/Down Indicator: Alongside the last trade price show, user sees a green up arrow or red down arrow depending on whether it's gone up or down since the last quote
