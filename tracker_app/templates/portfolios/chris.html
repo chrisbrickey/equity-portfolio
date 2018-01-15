@@ -1,62 +1,54 @@
 {% extends 'base.html' %}
 
 <!DOCTYPE html>
-<html>
-    <body>
 
-        {% block landingPageContent %}
+{% block landingPageContent %}
 
-            {% load stocktracker_tags %}
+    {% load stocktracker_tags %}
 
-            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-            <div id="title">
-                <h3>Portfolio Name: {{ portfolio.name }}</h3>
+    <div id="title">
+        <h3>Portfolio Name: {{ portfolio.name }}</h3>
+    </div>
+
+    <div id="stockList">
+        <div class="stockDetail" id="stockLabels">
+            <h4>Symbol:</h4>
+            <p>Last Trade Time:</p>
+            <p>Last Trade Price(USD):</p>
+            <p>Number of shares owned:</p>
+            <p>Market value of stake:</p>
+        </div>
+
+        {% for stock in stock_set %}
+            <div class="stockDetail">
+
+                  <h4>{{ stock.symbol }}</a></h4>
+                  <p>{{ stock.last_trade_time }}</p>
+                  <p>{{ stock.last_trade_price }}</p>
+                  <p>{{ stock.shares_owned }}</p>
+                  <p>{{ stock.last_trade_price|multiply:stock.shares_owned }}</p>
+
+                  <form action="/api/stocks/{{stock.id}}/" method="delete">
+                      <input type="submit" value="Update/Delete">
+                  </form>
             </div>
 
-            <div id="stockList">
-                <div class="stockDetail" id="stockLabels">
-                    <h4>Symbol:</h4>
-                    <p>Last Trade Time:</p>
-                    <p>Last Trade Price(USD):</p>
-                    <p>Number of shares owned:</p>
-                    <p>Market value of stake:</p>
-                </div>
 
-                {% for stock in stock_set %}
-                    <div class="stockDetail">
+        {% endfor %}
 
-                          <h4>{{ stock.symbol }}</a></h4>
-                          <p>{{ stock.last_trade_time }}</p>
-                          <p>{{ stock.last_trade_price }}</p>
-                          <p>{{ stock.shares_owned }}</p>
-                          <p>{{ stock.last_trade_price|multiply:stock.shares_owned }}</p>
+    </div>
 
-                          <form action="/api/stocks/{{stock.id}}/" method="delete">
-                              <input type="submit" value="Update/Delete">
-                          </form>
-                    </div>
+{% endblock %}
 
 
-                {% endfor %}
+{% block footerContent %}
+    <div id="footline">
+        <h6><a href="/search/">Search/Add Stocks</a></h6>
+    </div>
 
-            </div>
-
-        {% endblock %}
-
-
-        <section id="footer">
-            <div id="footline">
-                <h6><a href="/search/">Search/Add Stocks</a></h6>
-            </div>
-
-            <div id="footline">
-                <h6><a href="/api/" target="_blank">Browsable API</a></h6>
-            </div>
-
-            <div class="padding"></div>
-        </section>
-
-
-    </body>
-</html>
+    <div id="footline">
+        <h6><a href="/api/" target="_blank">Browsable API</a></h6>
+    </div>
+{% endblock %}
