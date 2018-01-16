@@ -10,7 +10,7 @@
     </div>
 
     <div class="footline">
-        <h6><a href="/update/">Update Trade Prices</a></h6>
+        <h6><a href="/portfolioUPDATE/">Update Trade Prices</a></h6>
     </div>
 
     <div id="stockList">
@@ -30,14 +30,14 @@
                   <p>{{ stock.last_trade_time }}</p>
                   <p>{{ stock.last_trade_price|floatformat:2 }}</p>
 
-                  <form action="/api/stocks/{{stock.id}}/" method="PUT">
+                  <form action="/api/stocks/{{stock.id}}/" method='put'>
                       <input id="n_shares" type="text" name="n_shares" value="{{stock.shares_owned|floatformat:2}}">
                       <input type="submit" value="Update">
                   </form>
 
                   <p>{{ stock.last_trade_price|multiply:stock.shares_owned|floatformat:2 }}</p>
 
-                  <form action="/api/stocks/{{stock.id}}/" method="DELETE">
+                  <form action="/stockDELETE/{{stock.id}}/" method="delete">
                       <input type="submit" value="Remove from Portfolio">
                   </form>
             </div>

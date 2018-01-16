@@ -117,21 +117,12 @@ def stock_index(request):
 
     return render(request, 'stocks/search_result.html', context)
 
+
 @csrf_exempt
 def stock_detail(request, symbol):
     chris_portfolio = Portfolio.objects.get(name="Chris")
 
-    if request.method == 'DELETE':
-        stock_to_delete = Stock.objects.get(symbol=symbol)
-        stock_to_delete.remove_from_portfolio()
-        stock_to_delete.delete()
-
-    elif request.method == 'PUT':
-        new_number_of_shares = request.POST.get('n_shares', None)
-        stock_to_update = Stock.objects.get(symbol=symbol)
-        stock_to_update.shares_owned = new_number_of_shares
-
-    elif request.method == 'POST':
+    if request.method == 'POST':
         last_trade_price = request.POST.get('last_trade_price', None)
         last_trade_time = request.POST.get('last_trade_time', None)
         n_shares = request.POST.get('n_shares', None)
@@ -151,10 +142,33 @@ def stock_detail(request, symbol):
 
         new_stock.buy_shares(n_shares)
 
+    # elif request.method == 'PUT':
+    #     new_number_of_shares = request.POST.get('n_shares', None)
+    #     stock_to_update = Stock.objects.get(symbol=symbol)
+    #     stock_to_update.shares_owned = new_number_of_shares
+    #
+    # elif request.method == 'DELETE':
+    #     stock_to_delete = Stock.objects.get(symbol=symbol)
+    #     stock_to_delete.remove_from_portfolio()
+    #     stock_to_delete.delete()
+
     chris_stock_queryset = chris_portfolio.stock_set.all()
     context = {'portfolio': chris_portfolio, 'stock_set': chris_stock_queryset}
     return redirect('/')
 
+@csrf_exempt
+def delete_stock(request, pk):
+    stock_to_delete = Stock.objects.get(pk=pk)
+    stock_to_delete.remove_from_portfolio()
+    stock_to_delete.delete()
+    return redirect('/')
+
+# @csrf_exempt
+# def update_stock(request, pk):
+#     new_number_of_shares = request.POST.get('n_shares', None)
+#     stock_to_update = Stock.objects.get(pk=pk)
+#     stock_to_update.shares_owned = new_number_of_shares
+#     return redirect('/')
 
 
 #OLDER VERSIONS
