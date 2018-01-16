@@ -51,6 +51,17 @@ def load_portfolio_chris(request):
     chris_portfolio_set = Portfolio.objects.filter(name="Chris")
     chris_stock_queryset = chris_portfolio_set[0].stock_set.all()
 
+    if chris_portfolio_set.exists():
+        context = {'portfolio': chris_portfolio_set[0], 'stock_set': chris_stock_queryset}
+        return render(request, 'portfolios/chris.html', context)
+    else:
+        raise Http404("We can't find Chris' portfolio in our database.")
+
+
+def update_portfolio_chris(request):
+    chris_portfolio_set = Portfolio.objects.filter(name="Chris")
+    chris_stock_queryset = chris_portfolio_set[0].stock_set.all()
+
     for stock in chris_stock_queryset:
         api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={0}&interval=1min&apikey={1}".format(stock.symbol, settings.ALPHA_KEY)
         response = requests.get(api_call)
@@ -71,7 +82,8 @@ def load_portfolio_chris(request):
 
     if chris_portfolio_set.exists():
         context = {'portfolio': chris_portfolio_set[0], 'stock_set': chris_stock_queryset}
-        return render(request, 'portfolios/chris.html', context)
+        # return render(request, 'portfolios/chris.html', context)
+        return redirect('/')
     else:
         raise Http404("We can't find Chris' portfolio in our database.")
 
