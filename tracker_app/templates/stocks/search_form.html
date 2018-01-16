@@ -2,18 +2,10 @@
 
 <!DOCTYPE html>
 
-<section id="header">
-  <div id="headline">
-      <h1><a href="/">Equity Portfolio</a></h1>
-  </div>
-</section>
-
-
-<section id="landingPage">
-
+{% block landingPageContent %}
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-    <div id="title"><h3></h3></div>
+    <div id="title"><h3>Search</h3></div>
 
     <div id="stockList">
         <div class="stockDetail" id="stockLabels"></div>
@@ -27,8 +19,7 @@
         </div>
 
     </div>
-
-</section>
+{% endblock %}
 
 
 {% block footerContent %}

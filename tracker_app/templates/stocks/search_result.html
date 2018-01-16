@@ -2,10 +2,10 @@
 
 <!DOCTYPE html>
 
-<section id="landingPage">
+{% block landingPageContent %}
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-    <div id="title"><h3></h3></div>
+    <div id="title"><h3>Add to Portfolio</h3></div>
 
     <div id="stockList">
         <div class="stockDetail" id="stockLabels"></div>
@@ -35,7 +35,7 @@
             <input type="submit" value="Add to Portfolio">
         </form>
     </div>
-</section>
+{% endblock %}
 
 
 {% block footerContent %}
