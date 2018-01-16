@@ -4,6 +4,7 @@
 
 {% block landingPageContent %}
     <h3>Detail on {{ stock.symbol }}</h3>
-    <p>Latest Closing Price (USD): {{stock.last_trade_price}}</p>
     <p>Last Trade Time: {{stock.last_trade_time}}</p>
+    <p>Latest Closing Price (USD): {{stock.last_trade_price|floatformat:2}}</p>
+
 {% endblock %}

@@ -10,11 +10,10 @@
 
         <div class="stockDetail">
             <h4>{{ symbol }}</h4>
-            <p>Latest Closing Price (USD): {{closing_price}}</p>
             <p>Last Trade Time ({{time_zone}}): {{latest_date_time}}</p>
-            <p>Shares in Portfolio: {{n_shares}}</p>
+            <p>Latest Closing Price (USD): {{closing_price|floatformat:2}}</p>
+            <p>Shares in Portfolio: {{n_shares|floatformat:2}}</p>
         </div>
-
     </div>
 
     <div id="addPortfolioDiv">
@@ -26,7 +25,7 @@
             <input id="last_trade_time" type="hidden" name="last_trade_time" value={{latest_date_time}}>
 
             <label for="n_shares">Number of Shares: </label>
-            <input id="n_shares" type="text" name="n_shares" value="{{n_shares}}">
+            <input id="n_shares" type="text" name="n_shares" value="{{n_shares|floatformat:2}}">
 
             </br>
 

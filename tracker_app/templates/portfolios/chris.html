@@ -24,15 +24,15 @@
 
                   <h4>{{ stock.symbol }}</a></h4>
                   <p>{{ stock.last_trade_time }}</p>
-                  <p>{{ stock.last_trade_price }}</p>
-                  <p>{{ stock.shares_owned }}</p>
-                  <p>{{ stock.last_trade_price|multiply:stock.shares_owned }}</p>
+                  <p>{{ stock.last_trade_price|floatformat:2 }}</p>
+                  <p>{{ stock.shares_owned|floatformat:2 }}</p>
+                  <p>{{ stock.last_trade_price|multiply:stock.shares_owned|floatformat:2 }}</p>
 
                   <form action="/api/stocks/{{stock.id}}/" method="delete">
                       <input type="submit" value="Update/Delete">
                   </form>
             </div>
         {% endfor %}
-        
+
     </div>
 {% endblock %}
