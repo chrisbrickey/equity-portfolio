@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
 from rest_framework import generics, renderers
 from django.template import loader
@@ -114,18 +114,10 @@ def stock_detail(request, symbol):
         stock_to_delete.remove_from_portfolio()
         stock_to_delete.delete()
 
-        chris_stock_queryset = chris_portfolio.stock_set.all()
-        context = {'portfolio': chris_portfolio, 'stock_set': chris_stock_queryset}
-        return render(request, 'portfolios/chris.html', context)
-
     elif request.method == 'PUT':
         new_number_of_shares = request.POST.get('n_shares', None)
         stock_to_update = Stock.objects.get(symbol=symbol)
         stock_to_update.shares_owned = new_number_of_shares
-
-        chris_stock_queryset = chris_portfolio.stock_set.all()
-        context = {'portfolio': chris_portfolio, 'stock_set': chris_stock_queryset}
-        return render(request, 'portfolios/chris.html', context)
 
     elif request.method == 'POST':
         last_trade_price = request.POST.get('last_trade_price', None)
@@ -146,9 +138,10 @@ def stock_detail(request, symbol):
             return render(request, 'stocks/search_form.html', { 'error_message' : "This stock is already in the portfolio or the portfolio is full."})
 
         new_stock.buy_shares(n_shares)
-        chris_stock_queryset = chris_portfolio.stock_set.all()
-        context = {'portfolio': chris_portfolio, 'stock_set': chris_stock_queryset}
-        return render(request, 'portfolios/chris.html', context)
+
+    chris_stock_queryset = chris_portfolio.stock_set.all()
+    context = {'portfolio': chris_portfolio, 'stock_set': chris_stock_queryset}
+    return redirect('/')
 
 
 
