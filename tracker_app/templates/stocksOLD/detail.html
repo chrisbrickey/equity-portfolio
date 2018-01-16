@@ -3,9 +3,7 @@
 <!DOCTYPE html>
 
 {% block landingPageContent %}
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
-    <h3>{{ stock.symbol }}</h3>
+    <h3>Detail on {{ stock.symbol }}</h3>
     <p>Latest Closing Price (USD): {{stock.last_trade_price}}</p>
     <p>Last Trade Time: {{stock.last_trade_time}}</p>
 {% endblock %}

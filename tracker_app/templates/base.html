@@ -35,6 +35,13 @@
 
 
           <section id="landingPage">
+
+              <div id="errors">
+                {% if error_message %}
+                    <p>{{ error_message }}</p>
+                {% endif %}
+              </div>
+
               {% block landingPageContent %}
               {% endblock %}
           </section>

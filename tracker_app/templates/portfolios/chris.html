@@ -5,13 +5,12 @@
 {% block landingPageContent %}
     {% load stocktracker_tags %}
 
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
     <div id="title">
         <h3>Portfolio Name: {{ portfolio.name }}</h3>
     </div>
 
     <div id="stockList">
+
         <div class="stockDetail" id="stockLabels">
             <h4>Symbol:</h4>
             <p>Last Trade Time:</p>
@@ -34,6 +33,6 @@
                   </form>
             </div>
         {% endfor %}
-
+        
     </div>
 {% endblock %}

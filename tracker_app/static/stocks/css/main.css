@@ -170,6 +170,12 @@ h6 {
   }
 }
 
+#errors {
+  /* background-color: yellow; */
+  color: orange;
+  font-style: italic;
+}
+
 #title {
   /* background-color: yellow; */
   margin: 5px;
