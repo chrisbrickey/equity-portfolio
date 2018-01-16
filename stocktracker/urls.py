@@ -30,10 +30,12 @@ urlpatterns = [
     url(r'^stocksOLD/$', views.stockOLD_index, name='stockOLD-index'),
     url(r'^stocksOLD/(?P<pk>[0-9]+)/$', views.stockOLD_detail, name='stockOLD-detail'),
 
+    url(r'^update/$', views.update_portfolio_chris, name='load_portfolio_chris'),
+
     # implement below for system with multiple portfolios
     # url(r'^portfolios/$', views.portfolio_index, name='index'),
     # url(r'^portfolios/(?P<pk>[0-9]+)/$', views.portfolio_detail, name='detail'),
 
-    url(r'^$', views.load_portfolio_chris, name='chris'),  #the top level shows Chris' portfolio detail
+    url(r'^$', views.load_portfolio_chris, name='load_portfolio_chris'),  #the top level shows Chris' portfolio detail
 
 ]
