@@ -9,11 +9,15 @@
         <h3>Portfolio Name: {{ portfolio.name }}</h3>
     </div>
 
+    <div class="footline">
+        <h6><a href="/update/">Update Trade Prices</a></h6>
+    </div>
+
     <div id="stockList">
 
         <div class="stockDetail" id="stockLabels">
             <h4>Symbol:</h4>
-            <p>Last Trade Time:</p>
+            <p>Last Trade Time(Eastern US):</p>
             <p>Last Trade Price(USD):</p>
             <p>Number of shares owned:</p>
             <p>Market value of stake:</p>
@@ -25,14 +29,22 @@
                   <h4>{{ stock.symbol }}</a></h4>
                   <p>{{ stock.last_trade_time }}</p>
                   <p>{{ stock.last_trade_price|floatformat:2 }}</p>
-                  <p>{{ stock.shares_owned|floatformat:2 }}</p>
+
+                  <form action="/api/stocks/{{stock.id}}/" method="PUT">
+                      <input id="n_shares" type="text" name="n_shares" value="{{stock.shares_owned|floatformat:2}}">
+                      <input type="submit" value="Update">
+                  </form>
+
                   <p>{{ stock.last_trade_price|multiply:stock.shares_owned|floatformat:2 }}</p>
 
-                  <form action="/api/stocks/{{stock.id}}/" method="delete">
-                      <input type="submit" value="Update/Delete">
+                  <form action="/api/stocks/{{stock.id}}/" method="DELETE">
+                      <input type="submit" value="Remove from Portfolio">
                   </form>
             </div>
+
+            <div class="line"></div>
         {% endfor %}
 
     </div>
+
 {% endblock %}
