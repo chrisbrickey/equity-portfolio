@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 
 {% block landingPageContent %}
-
     {% load stocktracker_tags %}
 
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
@@ -34,21 +33,7 @@
                       <input type="submit" value="Update/Delete">
                   </form>
             </div>
-
-
         {% endfor %}
 
-    </div>
-
-{% endblock %}
-
-
-{% block footerContent %}
-    <div id="footline">
-        <h6><a href="/search/">Search/Add Stocks</a></h6>
-    </div>
-
-    <div id="footline">
-        <h6><a href="/api/" target="_blank">Browsable API</a></h6>
     </div>
 {% endblock %}
