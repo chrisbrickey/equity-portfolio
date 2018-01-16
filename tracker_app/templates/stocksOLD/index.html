@@ -1,75 +1,36 @@
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+
+{% block landingPageContent %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 
-<head>
-    <meta charset="utf-8">
-    <title>Equity Portfolio</title>
-    <link
-        rel="icon"
-        href="https://res.cloudinary.com/dckkkjkuz/image/upload/v1514438963/dollar_nvldfi.png"
-        type="image/x-icon"/>
-
-    <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Montserrat" >
-
-    {% load static %}
-    <link
-        rel="stylesheet"
-        href="{% static 'stocks/style.css' %}"
-        type="text/css" />
+    {% if stock_list %}
+      <h3>List of all stocks in database:</h3>
+      <br />
+        <ul>
+        {% for stock in stock_list %}
+            <li><a href="/stocksOLD/{{ stock.id }}/">{{ stock.symbol }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <h3>Sorry, there are no stocks available at this time.</h3>
+    {% endif %}
+{% endblock %}
 
 
-</head>
 
-<body>
-    <main>
+{% block footerContent %}
+    <div id="footline">
+        <h6><a href="/search/">Search/Add Stocks</a></h6>
+    </div>
 
+    <div id="footline">
+        <h6><a href="/">Your Portfolio</a></h6>
+    </div>
 
-        <section id="header">
-          <div id="headline">
-              <h1><a href="/">Equity Portfolio</a></h1>
-          </div>
-        </section>
-
-
-        <section id="landingPage">
-
-
-            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
-
-            {% if stock_list %}
-              <h3>List of all stocks in database:</h3>
-              <br />
-                <ul>
-                {% for stock in stock_list %}
-                    <li><a href="/stocksOLD/{{ stock.id }}/">{{ stock.symbol }}</a></li>
-                {% endfor %}
-                </ul>
-            {% else %}
-                <h3>Sorry, there are no stocks available at this time.</h3>
-            {% endif %}
-
-        </section>
-
-
-        <section id="footer">
-
-            <div id="footline">
-                <h6><a href="/search/">Search/Add Stocks</a></h6>
-            </div>
-
-            <div id="footline">
-                <h6><a href="/">Your Portfolio</a></h6>
-            </div>
-
-            <div id="footline">
-                <h6><a href="/api/" target="_blank">Browsable API</a></h6>
-            </div>
-
-            <div class="padding"></div>
-        </section>
-
-
-    </main>
-</body>
+    <div id="footline">
+        <h6><a href="/api/" target="_blank">Browsable API</a></h6>
+    </div>
+{% endblock %}

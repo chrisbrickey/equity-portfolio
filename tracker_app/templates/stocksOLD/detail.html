@@ -1,63 +1,26 @@
-<head>
-    <meta charset="utf-8">
-    <title>Equity Portfolio</title>
-    <link
-        rel="icon"
-        href="https://res.cloudinary.com/dckkkjkuz/image/upload/v1514438963/dollar_nvldfi.png"
-        type="image/x-icon"/>
+{% extends 'base.html' %}
 
-    <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Montserrat" >
+<!DOCTYPE html>
 
-    {% load static %}
-    <link
-        rel="stylesheet"
-        href="{% static 'stocks/style.css' %}"
-        type="text/css" />
+{% block landingPageContent %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <h3>{{ stock.symbol }}</h3>
+    <p>Latest Closing Price (USD): {{stock.last_trade_price}}</p>
+    <p>Last Trade Time: {{stock.last_trade_time}}</p>
+{% endblock %}
 
 
-</head>
+{% block footerContent %}
+    <div id="footline">
+        <h6><a href="/search/">Search/Add Stocks</a></h6>
+    </div>
 
-<body>
-    <main>
+    <div id="footline">
+        <h6><a href="/">Your Portfolio</a></h6>
+    </div>
 
-
-        <section id="header">
-          <div id="headline">
-              <h1><a href="/">Equity Portfolio</a></h1>
-          </div>
-        </section>
-
-
-        <section id="landingPage">
-
-            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
-            <h3>{{ stock.symbol }}</h3>
-            <p>Latest Closing Price (USD): {{stock.last_trade_price}}</p>
-            <p>Last Trade Time: {{stock.last_trade_time}}</p>
-
-        </section>
-
-
-        <section id="footer">
-
-            <div id="footline">
-                <h6><a href="/search/">Search/Add Stocks</a></h6>
-            </div>
-
-            <div id="footline">
-                <h6><a href="/">Your Portfolio</a></h6>
-            </div>
-
-            <div id="footline">
-                <h6><a href="/api/" target="_blank">Browsable API</a></h6>
-            </div>
-
-            <div class="padding"></div>
-        </section>
-
-
-    </main>
-</body>
+    <div id="footline">
+        <h6><a href="/api/" target="_blank">Browsable API</a></h6>
+    </div>
+{% endblock %}
