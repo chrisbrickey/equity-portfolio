@@ -171,7 +171,9 @@ h6 {
 }
 
 #errors {
-  /* background-color: yellow; */
+  background-color: yellow;
+  margin: 0px 5px;
+  padding: 0px 10px;
   color: orange;
   font-style: italic;
 }
