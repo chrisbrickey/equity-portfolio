@@ -1,92 +1,53 @@
-<head>
-    <meta charset="utf-8">
-    <title>Equity Portfolio</title>
-    <link
-        rel="icon"
-        href="https://res.cloudinary.com/dckkkjkuz/image/upload/v1514438963/dollar_nvldfi.png"
-        type="image/x-icon"/>
+{% extends 'base.html' %}
 
-    <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Montserrat" >
+<!DOCTYPE html>
 
-    {% load static %}
-    <link
-        rel="stylesheet"
-        href="{% static 'stocks/style.css' %}"
-        type="text/css" />
+<section id="landingPage">
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
+    <div id="title"><h3></h3></div>
 
-</head>
+    <div id="stockList">
+        <div class="stockDetail" id="stockLabels"></div>
 
-<body>
-    <main>
+        <div class="stockDetail">
+            <h4>{{ symbol }}</h4>
+            <p>Latest Closing Price (USD): {{closing_price}}</p>
+            <p>Last Trade Time ({{time_zone}}): {{latest_date_time}}</p>
+            <p>Shares in Portfolio: {{n_shares}}</p>
+        </div>
 
+    </div>
 
-        <section id="header">
-            <div id="headline">
-                <h1><a href="/">Equity Portfolio</a></h1>
-            </div>
-        </section>
+    <div id="addPortfolioDiv">
 
+        <form action="/stocks/{{symbol}}/" method="post">
+            <input id="symbol" type="hidden" name="symbol" value="{{symbol}}">
+            <input id="portfolio_id" type="hidden" name="portfolio_id" value="{{ 1 }}">
+            <input id="last_trade_price" type="hidden" name="last_trade_price" value={{closing_price}}>
+            <input id="last_trade_time" type="hidden" name="last_trade_time" value={{latest_date_time}}>
 
-        <section id="landingPage">
+            <label for="n_shares">Number of Shares: </label>
+            <input id="n_shares" type="text" name="n_shares" value="{{n_shares}}">
 
-            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+            </br>
 
-            <div id="title"><h3></h3></div>
-
-            <div id="stockList">
-                <div class="stockDetail" id="stockLabels"></div>
-
-                <div class="stockDetail">
-                    <h4>{{ symbol }}</h4>
-                    <p>Latest Closing Price (USD): {{closing_price}}</p>
-                    <p>Last Trade Time ({{time_zone}}): {{latest_date_time}}</p>
-                    <p>Shares in Portfolio: {{n_shares}}</p>
-                </div>
-
-            </div>
-
-            <div id="addPortfolioDiv">
-
-                <form action="/stocks/{{symbol}}/" method="post">
-                    <input id="symbol" type="hidden" name="symbol" value="{{symbol}}">
-                    <input id="portfolio_id" type="hidden" name="portfolio_id" value="{{ 1 }}">
-                    <input id="last_trade_price" type="hidden" name="last_trade_price" value={{closing_price}}>
-                    <input id="last_trade_time" type="hidden" name="last_trade_time" value={{latest_date_time}}>
-
-                    <label for="n_shares">Number of Shares: </label>
-                    <input id="n_shares" type="text" name="n_shares" value="{{n_shares}}">
-
-                    </br>
-
-                    <input type="submit" value="Add to Portfolio">
-                </form>
-            </div>
+            <input type="submit" value="Add to Portfolio">
+        </form>
+    </div>
+</section>
 
 
+{% block footerContent %}
+    <div id="footline">
+        <h6><a href="/search/">Search/Add Another</a></h6>
+    </div>
 
-        </section>
+    <div id="footline">
+        <h6><a href="/">Your Portfolio</a></h6>
+    </div>
 
-
-        <section id="footer">
-
-            <div id="footline">
-                <h6><a href="/search/">Search/Add Another</a></h6>
-            </div>
-
-            <div id="footline">
-                <h6><a href="/">Your Portfolio</a></h6>
-            </div>
-
-            <div id="footline">
-                <h6><a href="/api/" target="_blank">Browsable API</a></h6>
-            </div>
-
-            <div class="padding"></div>
-        </section>
-
-
-    </main>
-</body>
+    <div id="footline">
+        <h6><a href="/api/" target="_blank">Browsable API</a></h6>
+    </div>
+{% endblock %}

@@ -1,72 +1,42 @@
-<head>
-    <meta charset="utf-8">
-    <title>Equity Portfolio</title>
-    <link
-        rel="icon"
-        href="https://res.cloudinary.com/dckkkjkuz/image/upload/v1514438963/dollar_nvldfi.png"
-        type="image/x-icon"/>
+{% extends 'base.html' %}
 
-    <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Montserrat" >
+<!DOCTYPE html>
 
-    {% load static %}
-    <link
-        rel="stylesheet"
-        href="{% static 'stocks/style.css' %}"
-        type="text/css" />
+<section id="header">
+  <div id="headline">
+      <h1><a href="/">Equity Portfolio</a></h1>
+  </div>
+</section>
 
 
-</head>
+<section id="landingPage">
 
-<body>
-    <main>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
+    <div id="title"><h3></h3></div>
 
-        <section id="header">
-          <div id="headline">
-              <h1><a href="/">Equity Portfolio</a></h1>
-          </div>
-        </section>
+    <div id="stockList">
+        <div class="stockDetail" id="stockLabels"></div>
 
+        <div class="stockDetail">
+              <form action="/stocks/{{symbol}}" method="get">
+                <label for "symbol">Enter symbol here: </label>
+                <input id="symbol" type="text" name="symbol">
+                <input type="submit" value="Find it!" />
+              </form>
+        </div>
 
-        <section id="landingPage">
+    </div>
 
-            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
-            <div id="title"><h3></h3></div>
-
-            <div id="stockList">
-                <div class="stockDetail" id="stockLabels"></div>
-
-                <div class="stockDetail">
-                      <form action="/stocks/{{symbol}}" method="get">
-                        <label for "symbol">Enter symbol here: </label>
-                        <input id="symbol" type="text" name="symbol">
-                        <input type="submit" value="Find it!" />
-                      </form>
-                </div>
-
-            </div>
+</section>
 
 
+{% block footerContent %}
+    <div id="footline">
+        <h6><a href="/">Your Portfolio</a></h6>
+    </div>
 
-        </section>
-
-
-        <section id="footer">
-
-            <div id="footline">
-                <h6><a href="/">Your Portfolio</a></h6>
-            </div>
-
-            <div id="footline">
-                <h6><a href="/api/" target="_blank">Browsable API</a></h6>
-            </div>
-
-            <div class="padding"></div>
-        </section>
-
-
-    </main>
-</body>
+    <div id="footline">
+        <h6><a href="/api/" target="_blank">Browsable API</a></h6>
+    </div>
+{% endblock %}
