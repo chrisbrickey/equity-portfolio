@@ -101,6 +101,10 @@ python manage.py runserver
 ### 7. View the Web Application
 Open http://localhost:8000 in your browser
 
+### 8. Run Test Suite
+```bash
+python manage.py test tracker_app
+```
 
 ## Future Development
 - Multiple Portfolios: Users can own multiple portfolios

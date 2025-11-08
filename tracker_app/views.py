@@ -38,8 +38,8 @@ class StockDetail(generics.RetrieveUpdateDestroyAPIView):
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
-        'portfolios': reverse('portfolio-list', request=request, format=format),
-        'stocks': reverse('stock-list', request=request, format=format)
+        'portfolios': reverse('api:portfolio-list', request=request, format=format),
+        'stocks': reverse('api:stock-list', request=request, format=format)
     })
 
 
