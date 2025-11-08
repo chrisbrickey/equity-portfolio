@@ -15,28 +15,28 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.conf.urls import url, include
+from django.urls import re_path, include
 from tracker_app import views   #for frontend only
 
 urlpatterns = [
 
-    url(r'^api/', include('tracker_app.urls')),
-    url(r'^admin/', admin.site.urls),
+    re_path(r'^api/', include('tracker_app.urls')),
+    re_path(r'^admin/', admin.site.urls),
 
-    url(r'^search/$', views.render_search_form, name='search-form'),
-    url(r'^stocks/$', views.stock_index, name='stock-index'),
-    url(r'^stocks/(?P<symbol>.+)/$', views.stock_detail, name='stock-detail'),
-    url(r'^stockDELETE/(?P<pk>[0-9]+)/$', views.delete_stock, name='delete_stock'),
+    re_path(r'^search/$', views.render_search_form, name='search-form'),
+    re_path(r'^stocks/$', views.stock_index, name='stock-index'),
+    re_path(r'^stocks/(?P<symbol>.+)/$', views.stock_detail, name='stock-detail'),
+    re_path(r'^stockDELETE/(?P<pk>[0-9]+)/$', views.delete_stock, name='delete-stock'),
 
-    url(r'^stocksOLD/$', views.stockOLD_index, name='stockOLD-index'),
-    url(r'^stocksOLD/(?P<pk>[0-9]+)/$', views.stockOLD_detail, name='stockOLD-detail'),
+    re_path(r'^stocksOLD/$', views.stockOLD_index, name='stockOLD-index'),
+    re_path(r'^stocksOLD/(?P<pk>[0-9]+)/$', views.stockOLD_detail, name='stockOLD-detail'),
 
-    url(r'^portfolioUPDATE/$', views.update_portfolio_chris, name='load_portfolio_chris'),
+    re_path(r'^portfolioUPDATE/$', views.update_portfolio_chris, name='update-portfolio-chris'),
 
     # implement below for system with multiple portfolios
-    # url(r'^portfolios/$', views.portfolio_index, name='index'),
-    # url(r'^portfolios/(?P<pk>[0-9]+)/$', views.portfolio_detail, name='detail'),
+    # re_path(r'^portfolios/$', views.portfolio_index, name='index'),
+    # re_path(r'^portfolios/(?P<pk>[0-9]+)/$', views.portfolio_detail, name='detail'),
 
-    url(r'^$', views.load_portfolio_chris, name='load_portfolio_chris'),  #the top level shows Chris' portfolio detail
+    re_path(r'^$', views.load_portfolio_chris, name='load-portfolio-chris'),  #the top level shows Chris' portfolio detail
 
 ]
