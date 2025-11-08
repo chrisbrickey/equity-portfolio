@@ -20,8 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
-ALPHA_KEY = os.environ['ALPHA_KEY']
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-local-dev-key-change-in-production')
+ALPHA_KEY = os.environ.get('ALPHA_KEY', '')
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -146,4 +146,4 @@ STATICFILES_DIRS = (
 
 # Simplified static file serving. Added this because Django does not automatically support serving static files in production.
 # https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

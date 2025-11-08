@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
@@ -106,7 +104,7 @@ def stock_index(request):
     try:
         existing_stock = Stock.objects.get(symbol=symbol)
         n_shares = existing_stock.shares_owned
-    except:
+    except Stock.DoesNotExist:
         pass
 
     context = {'symbol': symbol,
@@ -132,12 +130,12 @@ def stock_detail(request, symbol):
 
         try:
             new_stock.save()
-        except:
+        except Exception:
             return render(request, 'stocks/search_form.html', { 'error_message' : "This stock is already in the portfolio. Please choose another."})
 
         try:
             chris_portfolio.add_stock(new_stock)
-        except:
+        except Exception:
             return render(request, 'stocks/search_form.html', { 'error_message' : "This stock is already in the portfolio or the portfolio is full."})
 
         new_stock.buy_shares(n_shares)
