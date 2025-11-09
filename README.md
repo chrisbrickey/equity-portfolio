@@ -8,10 +8,10 @@
 This app utilizes AlphaVantage API to retrieve information on stocks in the portfolio and new stocks via search.
 
 #### Browsable API
-Non-technical users may interact only with HTML templates, but a hyperlinked, browsable API is also available using the /api namespace.
+Non-technical users may interact via the browser with HTML templates, but a hyperlinked, browsable API is also available using the /api namespace.
 
 
-## Technology
+## Tech Stack
 *See requirements.txt for full list of dependencies.*
 - Python 3.12
 - Django 3.2 LTS
@@ -20,34 +20,51 @@ Non-technical users may interact only with HTML templates, but a hyperlinked, br
 
 
 ## Environment Variables
+This application uses environment variables for configuration.
+- `ALPHA_KEY`: AlphaVantage API key for stock price data
+- `SECRET_KEY`: Django secret key for cryptographic signing
+- `DATABASE_URL`: PostgreSQL database connection string
 
-This application uses environment variables for configuration. For **local development**, the app will run with default values. For **production deployment** (Heroku), you must set these variables.
+In production environments, these variables must be explicitly set using real values. (Heroku automatically sets `DATABASE_URL`.)
+For local development, default values are provided with the exception of `ALPHA_KEY`. 
+You must obtain a free AlphaVantage API key and set that variable using the instructions below.
 
-### Required for Production
-- `SECRET_KEY` - Django secret key for cryptographic signing
-- `ALPHA_KEY` - AlphaVantage API key for stock price data
-- `DATABASE_URL` - PostgreSQL database connection string (automatically set by Heroku)
+### Setting environment variables for local development
 
-### Local Development
-The app includes development defaults, so you can run locally without setting any environment variables. However, you'll need a real AlphaVantage API key for some features:
+1. Create a `.env` file.
+- Create a file called `.env` at the top level of the repo. 
+- This file is gitignored to prevent committing secrets.
+- Copy the content of `.env.example` (committed in this repo) into your new file.
 
-1. Get a free API key at [AlphaVantage](https://www.alphavantage.co/)
-2. Set it in your terminal session:
-   ```bash
-   export ALPHA_KEY="your-api-key-here"
-   ```
+2. Set `ALPHA_KEY`.
+- Get a free API key at [AlphaVantage](https://www.alphavantage.co/support/#api-key)
+- Replace `your_alphavantage_api_key_here` in `.env` with the actual API key.
 
-To set a custom SECRET_KEY for local testing:
-```bash
-export SECRET_KEY="your-secret-key-here"
+_To run the app locally, the above are the only required steps with regard to environment variables._
+
+3. (optional) Set `SECRET_KEY`.
+- Some value must be defined for this variable in order for Django to start. But you don't need a real cryptographic key
+if you are only handling test/seed data on a local server. So the `.env` file already contains an obviously insecure 
+default string that you can use for local development: `SECRET_KEY=django-insecure-local-dev-key-change-in-production`.
+- If you want to use a real cryptographic key or local development, replace `django-insecure...` with that key in `.env`.
+- Never use the insecure default string in production.
+
+4. (optional) Set `DATABASE_URL`.
+- This PostgreSQL configuration is currently defined in settings.py, but it can be overridden by defining `DATABASE_URL` in `.env`.
+- This environment variable is automatically set by Heroku in production.
+
+#### Alternative: Store environment variables in terminal shell
 ```
-
-**Note:** These exports are temporary and only last for your current terminal session. For permanent local configuration, add them to your shell profile (`~/.zshrc` or `~/.bashrc`).
+export ALPHA_KEY="your-api-key-here" # required for local development
+export SECRET_KEY="your-secret-key-here" # optional for local development
+```
+_NB: These terminal exports are temporary and only persist for the current terminal session._
 
 
 ## Run the Program
+The below will not work if the Alpha Vantage API key is not set as an environment variable (see previous section).
 
-### 1. Install and Configure PostgreSQL
+### 1. Install and and Start PostgreSQL
 
 **macOS (using Homebrew):**
 ```bash
@@ -100,7 +117,6 @@ python manage.py runserver
 
 ### 7. View the Web Application
 Open http://localhost:8000 in your browser
-
 
 ## Future Development
 - Multiple Portfolios: Users can own multiple portfolios
