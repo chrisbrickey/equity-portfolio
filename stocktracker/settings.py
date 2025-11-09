@@ -89,6 +89,8 @@ WSGI_APPLICATION = 'stocktracker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+# PostgreSQL config for local development
+# This configuration will be overridden by DATABASE_URL if that environment variable is set.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -100,9 +102,15 @@ DATABASES = {
     }
 }
 
-# Update database configuration with $DATABASE_URL.
+# If DATABASE_URL environment variable is detected, then it's value will be used for the database configuration,
+# instead of the above default. NB: Heroku (production environment) automatically sets DATABASE_URL.
+# If DATABASE_URL environment variable is not detected, the library logs a warning and uses the default config above.
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
+
+# Declare default primary key field type
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 
 # Password validation

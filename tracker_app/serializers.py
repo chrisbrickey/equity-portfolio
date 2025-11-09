@@ -12,6 +12,9 @@ class PortfolioSerializer(serializers.HyperlinkedModelSerializer):
                   'name',
                   'stock_set',
                   'timestamp_created')
+        extra_kwargs = {
+            'url': {'view_name': 'api:portfolio-detail'},
+        }
 
 
 class StockSerializer(serializers.HyperlinkedModelSerializer):
@@ -26,3 +29,7 @@ class StockSerializer(serializers.HyperlinkedModelSerializer):
                   'shares_owned',
                   'timestamp_created',
                   'last_trade_time')
+        extra_kwargs = {
+            'url': {'view_name': 'api:stock-detail'},
+            'portfolio': {'view_name': 'api:portfolio-detail'},
+        }
