@@ -95,10 +95,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'stocktracker_dev1',
-        'USER': 'chrisbrickey',
+        'USER': '',
         'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '',
+        'HOST': 'localhost', # 'localhost' explicitly uses TCP/IP; empty string defaults to Unix domain socket
+        'PORT': '', # empty string defaults to PostgreSQL's standard port 5432
     }
 }
 
