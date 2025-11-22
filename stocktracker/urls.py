@@ -25,18 +25,19 @@ urlpatterns = [
 
     re_path(r'^search/$', views.render_search_form, name='search-form'),
     re_path(r'^stocks/$', views.stock_index, name='stock-index'),
-    re_path(r'^stocks/(?P<symbol>.+)/$', views.stock_detail, name='stock-detail'),
+    re_path(r'^stocks/(?P<symbol>.+)/$', views.stock_detail_for_seeded_portfolio, name='stock-detail-for-seeded-portfolio'),
     re_path(r'^stockDELETE/(?P<pk>[0-9]+)/$', views.delete_stock, name='delete-stock'),
 
     re_path(r'^stocksOLD/$', views.stockOLD_index, name='stockOLD-index'),
     re_path(r'^stocksOLD/(?P<pk>[0-9]+)/$', views.stockOLD_detail, name='stockOLD-detail'),
 
-    re_path(r'^portfolioUPDATE/$', views.update_portfolio_chris, name='update-portfolio-chris'),
+    re_path(r'^portfolioUPDATE/$', views.update_seeded_portfolio, name='update-seeded-portfolio'),
 
     # implement below for system with multiple portfolios
     # re_path(r'^portfolios/$', views.portfolio_index, name='index'),
     # re_path(r'^portfolios/(?P<pk>[0-9]+)/$', views.portfolio_detail, name='detail'),
 
-    re_path(r'^$', views.load_portfolio_chris, name='load-portfolio-chris'),  #the top level shows Chris' portfolio detail
+    # The root path displays the seeded portfolio detail
+    re_path(r'^$', views.view_seeded_portfolio, name='view-seeded-portfolio'),
 
 ]

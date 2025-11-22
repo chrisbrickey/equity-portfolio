@@ -45,22 +45,22 @@ def api_root(request, format=None):
 
 
 # FRONTEND
-def load_portfolio_chris(request):
-    chris_portfolio_set = Portfolio.objects.filter(name="Chris")
-    chris_stock_queryset = chris_portfolio_set[0].stock_set.all()
+def view_seeded_portfolio(request):
+    portfolio_set = Portfolio.objects.filter(name="Rainy Day Fund")
+    stock_queryset = portfolio_set[0].stock_set.all()
 
-    if chris_portfolio_set.exists():
-        context = {'portfolio': chris_portfolio_set[0], 'stock_set': chris_stock_queryset}
-        return render(request, 'portfolios/chris.html', context)
+    if portfolio_set.exists():
+        context = {'portfolio': portfolio_set[0], 'stock_set': stock_queryset}
+        return render(request, 'portfolios/detail.html', context)
     else:
-        raise Http404("We can't find Chris' portfolio in our database.")
+        raise Http404("Seeded portfolio was not found in the database.")
 
 
-def update_portfolio_chris(request):
-    chris_portfolio_set = Portfolio.objects.filter(name="Chris")
-    chris_stock_queryset = chris_portfolio_set[0].stock_set.all()
+def update_seeded_portfolio(request):
+    portfolio_set = Portfolio.objects.filter(name="Rainy Day Fund")
+    stock_queryset = portfolio_set[0].stock_set.all()
 
-    for stock in chris_stock_queryset:
+    for stock in stock_queryset:
         api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={0}&interval=1min&apikey={1}".format(stock.symbol, settings.ALPHA_KEY)
         response = requests.get(api_call)
         stock_text = response.text
@@ -78,12 +78,12 @@ def update_portfolio_chris(request):
 
         stock.save()
 
-    if chris_portfolio_set.exists():
-        context = {'portfolio': chris_portfolio_set[0], 'stock_set': chris_stock_queryset}
-        # return render(request, 'portfolios/chris.html', context)
+    if portfolio_set.exists():
+        context = {'portfolio': portfolio_set[0], 'stock_set': stock_queryset}
+        # return render(request, 'portfolios/detail.html', context)
         return redirect('/')
     else:
-        raise Http404("We can't find Chris' portfolio in our database.")
+        raise Http404("Seeded portfolio was not found in the database.")
 
 def render_search_form(request):
     return render(request, 'stocks/search_form.html')
@@ -117,8 +117,8 @@ def stock_index(request):
 
 
 @csrf_exempt
-def stock_detail(request, symbol):
-    chris_portfolio = Portfolio.objects.get(name="Chris")
+def stock_detail_for_seeded_portfolio(request, symbol):
+    portfolio = Portfolio.objects.get(name="Rainy Day Fund")
 
     if request.method == 'POST':
         last_trade_price = request.POST.get('last_trade_price', None)
@@ -134,7 +134,7 @@ def stock_detail(request, symbol):
             return render(request, 'stocks/search_form.html', { 'error_message' : "This stock is already in the portfolio. Please choose another."})
 
         try:
-            chris_portfolio.add_stock(new_stock)
+            portfolio.add_stock(new_stock)
         except Exception:
             return render(request, 'stocks/search_form.html', { 'error_message' : "This stock is already in the portfolio or the portfolio is full."})
 
@@ -150,8 +150,8 @@ def stock_detail(request, symbol):
     #     stock_to_delete.remove_from_portfolio()
     #     stock_to_delete.delete()
 
-    chris_stock_queryset = chris_portfolio.stock_set.all()
-    context = {'portfolio': chris_portfolio, 'stock_set': chris_stock_queryset}
+    stock_queryset = portfolio.stock_set.all()
+    context = {'portfolio': portfolio, 'stock_set': stock_queryset}
     return redirect('/')
 
 @csrf_exempt

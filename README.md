@@ -129,7 +129,7 @@ python manage.py test -v 3
 
 ### Manage Seed Data
 Database seed data is defined by `tracker_app/fixtures/initdata.json`. 
-The current seeds include one portfolio (`Chris`) with the below equities.
+The current seeds include a portfolio with the below equities.
 
      | Stock  | Ticker | Shares | Price   | 
      |--------|--------|--------|---------|
