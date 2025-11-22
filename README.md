@@ -124,7 +124,7 @@ Open http://localhost:8000 in your browser
 
 ### Run Test Suite
 ```
-python manage.py test
+python manage.py test -v 3
 ```
 
 ### Manage Seed Data
