@@ -3,7 +3,7 @@
     "model": "tracker_app.portfolio",
     "pk": 1,
     "fields": {
-      "name": "Chris",
+      "name": "Rainy Day Fund",
       "timestamp_created": "2017-12-28T18:24:53.762Z"
     }
   },

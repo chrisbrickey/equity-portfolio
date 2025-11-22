@@ -34,7 +34,7 @@ class PortfolioTemplateTests(TestCase):
         # TODO: update URL config and template to remove all caps from the update button
         self.assertContains(response, '<a href="/portfolioUPDATE/">Update Trade Prices</a>')
         self.assertContains(response, '<a href="/search/">Search/Add Stocks</a>')
-        self.assertContains(response, '<a href="/">Your Portfolio</a>')
+        self.assertContains(response, '<a href="/">View Portfolio</a>')
         self.assertContains(response, '<a href="/api/" target="_blank">Browsable API</a>')
 
     def test_root_url_displays_seeded_stock_data(self):
