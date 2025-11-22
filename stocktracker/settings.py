@@ -102,11 +102,10 @@ DATABASES = {
     }
 }
 
-# If DATABASE_URL environment variable is detected, then it's value will be used for the database configuration,
+# If DATABASE_URL environment variable is detected, its value will be used for the database configuration,
 # instead of the above default. NB: Heroku (production environment) automatically sets DATABASE_URL.
-# If DATABASE_URL environment variable is not detected, the library logs a warning and uses the default config above.
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+if os.environ.get('DATABASE_URL'):
+    DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
 
 # Declare default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

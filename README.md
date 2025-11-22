@@ -114,14 +114,40 @@ python manage.py loaddata tracker_app/fixtures/initdata.json
 ```bash
 python manage.py runserver
 ```
+_In production, the server will be initiated via stocktracker/wsgi.py._
 
 ### 7. View the Web Application
 Open http://localhost:8000 in your browser
 
-### 8. Run Test Suite
-```bash
+
+## More on Local Development
+
+### Run Test Suite
+```
 python manage.py test
 ```
+
+### Manage Seed Data
+Database seed data is defined by `tracker_app/fixtures/initdata.json`. 
+The current seeds include one portfolio (`Chris`) with the below equities.
+
+     | Stock  | Ticker | Shares | Price   | 
+     |--------|--------|--------|---------|
+     | Apple  | AAPL   | 20     | $228.52 | 
+     | Nvidia | NVDA   | 15     | $140.11 | 
+     | Google | GOOGL  | 10     | $169.24 | 
+
+You can change the seeding by updating `initdata.json` and then flushing the database and reloading the seed data.
+
+### Flush local database
+```
+# Clear all data from the database
+python manage.py flush --no-input
+
+# Reload the seed data
+python manage.py loaddata tracker_app/fixtures/initdata.json
+```
+
 
 ## Future Development
 - Multiple Portfolios: Users can own multiple portfolios
