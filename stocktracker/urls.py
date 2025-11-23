@@ -27,6 +27,9 @@ urlpatterns = [
     re_path(r'^search/$', views.render_search_form, name='search-form'),
     re_path(r'^stocks/$', views.stock_index, name='stock-index'),
 
+    # view a specific portfolio
+    re_path(r'^portfolios/(?P<pk>[0-9]+)/$', views.view_portfolio, name='view-portfolio'),
+
     # stock details for each stock in a given portfolio
     re_path(r'^portfolios/(?P<pk>[0-9]+)/stocks/(?P<symbol>.+)/$', views.stock_detail_for_portfolio, name='portfolio-stock-detail'),
 

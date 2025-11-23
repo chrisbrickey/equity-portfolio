@@ -1,6 +1,8 @@
 from django.test import TestCase, override_settings
 from django.urls import reverse
 from decimal import Decimal
+from unittest.mock import patch, Mock
+import json
 
 from ..models import Portfolio, Stock
 
@@ -53,6 +55,7 @@ class ViewErrorTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'stocks/search_form.html')
         self.assertContains(response, "This stock is already in the portfolio. Please choose another.")
+        self.assertEqual(int(response.context['portfolio_id']), self.portfolio.pk)
 
     def test_stock_detail_error_when_portfolio_full(self):
         """Test that adding a stock to a full portfolio (5 stocks) shows error message"""
@@ -76,6 +79,7 @@ class ViewErrorTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'stocks/search_form.html')
         self.assertContains(response, "This stock is already in the portfolio or the portfolio is full.")
+        self.assertEqual(int(response.context['portfolio_id']), self.portfolio.pk)
 
     def test_stock_detail_error_when_stock_already_in_portfolio(self):
         """Test that adding a stock that already exists in portfolio shows error message"""
@@ -113,3 +117,32 @@ class ViewErrorTests(TestCase):
         self.assertTemplateUsed(response, 'stocks/search_form.html')
         # Will show duplicate symbol error since symbol is unique
         self.assertContains(response, "This stock is already in the portfolio. Please choose another.")
+        self.assertEqual(int(response.context['portfolio_id']), self.portfolio.pk)
+
+    @patch('tracker_app.views.requests.get')
+    def test_refresh_portfolio_handles_api_error(self, mock_get):
+        """Test that refresh portfolio handles API errors gracefully"""
+        # Create a stock in the portfolio
+        Stock.objects.create(
+            symbol='AAPL',
+            portfolio=self.portfolio,
+            shares_owned=Decimal('10.000'),
+            last_trade_price=Decimal('150.00'),
+        )
+
+        # Mock API response without 'Meta Data' (simulating rate limit error)
+        mock_response = Mock()
+        mock_response.text = json.dumps({
+            'Note': 'Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day.'
+        })
+        mock_get.return_value = mock_response
+
+        # Call refresh portfolio
+        url = reverse('refresh-portfolio', kwargs={'pk': self.portfolio.pk})
+        response = self.client.get(url)
+
+        # Verify stays on portfolio page with error message
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'portfolios/detail.html')
+        self.assertContains(response, "exceeded the request limit for the free equity lookup service")
+        self.assertEqual(response.context['portfolio'].pk, self.portfolio.pk)

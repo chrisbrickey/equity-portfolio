@@ -54,8 +54,7 @@ class PortfolioTemplateTests(TestCase):
         response = self.client.get('/')
 
         self.assertContains(response, f'<a href="/portfolio-refresh/{self.portfolio.pk}/">Refresh Prices</a>')
-        self.assertContains(response, '<a href="/search/">Search/Add Stocks</a>')
-        self.assertContains(response, '<a href="/">View Portfolio</a>')
+        self.assertContains(response, f'<a href="/search/?portfolio_id={self.portfolio.pk}">Search/Add Stocks</a>')
         self.assertContains(response, '<a href="/api/" target="_blank">Browsable API</a>')
 
     def test_root_url_displays_stock_data(self):
@@ -85,10 +84,10 @@ class PortfolioTemplateTests(TestCase):
         response = self.client.get(f'/portfolio-refresh/{self.portfolio.pk}/')
 
         # Verify that user is redirected back to portfolio view
-        self.assertRedirects(response, '/')
+        self.assertRedirects(response, f'/portfolios/{self.portfolio.pk}/')
 
         # Verify that user sees updated prices on the page
-        response = self.client.get('/')
+        response = self.client.get(f'/portfolios/{self.portfolio.pk}/')
         for price in new_prices_by_symbol.values():
             self.assertContains(response, price)
 

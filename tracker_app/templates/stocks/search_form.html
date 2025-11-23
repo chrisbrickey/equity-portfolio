@@ -9,12 +9,19 @@
         <div class="stockDetail" id="stockLabels"></div>
 
         <div class="stockDetail">
-              <form action="/stocks/{{symbol}}" method="get">
+              <form action="/stocks/" method="get">
+                <input type="hidden" name="portfolio_id" value="{{ portfolio_id }}">
                 <label for "symbol">Enter symbol here: </label>
                 <input id="symbol" type="text" name="symbol">
                 <input type="submit" value="Find it!" />
               </form>
         </div>
 
+    </div>
+{% endblock %}
+
+{% block footerLinks %}
+    <div class="footline">
+        <h6><a href="/portfolios/{{ portfolio_id }}/">View Portfolio</a></h6>
     </div>
 {% endblock %}
