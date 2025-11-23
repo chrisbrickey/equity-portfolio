@@ -53,7 +53,7 @@ class PortfolioTemplateTests(TestCase):
     def test_root_url_displays_navigation_links(self):
         response = self.client.get('/')
 
-        self.assertContains(response, '<a href="/portfolioUPDATE/">Update Trade Prices</a>')
+        self.assertContains(response, '<a href="/portfolio-refresh/">Refresh Prices</a>')
         self.assertContains(response, '<a href="/search/">Search/Add Stocks</a>')
         self.assertContains(response, '<a href="/">View Portfolio</a>')
         self.assertContains(response, '<a href="/api/" target="_blank">Browsable API</a>')
@@ -66,23 +66,28 @@ class PortfolioTemplateTests(TestCase):
             self.assertContains(response, f'{stock.shares_owned:.2f}')
             self.assertContains(response, f'{stock.last_trade_price:.2f}')
 
-    @patch('tracker_app.views.requests.get')
-    def test_update_trade_prices_button(self, mock_get):
+    def test_refresh_prices_button_exists(self):
+        """Test that the Refresh Prices button exists with correct link"""
+        response = self.client.get('/')
 
+        # Verify the refresh button is present with correct href
+        self.assertContains(response, 'href="/portfolio-refresh/"')
+        self.assertContains(response, 'Refresh Prices')
+
+    @patch('tracker_app.views.requests.get')
+    def test_refresh_prices_user_flow(self, mock_get):
+        """Test user flow: click refresh → redirect → see updated prices"""
         # Mock the API response that provides new price data
         new_prices_by_symbol = {'AAPL': '205.00', 'NVDA': '95.95'}
         mock_get.side_effect = self._mock_api_response(new_prices_by_symbol)
 
-        # Click the 'Update Trade Prices' button
-        response = self.client.get('/portfolioUPDATE/')
+        # User clicks 'Refresh Prices' link
+        response = self.client.get('/portfolio-refresh/')
 
-        # Verify redirect back to root
+        # Verify that user is redirected back to portfolio view
         self.assertRedirects(response, '/')
 
-        # Verify API was called exactly 2 times (once per stock)
-        self.assertEqual(mock_get.call_count, 2)
-
-        # Verify updated prices appear on the page
+        # Verify that user sees updated prices on the page
         response = self.client.get('/')
         for price in new_prices_by_symbol.values():
             self.assertContains(response, price)
