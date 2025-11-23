@@ -23,21 +23,24 @@ urlpatterns = [
     re_path(r'^api/', include('tracker_app.urls')),
     re_path(r'^admin/', admin.site.urls),
 
+    # updated stock data by ticker symbol
     re_path(r'^search/$', views.render_search_form, name='search-form'),
     re_path(r'^stocks/$', views.stock_index, name='stock-index'),
-    re_path(r'^stocks/(?P<symbol>.+)/$', views.stock_detail_for_seeded_portfolio, name='stock-detail-for-seeded-portfolio'),
+
+    # stock details for each stock in a given portfolio
+    re_path(r'^portfolios/(?P<pk>[0-9]+)/stocks/(?P<symbol>.+)/$', views.stock_detail_for_portfolio, name='portfolio-stock-detail'),
+
+    # remove stock from portfolio
     re_path(r'^stockDELETE/(?P<pk>[0-9]+)/$', views.delete_stock, name='delete-stock'),
 
+    # refresh price data in a given portfolio
+    re_path(r'^portfolio-refresh/(?P<pk>[0-9]+)/$', views.refresh_portfolio, name='refresh-portfolio'),
+
+    # dead code
     re_path(r'^stocksOLD/$', views.stockOLD_index, name='stockOLD-index'),
     re_path(r'^stocksOLD/(?P<pk>[0-9]+)/$', views.stockOLD_detail, name='stockOLD-detail'),
 
-    re_path(r'^portfolio-refresh/(?P<pk>[0-9]+)/$', views.refresh_portfolio, name='refresh-portfolio'),
-
-    # implement below for system with multiple portfolios
-    # re_path(r'^portfolios/$', views.portfolio_index, name='index'),
-    # re_path(r'^portfolios/(?P<pk>[0-9]+)/$', views.portfolio_detail, name='detail'),
-
-    # The root path displays the seeded portfolio detail
+    # At root path, display the seeded portfolio
     re_path(r'^$', views.view_seeded_portfolio, name='view-seeded-portfolio'),
 
 ]

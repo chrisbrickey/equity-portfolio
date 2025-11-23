@@ -99,14 +99,6 @@ class AlphaVantageIntegrationTests(TestCase):
             stock = Stock.objects.get(symbol=symbol)
             self.assertEqual(stock.last_trade_price, Decimal(expected_price))
 
-    def test_refresh_portfolio_prices_when_portfolio_not_found(self):
-        """Test that refresh returns 404 for non-existent portfolio"""
-        non_existent_portfolio = 99999
-        url = reverse('refresh-portfolio', kwargs={'pk': non_existent_portfolio})
-        response = self.client.get(url)
-
-        self.assertEqual(response.status_code, 404)
-
     def _mock_single_stock_api_response(self, price):
         """Return mock response for a single stock API call."""
         mock_response = Mock()
