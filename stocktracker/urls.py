@@ -36,6 +36,9 @@ urlpatterns = [
     # remove stock from portfolio
     re_path(r'^stock-delete/(?P<pk>[0-9]+)/$', views.delete_stock, name='delete-stock'),
 
+    # update shares of stock in portfolio
+    re_path(r'^stock-update/(?P<pk>[0-9]+)/$', views.update_stock_shares, name='stock-update'),
+
     # refresh price data in a given portfolio
     re_path(r'^portfolio-refresh/(?P<pk>[0-9]+)/$', views.refresh_portfolio, name='refresh-portfolio'),
 

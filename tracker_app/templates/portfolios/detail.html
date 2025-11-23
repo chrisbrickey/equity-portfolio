@@ -30,14 +30,16 @@
                   <p>{{ stock.last_trade_time }}</p>
                   <p>{{ stock.last_trade_price|floatformat:2 }}</p>
 
-                  <form action="/api/stocks/{{stock.id}}/" method='put'>
+                  <form action="{% url 'stock-update' stock.id %}" method="post">
+                      {% csrf_token %}
                       <input id="n_shares" type="text" name="n_shares" value="{{stock.shares_owned|floatformat:2}}">
                       <input type="submit" value="Update">
                   </form>
 
                   <p>{{ stock.last_trade_price|multiply:stock.shares_owned|floatformat:2 }}</p>
 
-                  <form action="/stock-delete/{{stock.id}}/" method="delete">
+                  <form action="{% url 'delete-stock' stock.id %}" method="post">
+                      {% csrf_token %}
                       <input type="submit" value="Remove from Portfolio">
                   </form>
             </div>
