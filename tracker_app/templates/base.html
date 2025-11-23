@@ -45,13 +45,8 @@
 
 
           <section id="footer">
-              <div class="footline">
-                  <h6><a href="/search/">Search/Add Stocks</a></h6>
-              </div>
-
-              <div class="footline">
-                  <h6><a href="/">View Portfolio</a></h6>
-              </div>
+              {% block footerLinks %}
+              {% endblock %}
 
               <div class="footline">
                   <h6><a href="/api/" target="_blank">Browsable API</a></h6>

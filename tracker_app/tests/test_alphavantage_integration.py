@@ -42,7 +42,7 @@ class AlphaVantageIntegrationTests(TestCase):
 
         # Call method under test
         url = reverse('stock-index')
-        response = self.client.get(url, {'symbol': ticker_symbol})
+        response = self.client.get(url, {'symbol': ticker_symbol, 'portfolio_id': self.portfolio.pk})
 
         # Verify view returns 200
         self.assertEqual(response.status_code, 200)
@@ -114,6 +114,28 @@ class AlphaVantageIntegrationTests(TestCase):
             }
         })
         return mock_response
+
+    @patch('tracker_app.views.requests.get')
+    def test_stock_index_handles_api_error(self, mock_get):
+        """Test that stock search handles API errors gracefully"""
+        ticker_symbol = 'AAPL'
+
+        # Mock API response without 'Meta Data' (simulating rate limit error)
+        mock_response = Mock()
+        mock_response.text = json.dumps({
+            'Note': 'Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day.'
+        })
+        mock_get.return_value = mock_response
+
+        # Call stock index
+        url = reverse('stock-index')
+        response = self.client.get(url, {'symbol': ticker_symbol, 'portfolio_id': self.portfolio.pk})
+
+        # Verify returns to search form with error message
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'stocks/search_form.html')
+        self.assertContains(response, "exceeded the request limit for the free equity lookup service")
+        self.assertEqual(response.context['portfolio_id'], str(self.portfolio.pk))
 
     def _mock_api_response_by_symbol(self, prices_by_symbol):
         """Return a function that returns mock API responses based on symbol in URL."""

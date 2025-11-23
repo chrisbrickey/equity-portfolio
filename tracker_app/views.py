@@ -56,6 +56,17 @@ def view_seeded_portfolio(request):
         raise Http404("Seeded portfolio was not found in the database.")
 
 
+def view_portfolio(request, pk):
+    try:
+        portfolio = Portfolio.objects.get(pk=pk)
+    except Portfolio.DoesNotExist:
+        raise Http404("Portfolio not found.")
+
+    stock_queryset = portfolio.stock_set.all()
+    context = {'portfolio': portfolio, 'stock_set': stock_queryset}
+    return render(request, 'portfolios/detail.html', context)
+
+
 def refresh_portfolio(request, pk):
     try:
         portfolio = Portfolio.objects.get(pk=pk)
@@ -69,6 +80,13 @@ def refresh_portfolio(request, pk):
         response = requests.get(api_call)
         stock_text = response.text
         stock_dict = json.loads(stock_text)
+
+        if 'Meta Data' not in stock_dict:
+            # API error (rate limiting, invalid key, etc.)
+            error_msg = "Today, we've exceeded the request limit for the free equity lookup service that this application uses. Sorry for the inconvenience. Please try again later."
+            context = {'portfolio': portfolio, 'stock_set': stock_queryset, 'error_message': error_msg}
+            return render(request, 'portfolios/detail.html', context)
+
         meta_data = stock_dict['Meta Data']
 
         time_zone = meta_data['6. Time Zone']
@@ -82,17 +100,27 @@ def refresh_portfolio(request, pk):
 
         stock.save()
 
-    return redirect('/')
+    return redirect(f'/portfolios/{pk}/')
 
 def render_search_form(request):
-    return render(request, 'stocks/search_form.html')
+    portfolio_id = request.GET.get('portfolio_id', None)
+    context = {'portfolio_id': portfolio_id}
+    return render(request, 'stocks/search_form.html', context)
 
 def stock_index(request):
     symbol = request.GET.get('symbol', None)
+    portfolio_id = request.GET.get('portfolio_id', None)
+
     api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={0}&interval=1min&apikey={1}".format(symbol, settings.ALPHA_KEY)
     response = requests.get(api_call)
     stock_text = response.text
     stock_dict = json.loads(stock_text)
+
+    if 'Meta Data' not in stock_dict:
+        # API error (rate limiting, invalid key, etc.)
+        error_msg = "Today, we've exceeded the request limit for the free equity lookup service that this application uses. Sorry for the inconvenience. Please try again later."
+        context = {'error_message': error_msg, 'portfolio_id': portfolio_id}
+        return render(request, 'stocks/search_form.html', context)
 
     meta_data = stock_dict['Meta Data']
     time_zone = meta_data['6. Time Zone']
@@ -106,15 +134,12 @@ def stock_index(request):
     except Stock.DoesNotExist:
         pass
 
-    # Get seeded portfolio pk for the form action URL
-    seeded_portfolio = Portfolio.objects.get(name="Rainy Day Fund")
-
     context = {'symbol': symbol,
                'latest_date_time': latest_date_time,
                'closing_price': closing_price,
                'time_zone': time_zone,
                'n_shares': n_shares,
-               'portfolio_id': seeded_portfolio.pk}
+               'portfolio_id': portfolio_id}
 
     return render(request, 'stocks/search_result.html', context)
 
@@ -137,12 +162,12 @@ def stock_detail_for_portfolio(request, pk, symbol):
         try:
             new_stock.save()
         except Exception:
-            return render(request, 'stocks/search_form.html', { 'error_message' : "This stock is already in the portfolio. Please choose another."})
+            return render(request, 'stocks/search_form.html', { 'error_message' : "This stock is already in the portfolio. Please choose another.", 'portfolio_id': pk})
 
         try:
             portfolio.add_stock(new_stock)
         except Exception:
-            return render(request, 'stocks/search_form.html', { 'error_message' : "This stock is already in the portfolio or the portfolio is full."})
+            return render(request, 'stocks/search_form.html', { 'error_message' : "This stock is already in the portfolio or the portfolio is full.", 'portfolio_id': pk})
 
         new_stock.buy_shares(n_shares)
 
