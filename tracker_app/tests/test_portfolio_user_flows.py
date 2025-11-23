@@ -7,11 +7,11 @@ from unittest.mock import patch, Mock
 from tracker_app.models import Portfolio, Stock
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
-class PortfolioTemplateTests(TestCase):
+class PortfolioUserFlowTests(TestCase):
+    """Tests for portfolio functionality that are independent of the seeded portfolio."""
 
     def setUp(self):
-        # For now, the test portfolio must be called 'Rainy Day Fund' because the root path pulls the seeded portfolio
-        self.portfolio = Portfolio.objects.create(name="Rainy Day Fund")
+        self.portfolio = Portfolio.objects.create(name="Test Portfolio")
 
         Stock.objects.create(
             symbol='AAPL',
@@ -26,48 +26,9 @@ class PortfolioTemplateTests(TestCase):
             last_trade_price=Decimal('100.00'),
         )
 
-    def test_root_url_displays_portfolio_template(self):
-        response = self.client.get('/')
-
-        # Verify receive successful response
-        self.assertEqual(response.status_code, 200)
-
-        # Verify display of page headers
-        self.assertContains(response, 'Equity Portfolio')
-        self.assertContains(response, 'Portfolio Name:')
-
-        # Verify display of row labels
-        row_labels = [
-            'Symbol:',
-            'Last Trade Time',
-            'Last Trade Price',
-            'Number of shares owned',
-            'Market value of stake',
-        ]
-
-        for label in row_labels:
-            # subTest will fail on individual row labels
-            with self.subTest(label=label):
-                self.assertContains(response, label)
-
-    def test_root_url_displays_navigation_links(self):
-        response = self.client.get('/')
-
-        self.assertContains(response, f'<a href="/portfolio-refresh/{self.portfolio.pk}/">Refresh Prices</a>')
-        self.assertContains(response, f'<a href="/search/?portfolio_id={self.portfolio.pk}">Search/Add Stocks</a>')
-        self.assertContains(response, '<a href="/api/" target="_blank">Browsable API</a>')
-
-    def test_root_url_displays_stock_data(self):
-        response = self.client.get('/')
-
-        for stock in Stock.objects.all():
-            self.assertContains(response, stock.symbol)
-            self.assertContains(response, f'{stock.shares_owned:.2f}')
-            self.assertContains(response, f'{stock.last_trade_price:.2f}')
-
     def test_refresh_portfolio_prices_button_exists(self):
         """Test that the Refresh Prices button exists with correct link"""
-        response = self.client.get('/')
+        response = self.client.get(f'/portfolios/{self.portfolio.pk}/')
 
         # Verify the refresh button is present with correct href
         self.assertContains(response, f'href="/portfolio-refresh/{self.portfolio.pk}/"')

@@ -12,7 +12,7 @@ class AlphaVantageIntegrationTests(TestCase):
     """Test AlphaVantage API integration with mocking"""
 
     def setUp(self):
-        self.portfolio = Portfolio.objects.create(name="Rainy Day Fund")
+        self.portfolio = Portfolio.objects.create(name="Test Portfolio")
 
         Stock.objects.create(
             symbol='AAPL',
