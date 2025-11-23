@@ -38,7 +38,7 @@ class SeededPortfolioTemplateTests(TestCase):
     def test_root_url_displays_navigation_links(self):
         response = self.client.get('/')
 
-        self.assertContains(response, f'<a href="/portfolio-refresh/{self.portfolio.pk}/">Refresh Prices</a>')
+        self.assertContains(response, f'<a href="/portfolios/{self.portfolio.pk}/refresh/">Refresh Prices</a>')
         self.assertContains(response, f'<a href="/search/?portfolio_id={self.portfolio.pk}">Search/Add Stocks</a>')
         self.assertContains(response, '<a href="/api/" target="_blank">Browsable API</a>')
 
