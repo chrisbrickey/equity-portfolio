@@ -31,7 +31,7 @@ urlpatterns = [
     re_path(r'^stocksOLD/$', views.stockOLD_index, name='stockOLD-index'),
     re_path(r'^stocksOLD/(?P<pk>[0-9]+)/$', views.stockOLD_detail, name='stockOLD-detail'),
 
-    re_path(r'^portfolio-refresh/$', views.refresh_seeded_portfolio, name='refresh-seeded-portfolio'),
+    re_path(r'^portfolio-refresh/(?P<pk>[0-9]+)/$', views.refresh_portfolio, name='refresh-portfolio'),
 
     # implement below for system with multiple portfolios
     # re_path(r'^portfolios/$', views.portfolio_index, name='index'),

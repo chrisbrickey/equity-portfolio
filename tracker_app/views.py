@@ -56,9 +56,13 @@ def view_seeded_portfolio(request):
         raise Http404("Seeded portfolio was not found in the database.")
 
 
-def refresh_seeded_portfolio(request):
-    portfolio_set = Portfolio.objects.filter(name="Rainy Day Fund")
-    stock_queryset = portfolio_set[0].stock_set.all()
+def refresh_portfolio(request, pk):
+    try:
+        portfolio = Portfolio.objects.get(pk=pk)
+    except Portfolio.DoesNotExist:
+        raise Http404("Portfolio was not found in the database.")
+
+    stock_queryset = portfolio.stock_set.all()
 
     for stock in stock_queryset:
         api_call = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={0}&interval=1min&apikey={1}".format(stock.symbol, settings.ALPHA_KEY)
@@ -78,12 +82,7 @@ def refresh_seeded_portfolio(request):
 
         stock.save()
 
-    if portfolio_set.exists():
-        context = {'portfolio': portfolio_set[0], 'stock_set': stock_queryset}
-        # return render(request, 'portfolios/detail.html', context)
-        return redirect('/')
-    else:
-        raise Http404("Seeded portfolio was not found in the database.")
+    return redirect('/')
 
 def render_search_form(request):
     return render(request, 'stocks/search_form.html')
