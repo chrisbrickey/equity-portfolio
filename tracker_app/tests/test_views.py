@@ -163,7 +163,7 @@ class StockUpdateViewTests(TestCase):
 
     def test_update_stock_shares_success(self):
         """Test successful update of stock shares"""
-        url = reverse('stock-update', kwargs={'pk': self.stock.pk})
+        url = reverse('stock-update', kwargs={'pk': self.portfolio.pk, 'stock_pk': self.stock.pk})
         response = self.client.post(url, {'n_shares': '25.5'})
 
         # Should redirect to portfolio detail page
@@ -176,22 +176,38 @@ class StockUpdateViewTests(TestCase):
 
     def test_update_stock_shares_redirects_to_portfolio(self):
         """Test that update redirects back to the correct portfolio page"""
-        url = reverse('stock-update', kwargs={'pk': self.stock.pk})
+        url = reverse('stock-update', kwargs={'pk': self.portfolio.pk, 'stock_pk': self.stock.pk})
         response = self.client.post(url, {'n_shares': '15'})
 
         self.assertRedirects(response, f'/portfolios/{self.portfolio.pk}/')
 
-    def test_update_stock_returns_404_when_not_found(self):
+    def test_update_stock_returns_404_when_stock_not_found(self):
         """Test that update returns 404 for non-existent stock"""
         non_existent_stock = 99999
-        url = reverse('stock-update', kwargs={'pk': non_existent_stock})
+        url = reverse('stock-update', kwargs={'pk': self.portfolio.pk, 'stock_pk': non_existent_stock})
+        response = self.client.post(url, {'n_shares': '10'})
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_update_stock_returns_404_when_portfolio_not_found(self):
+        """Test that update returns 404 for non-existent portfolio"""
+        non_existent_portfolio = 99999
+        url = reverse('stock-update', kwargs={'pk': non_existent_portfolio, 'stock_pk': self.stock.pk})
+        response = self.client.post(url, {'n_shares': '10'})
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_update_stock_returns_404_when_stock_not_in_portfolio(self):
+        """Test that update returns 404 when stock doesn't belong to portfolio"""
+        other_portfolio = Portfolio.objects.create(name="Other Portfolio")
+        url = reverse('stock-update', kwargs={'pk': other_portfolio.pk, 'stock_pk': self.stock.pk})
         response = self.client.post(url, {'n_shares': '10'})
 
         self.assertEqual(response.status_code, 404)
 
     def test_update_stock_handles_invalid_shares_value(self):
         """Test that update handles invalid (non-numeric) shares value gracefully"""
-        url = reverse('stock-update', kwargs={'pk': self.stock.pk})
+        url = reverse('stock-update', kwargs={'pk': self.portfolio.pk, 'stock_pk': self.stock.pk})
         original_shares = self.stock.shares_owned
 
         response = self.client.post(url, {'n_shares': 'invalid'})
@@ -205,7 +221,7 @@ class StockUpdateViewTests(TestCase):
 
     def test_update_stock_handles_missing_shares_value(self):
         """Test that update handles missing n_shares parameter gracefully"""
-        url = reverse('stock-update', kwargs={'pk': self.stock.pk})
+        url = reverse('stock-update', kwargs={'pk': self.portfolio.pk, 'stock_pk': self.stock.pk})
         original_shares = self.stock.shares_owned
 
         response = self.client.post(url, {})
@@ -219,7 +235,7 @@ class StockUpdateViewTests(TestCase):
 
     def test_update_stock_handles_decimal_precision(self):
         """Test that update correctly handles decimal precision"""
-        url = reverse('stock-update', kwargs={'pk': self.stock.pk})
+        url = reverse('stock-update', kwargs={'pk': self.portfolio.pk, 'stock_pk': self.stock.pk})
         response = self.client.post(url, {'n_shares': '123.456789'})
 
         self.assertEqual(response.status_code, 302)
@@ -230,7 +246,7 @@ class StockUpdateViewTests(TestCase):
 
     def test_update_stock_via_get_does_not_modify(self):
         """Test that GET request does not modify shares"""
-        url = reverse('stock-update', kwargs={'pk': self.stock.pk})
+        url = reverse('stock-update', kwargs={'pk': self.portfolio.pk, 'stock_pk': self.stock.pk})
         original_shares = self.stock.shares_owned
 
         response = self.client.get(url, {'n_shares': '999'})
@@ -241,21 +257,6 @@ class StockUpdateViewTests(TestCase):
         # Shares should remain unchanged
         self.stock.refresh_from_db()
         self.assertEqual(self.stock.shares_owned, original_shares)
-
-    def test_update_stock_redirects_to_root_if_no_portfolio(self):
-        """Test that update redirects to root if stock has no portfolio"""
-        orphan_stock = Stock.objects.create(
-            symbol='ORPHAN',
-            portfolio=None,
-            shares_owned=Decimal('5.000'),
-            last_trade_price=Decimal('50.00'),
-        )
-        url = reverse('stock-update', kwargs={'pk': orphan_stock.pk})
-        response = self.client.post(url, {'n_shares': '10'})
-
-        # Check redirect without following (root view requires seeded portfolio)
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, '/')
 
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
@@ -273,7 +274,7 @@ class StockDeleteViewTests(TestCase):
 
     def test_delete_stock_success(self):
         """Test successful deletion of stock via POST"""
-        url = reverse('delete-stock', kwargs={'pk': self.stock.pk})
+        url = reverse('delete-stock', kwargs={'pk': self.portfolio.pk, 'stock_pk': self.stock.pk})
         stock_pk = self.stock.pk
 
         response = self.client.post(url)
@@ -287,22 +288,41 @@ class StockDeleteViewTests(TestCase):
 
     def test_delete_stock_redirects_to_portfolio(self):
         """Test that delete redirects back to the correct portfolio page"""
-        url = reverse('delete-stock', kwargs={'pk': self.stock.pk})
+        url = reverse('delete-stock', kwargs={'pk': self.portfolio.pk, 'stock_pk': self.stock.pk})
         response = self.client.post(url)
 
         self.assertRedirects(response, f'/portfolios/{self.portfolio.pk}/')
 
-    def test_delete_stock_returns_404_when_not_found(self):
+    def test_delete_stock_returns_404_when_stock_not_found(self):
         """Test that delete returns 404 for non-existent stock"""
         non_existent_stock = 99999
-        url = reverse('delete-stock', kwargs={'pk': non_existent_stock})
+        url = reverse('delete-stock', kwargs={'pk': self.portfolio.pk, 'stock_pk': non_existent_stock})
         response = self.client.post(url)
 
         self.assertEqual(response.status_code, 404)
 
+    def test_delete_stock_returns_404_when_portfolio_not_found(self):
+        """Test that delete returns 404 for non-existent portfolio"""
+        non_existent_portfolio = 99999
+        url = reverse('delete-stock', kwargs={'pk': non_existent_portfolio, 'stock_pk': self.stock.pk})
+        response = self.client.post(url)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_delete_stock_returns_404_when_stock_not_in_portfolio(self):
+        """Test that delete returns 404 when stock doesn't belong to portfolio"""
+        other_portfolio = Portfolio.objects.create(name="Other Portfolio")
+        url = reverse('delete-stock', kwargs={'pk': other_portfolio.pk, 'stock_pk': self.stock.pk})
+        response = self.client.post(url)
+
+        self.assertEqual(response.status_code, 404)
+
+        # Verify stock was NOT deleted
+        self.assertTrue(Stock.objects.filter(pk=self.stock.pk).exists())
+
     def test_delete_stock_via_get_does_not_modify(self):
         """Test that GET request does not delete stock"""
-        url = reverse('delete-stock', kwargs={'pk': self.stock.pk})
+        url = reverse('delete-stock', kwargs={'pk': self.portfolio.pk, 'stock_pk': self.stock.pk})
         stock_pk = self.stock.pk
 
         response = self.client.get(url)
@@ -312,18 +332,3 @@ class StockDeleteViewTests(TestCase):
 
         # Stock should still exist
         self.assertTrue(Stock.objects.filter(pk=stock_pk).exists())
-
-    def test_delete_stock_redirects_to_root_if_no_portfolio(self):
-        """Test that delete redirects to root if stock has no portfolio"""
-        orphan_stock = Stock.objects.create(
-            symbol='ORPHAN',
-            portfolio=None,
-            shares_owned=Decimal('5.000'),
-            last_trade_price=Decimal('50.00'),
-        )
-        url = reverse('delete-stock', kwargs={'pk': orphan_stock.pk})
-        response = self.client.post(url)
-
-        # Check redirect without following (root view requires seeded portfolio)
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, '/')

@@ -31,7 +31,7 @@ class PortfolioUserFlowTests(TestCase):
         response = self.client.get(f'/portfolios/{self.portfolio.pk}/')
 
         # Verify the refresh button is present with correct href
-        self.assertContains(response, f'href="/portfolio-refresh/{self.portfolio.pk}/"')
+        self.assertContains(response, f'href="/portfolios/{self.portfolio.pk}/refresh/"')
         self.assertContains(response, 'Refresh Prices')
 
     @patch('tracker_app.views.requests.get')
@@ -42,7 +42,7 @@ class PortfolioUserFlowTests(TestCase):
         mock_get.side_effect = self._mock_api_response(new_prices_by_symbol)
 
         # User clicks 'Refresh Prices' link
-        response = self.client.get(f'/portfolio-refresh/{self.portfolio.pk}/')
+        response = self.client.get(f'/portfolios/{self.portfolio.pk}/refresh/')
 
         # Verify that user is redirected back to portfolio view
         self.assertRedirects(response, f'/portfolios/{self.portfolio.pk}/')

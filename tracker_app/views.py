@@ -109,7 +109,7 @@ def refresh_portfolio(request, pk):
 
         stock.save()
 
-    return redirect(f'/portfolios/{pk}/')
+    return redirect('view-portfolio', pk=pk)
 
 def render_search_form(request):
     portfolio_id = request.GET.get('portfolio_id', None)
@@ -195,29 +195,42 @@ def stock_detail_for_portfolio(request, pk, symbol):
     context = {'portfolio': portfolio, 'stock_set': stock_queryset}
     return redirect('/')
 
-def delete_stock(request, pk):
+def delete_stock(request, pk, stock_pk):
     try:
-        stock = Stock.objects.get(pk=pk)
+        portfolio = Portfolio.objects.get(pk=pk)
+    except Portfolio.DoesNotExist:
+        raise Http404("Portfolio not found.")
+
+    try:
+        stock = Stock.objects.get(pk=stock_pk)
     except Stock.DoesNotExist:
         raise Http404("Stock not found.")
 
-    portfolio_pk = stock.portfolio.pk if stock.portfolio else None
+    # Validate stock belongs to the specified portfolio
+    if stock.portfolio != portfolio:
+        raise Http404("Stock does not belong to this portfolio.")
 
     if request.method == 'POST':
         stock.remove_from_portfolio()
         stock.delete()
 
-    # Redirect back to the portfolio detail page
-    if portfolio_pk:
-        return redirect('view-portfolio', pk=portfolio_pk)
-    return redirect('/')
+    return redirect('view-portfolio', pk=pk)
 
 
-def update_stock_shares(request, pk):
+def update_stock_shares(request, pk, stock_pk):
     try:
-        stock = Stock.objects.get(pk=pk)
+        portfolio = Portfolio.objects.get(pk=pk)
+    except Portfolio.DoesNotExist:
+        raise Http404("Portfolio not found.")
+
+    try:
+        stock = Stock.objects.get(pk=stock_pk)
     except Stock.DoesNotExist:
         raise Http404("Stock not found.")
+
+    # Validate stock belongs to the specified portfolio
+    if stock.portfolio != portfolio:
+        raise Http404("Stock does not belong to this portfolio.")
 
     if request.method == 'POST':
         new_shares = request.POST.get('n_shares', None)
@@ -228,10 +241,7 @@ def update_stock_shares(request, pk):
             except (ValueError, TypeError):
                 pass  # Invalid input, don't update
 
-    # Redirect back to the portfolio detail page
-    if stock.portfolio:
-        return redirect('view-portfolio', pk=stock.portfolio.pk)
-    return redirect('/')
+    return redirect('view-portfolio', pk=pk)
 
 
 

@@ -10,7 +10,7 @@
     </div>
 
     <div class="footline">
-        <h6><a href="/portfolio-refresh/{{ portfolio.pk }}/">Refresh Prices</a></h6>
+        <h6><a href="{% url 'refresh-portfolio' portfolio.pk %}">Refresh Prices</a></h6>
     </div>
 
     <div id="stockList">
@@ -30,7 +30,7 @@
                   <p>{{ stock.last_trade_time }}</p>
                   <p>{{ stock.last_trade_price|floatformat:2 }}</p>
 
-                  <form action="{% url 'stock-update' stock.id %}" method="post">
+                  <form action="{% url 'stock-update' portfolio.pk stock.id %}" method="post">
                       {% csrf_token %}
                       <input id="n_shares" type="text" name="n_shares" value="{{stock.shares_owned|floatformat:2}}">
                       <input type="submit" value="Update">
@@ -38,7 +38,7 @@
 
                   <p>{{ stock.last_trade_price|multiply:stock.shares_owned|floatformat:2 }}</p>
 
-                  <form action="{% url 'delete-stock' stock.id %}" method="post">
+                  <form action="{% url 'delete-stock' portfolio.pk stock.id %}" method="post">
                       {% csrf_token %}
                       <input type="submit" value="Remove from Portfolio">
                   </form>
