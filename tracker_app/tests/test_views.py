@@ -28,7 +28,7 @@ class ViewErrorTests(TestCase):
         url = f'/portfolios/{non_existent_portfolio}/stocks/AAPL/'
         response = self.client.post(url, {
             'last_trade_price': '150.00',
-            'last_trade_time': '2024-01-15 16:00:00',
+            'last_trade_time': '2024-01-15T16:00:00-05:00',
             'n_shares': '10',
         })
 
@@ -48,7 +48,7 @@ class ViewErrorTests(TestCase):
         url = f'/portfolios/{self.portfolio.pk}/stocks/AAPL/'
         response = self.client.post(url, {
             'last_trade_price': '155.00',
-            'last_trade_time': '2024-01-15 16:00:00',
+            'last_trade_time': '2024-01-15T16:00:00-05:00',
             'n_shares': '5',
         })
 
@@ -72,7 +72,7 @@ class ViewErrorTests(TestCase):
         url = f'/portfolios/{self.portfolio.pk}/stocks/NEWSTOCK/'
         response = self.client.post(url, {
             'last_trade_price': '50.00',
-            'last_trade_time': '2024-01-15 16:00:00',
+            'last_trade_time': '2024-01-15T16:00:00-05:00',
             'n_shares': '10',
         })
 
@@ -109,7 +109,7 @@ class ViewErrorTests(TestCase):
         url = f'/portfolios/{self.portfolio.pk}/stocks/MSFT/'
         response = self.client.post(url, {
             'last_trade_price': '305.00',
-            'last_trade_time': '2024-01-15 16:00:00',
+            'last_trade_time': '2024-01-15T16:00:00-05:00',
             'n_shares': '10',
         })
 

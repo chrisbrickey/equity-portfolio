@@ -148,6 +148,12 @@ python manage.py flush --no-input
 python manage.py loaddata tracker_app/fixtures/initdata.json
 ```
 
+### Check AlphaVantage API
+```
+# runs script  
+python scripts/check_api.py
+```
+
 
 ## Future Development
 - Multiple Portfolios: Users can own multiple portfolios

@@ -4,11 +4,20 @@ from django.http import HttpResponse, Http404
 from rest_framework import generics, renderers
 from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
+from zoneinfo import ZoneInfo
+from datetime import datetime
 
 from .models import Portfolio, Stock
 from .serializers import PortfolioSerializer, StockSerializer
 import requests
 import json
+
+
+def parse_alphavantage_timestamp(timestamp_str):
+    """Parse AlphaVantage timestamp (US/Eastern) and convert to timezone-aware datetime."""
+    eastern = ZoneInfo('America/New_York')
+    naive_dt = datetime.strptime(timestamp_str, '%Y-%m-%d %H:%M:%S')
+    return naive_dt.replace(tzinfo=eastern)
 
 # for API Root
 from rest_framework.decorators import api_view
@@ -93,7 +102,7 @@ def refresh_portfolio(request, pk):
         stock.time_zone = time_zone
 
         latest_date_time = meta_data['3. Last Refreshed']
-        stock.last_trade_time = latest_date_time
+        stock.last_trade_time = parse_alphavantage_timestamp(latest_date_time)
 
         closing_price = stock_dict['Time Series (1min)'][latest_date_time]['4. close']
         stock.last_trade_price = closing_price
@@ -124,8 +133,9 @@ def stock_index(request):
 
     meta_data = stock_dict['Meta Data']
     time_zone = meta_data['6. Time Zone']
-    latest_date_time = meta_data['3. Last Refreshed']
-    closing_price = stock_dict['Time Series (1min)'][latest_date_time]['4. close']
+    latest_date_time_str = meta_data['3. Last Refreshed']
+    latest_date_time = parse_alphavantage_timestamp(latest_date_time_str)
+    closing_price = stock_dict['Time Series (1min)'][latest_date_time_str]['4. close']
 
     n_shares = 0
     try:

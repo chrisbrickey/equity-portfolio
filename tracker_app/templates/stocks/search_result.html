@@ -21,7 +21,7 @@
         <form action="/portfolios/{{ portfolio_id }}/stocks/{{symbol}}/" method="post">
             <input id="symbol" type="hidden" name="symbol" value="{{symbol}}">
             <input id="last_trade_price" type="hidden" name="last_trade_price" value={{closing_price}}>
-            <input id="last_trade_time" type="hidden" name="last_trade_time" value={{latest_date_time}}>
+            <input id="last_trade_time" type="hidden" name="last_trade_time" value="{{ latest_date_time|date:'c' }}">
 
             <label for="n_shares">Number of Shares: </label>
             <input id="n_shares" type="text" name="n_shares" value="{{n_shares|floatformat:2}}">
