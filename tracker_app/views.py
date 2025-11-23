@@ -195,19 +195,43 @@ def stock_detail_for_portfolio(request, pk, symbol):
     context = {'portfolio': portfolio, 'stock_set': stock_queryset}
     return redirect('/')
 
-@csrf_exempt
 def delete_stock(request, pk):
-    stock_to_delete = Stock.objects.get(pk=pk)
-    stock_to_delete.remove_from_portfolio()
-    stock_to_delete.delete()
+    try:
+        stock = Stock.objects.get(pk=pk)
+    except Stock.DoesNotExist:
+        raise Http404("Stock not found.")
+
+    portfolio_pk = stock.portfolio.pk if stock.portfolio else None
+
+    if request.method == 'POST':
+        stock.remove_from_portfolio()
+        stock.delete()
+
+    # Redirect back to the portfolio detail page
+    if portfolio_pk:
+        return redirect('view-portfolio', pk=portfolio_pk)
     return redirect('/')
 
-# @csrf_exempt
-# def update_stock(request, pk):
-#     new_number_of_shares = request.POST.get('n_shares', None)
-#     stock_to_update = Stock.objects.get(pk=pk)
-#     stock_to_update.shares_owned = new_number_of_shares
-#     return redirect('/')
+
+def update_stock_shares(request, pk):
+    try:
+        stock = Stock.objects.get(pk=pk)
+    except Stock.DoesNotExist:
+        raise Http404("Stock not found.")
+
+    if request.method == 'POST':
+        new_shares = request.POST.get('n_shares', None)
+        if new_shares is not None:
+            try:
+                stock.shares_owned = round(float(new_shares), 3)
+                stock.save()
+            except (ValueError, TypeError):
+                pass  # Invalid input, don't update
+
+    # Redirect back to the portfolio detail page
+    if stock.portfolio:
+        return redirect('view-portfolio', pk=stock.portfolio.pk)
+    return redirect('/')
 
 
 
