@@ -37,7 +37,7 @@
 
                   <p>{{ stock.last_trade_price|multiply:stock.shares_owned|floatformat:2 }}</p>
 
-                  <form action="/stockDELETE/{{stock.id}}/" method="delete">
+                  <form action="/stock-delete/{{stock.id}}/" method="delete">
                       <input type="submit" value="Remove from Portfolio">
                   </form>
             </div>
