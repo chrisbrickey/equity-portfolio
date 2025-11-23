@@ -48,7 +48,7 @@ class PortfolioAPITests(APITestCase):
         self.assertEqual(response.data['name'], 'Test Portfolio')
 
     def test_portfolio_update(self):
-        """Test updating a portfolio"""
+        """Test updating a portfolio's name"""
         url = reverse('api:portfolio-detail', args=[self.portfolio.id])
         data = {'name': 'Updated Portfolio'}
         response = self.client.put(url, data)

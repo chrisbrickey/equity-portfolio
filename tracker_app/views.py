@@ -56,7 +56,7 @@ def view_seeded_portfolio(request):
         raise Http404("Seeded portfolio was not found in the database.")
 
 
-def update_seeded_portfolio(request):
+def refresh_seeded_portfolio(request):
     portfolio_set = Portfolio.objects.filter(name="Rainy Day Fund")
     stock_queryset = portfolio_set[0].stock_set.all()
 
