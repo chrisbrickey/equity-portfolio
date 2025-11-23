@@ -106,18 +106,25 @@ def stock_index(request):
     except Stock.DoesNotExist:
         pass
 
+    # Get seeded portfolio pk for the form action URL
+    seeded_portfolio = Portfolio.objects.get(name="Rainy Day Fund")
+
     context = {'symbol': symbol,
                'latest_date_time': latest_date_time,
                'closing_price': closing_price,
                'time_zone': time_zone,
-               'n_shares': n_shares}
+               'n_shares': n_shares,
+               'portfolio_id': seeded_portfolio.pk}
 
     return render(request, 'stocks/search_result.html', context)
 
 
 @csrf_exempt
-def stock_detail_for_seeded_portfolio(request, symbol):
-    portfolio = Portfolio.objects.get(name="Rainy Day Fund")
+def stock_detail_for_portfolio(request, pk, symbol):
+    try:
+        portfolio = Portfolio.objects.get(pk=pk)
+    except Portfolio.DoesNotExist:
+        raise Http404("Portfolio was not found in the database.")
 
     if request.method == 'POST':
         last_trade_price = request.POST.get('last_trade_price', None)
