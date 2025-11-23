@@ -2,9 +2,11 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 from decimal import Decimal
 from unittest.mock import patch, Mock
+from zoneinfo import ZoneInfo
 import json
 
 from ..models import Portfolio, Stock
+from ..views import parse_alphavantage_timestamp
 
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
@@ -157,3 +159,42 @@ class AlphaVantageIntegrationTests(TestCase):
                     return response
             return response
         return mock_response
+
+
+class ParseAlphaVantageTimestampTests(TestCase):
+    """Test the parse_alphavantage_timestamp helper function"""
+
+    def test_parses_timestamp_with_eastern_timezone(self):
+        """Test that timestamp is parsed and assigned US/Eastern timezone"""
+        timestamp_str = "2024-01-15 16:00:00"
+        result = parse_alphavantage_timestamp(timestamp_str)
+
+        # Verify the datetime values are correct
+        self.assertEqual(result.year, 2024)
+        self.assertEqual(result.month, 1)
+        self.assertEqual(result.day, 15)
+        self.assertEqual(result.hour, 16)
+        self.assertEqual(result.minute, 0)
+        self.assertEqual(result.second, 0)
+
+        # Verify timezone is set to America/New_York
+        self.assertIsNotNone(result.tzinfo)
+        self.assertEqual(result.tzinfo, ZoneInfo('America/New_York'))
+
+    def test_handles_different_times(self):
+        """Test parsing various market hours timestamps"""
+        # Market open (9:30 AM Eastern)
+        result = parse_alphavantage_timestamp("2024-06-15 09:30:00")
+        self.assertEqual(result.hour, 9)
+        self.assertEqual(result.minute, 30)
+
+        # Mid-day
+        result = parse_alphavantage_timestamp("2024-06-15 12:00:00")
+        self.assertEqual(result.hour, 12)
+
+    def test_timezone_aware_datetime_is_returned(self):
+        """Test that returned datetime is timezone-aware (not naive)"""
+        result = parse_alphavantage_timestamp("2024-01-15 16:00:00")
+
+        # A timezone-aware datetime will have a non-None tzinfo
+        self.assertIsNotNone(result.tzinfo)
