@@ -53,14 +53,3 @@ class Stock(models.Model):
         self.portfolio = None
         self.shares_owned = 0
         self.save()
-
-
-# implement below model for multiple users/portfolios
-# class Follow(models.Model):
-#     portfolio_id = models.ForeignKey(Portfolio, on_delete=models.PROTECT)
-#     stock_id = models.ForeignKey(Stock, on_delete=models.PROTECT)
-#     shares_owned = models.DecimalField(max_digits=19, decimal_places=3, default=Decimal('0.000'), blank=False)
-#     timestamp_created = models.DateTimeField(auto_now_add=True, auto_now=False)
-#
-#     def __str__(self):
-#         return self.id

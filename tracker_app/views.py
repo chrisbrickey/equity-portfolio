@@ -200,22 +200,6 @@ def delete_stock(request, pk):
 #     return redirect('/')
 
 
-#OLDER VERSIONS
-def stockOLD_index(request):
-    stock_list = Stock.objects.order_by('symbol')[:100] #pulls first 100 stocks based on symbol ABC order
-    context = {'stock_list': stock_list}
-    return render(request, 'stocksOLD/index.html', context)
-
-def stockOLD_detail(request, pk):
-    try:
-        stock = Stock.objects.get(pk=pk)
-    except Stock.DoesNotExist:
-        raise Http404("That stock does not exist in our database.")
-
-    context = {'stock': stock}
-    return render(request, 'stocksOLD/detail.html', context)
-
-
 
 # IMPLEMENT BELOW FOR SYSTEM WITH MULTIPLE PORTFOLIOS
 # def portfolio_index(request):
