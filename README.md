@@ -1,6 +1,9 @@
 # Equity Portfolio
-[www.equity-portfolio.com](https://www.equity-portfolio.com/) allows users to search for equities across multiple markets and include them in their portfolio with amount of shares owned.  The portfolio updates so users can view the current value of each investment.  This app utilizes Django for both front and back end as well as Django Rest Framework to provide a browsable API.
+Users search for equities across multiple markets and include them in their portfolio with amount of shares owned.  
+The portfolio updates so users can view the current value of each investment.  
+Equity Portfolio utilizes Django for both front and back end as well as Django Rest Framework to provide a browsable API.
 
+_This app was previously hosted at www.equity-portfolio.com._
 
 ## Features Highlight
 
